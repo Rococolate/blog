@@ -1,0 +1,15 @@
+@charset="utf-8";
+
+	.one path:hover{
+		fill:#daEE00;
+	}
+
+	.tow path:hover{
+		fill:#FF8936;
+	}
+	.three path:hover{
+		fill:#C1272D;
+	}
+	.owleyes:hover{
+		fill:#FF8988;
+	}
