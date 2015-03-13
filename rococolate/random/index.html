@@ -18,6 +18,7 @@
 			color:white;
 			margin: 0 auto;
 			display: block;
+			
 		}
 		.block{
 			width: 70px;
@@ -50,18 +51,15 @@
 			
 			console.log(arrayDate.length);
 			var num = new Array();
-			num[0] = "a0";
-			var b = 0;
 			var save = new Array();
-			save[0] = -1;
-			for(var i = 0 ;b<arrayDate.length ;i++){
+			for(var b = 0;b<arrayDate.length;){
 				
-				num[num.length-1] = "a" + b;
+				num[num.length] = "a" + b;
 				var a =	Math.ceil(Math.random()*arrayDate.length);
 				
 				
 
-				for(var j = 0,k = 0;j<=save.length-1;j++){
+				for(var j = 0,k = 0;j<=save.length;j++){
 					
 					if(a === save[j]){
 						k++;}
