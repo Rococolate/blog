@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>mofang</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		ul{
+			list-style: none;
+		}
+		body{
+			perspective:40000px;
+		}
+		section{
+			width: 400px;
+			height: 400px;
+			margin: 100px auto;
+			position: relative;
+			/*background-color: pink;*/
+			perspective:40000px;
+			transform-style:preserve-3d;
+			transform:rotateX(0deg) rotateY(0deg);
+			transition:all 1s ease 0s;
+		}
+		div.mofang:nth-child(1){
+			width: 120px;
+			height: 120px;
+			background-color: rgba(111,222,123,0.4);
+			
+			position: absolute;
+			top: 0px;
+			left: 150px;
+			perspective:40000px;
+			transform-style:preserve-3d;
+			transform:rotateX(0deg) rotateY(0deg);
+			transition:all 1s ease 0s;
+			border: 3px solid #F40;
+			border-right:3px solid pink;
+			border-left: 3px solid yellowgreen;
+			border-bottom:3px  solid black;
+			/*display: none;*/
+		}
+		div.mofang:nth-child(2){
+			width: 120px;
+			height: 120px;
+			background-color: rgba(111,222,123,0.4);
+			top: 0px;
+			left:-50px;
+			position: absolute;
+			perspective:40000px;
+			transform-style:preserve-3d;
+			transform:rotateX(90deg) rotateY(0deg);
+			transition:all 1s ease 0s;
+			border: 3px solid #F40;
+			border-right:3px solid pink;
+			border-left: 3px solid yellowgreen;
+			border-bottom:3px  solid black;
+			z-index: 999;
+		}
+		div.mofang:nth-child(3){
+			width: 120px;
+			height: 120px;
+			position: absolute;
+			background-color: rgba(111,222,123,0.4);
+			top: 0px;
+			left: 350px;
+			perspective:40000px;
+			transform-style:preserve-3d;
+			transform:rotateX(0deg) rotateY(90deg);
+			transition:all 1s ease 0s;
+			border: 3px solid #F40;
+			border-right:3px solid pink;
+			border-left: 3px solid yellowgreen;
+			border-bottom:3px  solid black;
+			/*display: none;*/
+		}
+		
+		div.mofang ul{
+			width: 60px;
+			height: 60px;
+			transform-style:preserve-3d;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		div.mofang #moveX1{
+			width: 120px;
+			height: 120px;
+			transition:all 1s ease 0s;
+			position: absolute;
+			top: 0;
+			left: 0;
+			transform-style:preserve-3d;
+		}
+		div.mofang #moveX2{
+			width: 120px;
+			height: 120px;
+			transition:all 1s ease 0s;
+			position: absolute;
+			top: 0;
+			left: 0;
+			transform-style:preserve-3d;
+		}
+		div.mofang #moveY1{
+			width: 120px;
+			height: 120px;
+			transition:all 1s ease 0s;
+			position: absolute;
+			top: 0;
+			left: 0;
+			transform-style:preserve-3d;
+		}
+		div.mofang #moveY2{
+			width: 120px;
+			height: 120px;
+			transition:all 1s ease 0s;
+			position: absolute;
+			top: 0;
+			left: 0;
+			transform-style:preserve-3d;
+		}
+		div.mofang #moveZ1{
+			width: 120px;
+			height: 120px;
+			transition:all 1s ease 0s;
+			position: absolute;
+			top: 0;
+			left: 0;
+			transform-style:preserve-3d;
+		}
+		div.mofang #moveZ2{
+			width: 120px;
+			height: 120px;
+			transition:all 1s ease 0s;
+			position: absolute;
+			top: 0;
+			left: 0;
+			transform-style:preserve-3d;
+		}
+		div.mofang div:nth-child(1) ul:nth-of-type(1){
+			left: 0px;
+			top: 0px;
+			color:yellowgreen;
+
+			
+		}
+		div.mofang div:nth-child(1) ul:nth-of-type(2){
+			left: 60px;
+			top: 0px;
+			
+		}
+		div.mofang div:nth-child(1) ul:nth-of-type(3){
+			left: 0px;
+			top: 60px;
+			
+		}
+		div.mofang div:nth-child(1) ul:nth-of-type(4){
+			left: 60px;
+			top: 60px;
+			
+		}
+		div.mofang div:nth-child(2) ul:nth-of-type(1){
+			left: 0px;
+			top: 0px;
+			transform:translateZ(-60px);
+			
+		}
+		div.mofang div:nth-child(2) ul:nth-of-type(2){
+			left: 60px;
+			top: 0px;
+			transform:translateZ(-60px);
+			
+		}
+		div.mofang div:nth-child(2) ul:nth-of-type(3){
+			left: 0px;
+			top: 60px;
+			transform:translateZ(-60px);
+			
+
+		}
+		div.mofang div:nth-child(2) ul:nth-of-type(4){
+			left: 60px;
+			top: 60px;
+			transform:translateZ(-60px);
+
+		}
+		div#moveY1 ul:nth-child(1){
+			
+		}
+		div#moveY1 ul:nth-child(2){
+			
+		}
+		div#moveY1 ul:nth-child(3){
+			
+		}
+		div#moveY1 ul:nth-child(4){
+			
+		}
+
+		div.mofang ul li{
+			width: 60px;
+			height: 60px;
+			text-align: center;
+			line-height: 60px;
+			position: absolute;
+			top: 0;
+			left: 0;
+
+		}
+		div.mofang ul li:nth-of-type(1){
+			background-color: red;
+			transform:rotateX(0deg) translateZ(60px);
+			
+		}
+		div.mofang ul li:nth-of-type(2){
+			background-color: blue;
+			transform:rotateX(90deg) translateZ(30px) translateY(30px);
+			
+		}
+		div.mofang ul li:nth-of-type(3){
+			background-color: yellow;
+			transform:rotateX(180deg) ;
+		}
+		div.mofang ul li:nth-of-type(4){
+			background-color: green;
+			transform:rotateX(-90deg) translateZ(30px) translateY(-30px);
+		}
+		div.mofang ul li:nth-of-type(5){
+			background-color: orange;
+			transform:rotateY(90deg) translateZ(30px) translateX(-30px);
+		}
+		div.mofang ul li:nth-of-type(6){
+			background-color: cyan;
+			transform:rotateY(-90deg) translateZ(30px) translateX(30px);
+		}
+
+	</style>
+</head>
+<body>
+<input type="button" value="按我A" id="btnA" />
+<br />
+<input type="button" value="按我x" id="btn0" />
+<input type="button" value="按我y" id="btn1" />
+<input type="button" value="按我z" id="btn2" />
+<br />
+<input type="button" value="按我-x" id="btn3" />
+<input type="button" value="按我-y" id="btn4" />
+<input type="button" value="按我-z" id="btn5" />
+<br />
+<input type="button" value="按我u2z" id="btnu2z" />
+<input type="button" value="按我uz" id="btnu2" />
+<br />
+<input type="button" value="按我u2-z" id="btnu4" />
+<input type="button" value="按我u-z" id="btnu5" />
+<br />
+<input type="button" value="按我u2x" id="btnu2x" />
+<input type="button" value="按我ux" id="btnux" />
+<br />
+<input type="button" value="按我u2-x" id="btnu2-x" />
+<input type="button" value="按我u-x" id="btnu-x" />
+<br />
+<input type="button" value="按我u2y" id="btnu2y" />
+<input type="button" value="按我uy" id="btnuy" />
+<br />
+<input type="button" value="按我u2-y" id="btnu2-y" />
+<input type="button" value="按我u-y" id="btnu-y" />
+<br />
+<section>
+	<DIV class="mofang" id="mofang">
+		
+		<div id="moveX1">
+			<ul>
+				<li>11</li>
+				<li>12</li>
+				<li>13</li>
+				<li>14</li>
+				<li>15</li>
+				<li>16</li>
+			</ul>
+			<ul>
+				<li>21</li>
+				<li>22</li>
+				<li>23</li>
+				<li>24</li>
+				<li>25</li>
+				<li>26</li>
+			</ul>
+			<ul>
+				<li>31</li>
+				<li>32</li>
+				<li>33</li>
+				<li>34</li>
+				<li>35</li>
+				<li>36</li>
+			</ul>
+			<ul>
+				<li>41</li>
+				<li>42</li>
+				<li>43</li>
+				<li>44</li>
+				<li>45</li>
+				<li>46</li>
+			</ul>
+		</div>
+		<div id="moveX2">
+			<ul>
+				<li>51</li>
+				<li>52</li>
+				<li>53</li>
+				<li>54</li>
+				<li>55</li>
+				<li>56</li>
+			</ul>
+			<ul>
+				<li>61</li>
+				<li>62</li>
+				<li>63</li>
+				<li>64</li>
+				<li>65</li>
+				<li>66</li>
+			</ul>
+			<ul>
+				<li>71</li>
+				<li>72</li>
+				<li>73</li>
+				<li>74</li>
+				<li>75</li>
+				<li>76</li>
+			</ul>
+			<ul>
+				<li>81</li>
+				<li>82</li>
+				<li>83</li>
+				<li>84</li>
+				<li>85</li>
+				<li>86</li>
+			</ul>
+		</div>
+	</DIV>
+	<DIV class="mofang" id="mofang2">
+		<div id="moveY1">
+			<ul>
+				<li>11</li>
+				<li>12</li>
+				<li>13</li>
+				<li>14</li>
+				<li>15</li>
+				<li>16</li>
+			</ul>
+			<ul>
+				<li>21</li>
+				<li>22</li>
+				<li>23</li>
+				<li>24</li>
+				<li>25</li>
+				<li>26</li>
+			</ul>
+			<ul>
+				<li>31</li>
+				<li>32</li>
+				<li>33</li>
+				<li>34</li>
+				<li>35</li>
+				<li>36</li>
+			</ul>
+			<ul>
+				<li>41</li>
+				<li>42</li>
+				<li>43</li>
+				<li>44</li>
+				<li>45</li>
+				<li>46</li>
+			</ul>
+		</div>
+		<div id="moveY2">
+			<ul>
+				<li>51</li>
+				<li>52</li>
+				<li>53</li>
+				<li>54</li>
+				<li>55</li>
+				<li>56</li>
+			</ul>
+			<ul>
+				<li>61</li>
+				<li>62</li>
+				<li>63</li>
+				<li>64</li>
+				<li>65</li>
+				<li>66</li>
+			</ul>
+			<ul>
+				<li>71</li>
+				<li>72</li>
+				<li>73</li>
+				<li>74</li>
+				<li>75</li>
+				<li>76</li>
+			</ul>
+			<ul>
+				<li>81</li>
+				<li>82</li>
+				<li>83</li>
+				<li>84</li>
+				<li>85</li>
+				<li>86</li>
+			</ul>
+		</div>
+	</DIV>
+	<DIV class="mofang" id="mofang3">
+		<div id="moveZ1">
+			<ul>
+				<li>11</li>
+				<li>12</li>
+				<li>13</li>
+				<li>14</li>
+				<li>15</li>
+				<li>16</li>
+			</ul>
+			<ul>
+				<li>21</li>
+				<li>22</li>
+				<li>23</li>
+				<li>24</li>
+				<li>25</li>
+				<li>26</li>
+			</ul>
+			<ul>
+				<li>31</li>
+				<li>32</li>
+				<li>33</li>
+				<li>34</li>
+				<li>35</li>
+				<li>36</li>
+			</ul>
+			<ul>
+				<li>41</li>
+				<li>42</li>
+				<li>43</li>
+				<li>44</li>
+				<li>45</li>
+				<li>46</li>
+			</ul>
+		</div>
+		<div id="moveZ2">
+			<ul>
+				<li>51</li>
+				<li>52</li>
+				<li>53</li>
+				<li>54</li>
+				<li>55</li>
+				<li>56</li>
+			</ul>
+			<ul>
+				<li>61</li>
+				<li>62</li>
+				<li>63</li>
+				<li>64</li>
+				<li>65</li>
+				<li>66</li>
+			</ul>
+			<ul>
+				<li>71</li>
+				<li>72</li>
+				<li>73</li>
+				<li>74</li>
+				<li>75</li>
+				<li>76</li>
+			</ul>
+			<ul>
+				<li>81</li>
+				<li>82</li>
+				<li>83</li>
+				<li>84</li>
+				<li>85</li>
+				<li>86</li>
+			</ul>
+		</div>
+	</DIV>
+</section>
+<script type="text/javascript">
+	var mylis = document.getElementsByTagName('li');
+	for(var i = 0 ; i < mylis.length ; i ++){
+		mylis[i].style.zIndex = i+1;
+	}
+	
+	var red = "red";
+	var blue = "blue";
+	var yellow = "yellow";
+	var green = "green";
+	var orange = "orange";
+	var cyan = "cyan";
+	var q = "black"
+
+	var boxZColor = [red,blue,q,q,q,cyan,
+					red,blue,q,q,orange,q,
+					red,q,q,green,q,cyan,
+					red,q,q,green,orange,q,
+					q,blue,yellow,q,q,cyan,
+					q,blue,yellow,q,orange,q,
+					q,q,yellow,green,q,cyan,
+					q,q,yellow,green,orange,q,];
+	var boxXColor = [blue,yellow,q,q,q,cyan,
+					blue,yellow,q,q,orange,q,
+					blue,q,q,red,q,cyan,
+					blue,q,q,red,orange,q,
+					q,yellow,green,q,q,cyan,
+					q,yellow,green,q,orange,q,
+					q,q,green,red,q,cyan,
+					q,q,green,red,orange,q,];
+	var boxYColor =  [orange,blue,q,q,q,red,
+					orange,blue,q,q,yellow,q,
+					orange,q,q,green,q,red,
+					orange,q,q,green,yellow,q,
+					q,blue,cyan,q,q,red,
+					q,blue,cyan,q,yellow,q,
+					q,q,cyan,green,q,red,
+					q,q,cyan,green,yellow,q,];
+	var saveColor = [red,blue,q,q,q,cyan,
+					red,blue,q,q,orange,q,
+					red,q,q,green,q,cyan,
+					red,q,q,green,orange,q,
+					q,blue,yellow,q,q,cyan,
+					q,blue,yellow,q,orange,q,
+					q,q,yellow,green,q,cyan,
+					q,q,yellow,green,orange,q,];
+
+	var myboxZlis = document.getElementById('mofang').getElementsByTagName('li');
+	var myboxXlis = document.getElementById('mofang2').getElementsByTagName('li');
+	var myboxYlis = document.getElementById('mofang3').getElementsByTagName('li');
+	for(var i = 0 ; i < myboxZlis.length ; i ++){
+		myboxZlis[i].style.backgroundColor = boxZColor[i];
+	}
+	for(var i = 0 ; i < myboxXlis.length ; i ++){
+		myboxXlis[i].style.backgroundColor = boxXColor[i];
+	}
+	for(var i = 0 ; i < myboxYlis.length ; i ++){
+		myboxYlis[i].style.backgroundColor = boxYColor[i];
+	}
+
+	var mysection = document.getElementsByTagName('section');
+	var mydivsz = document.getElementById('mofang').getElementsByTagName('div');
+	var mydivsx = document.getElementById('mofang2').getElementsByTagName('div');
+	var mydivsy = document.getElementById('mofang3').getElementsByTagName('div');
+
+	var uz = 0;
+	var u2z = 0;
+	var ux = 0;
+	var u2x = 0;
+	var u2y = 0;
+	var uy = 0;
+
+	var btnA = document.getElementById('btnA');
+
+	var btn0 =document.getElementById('btn0');
+	var btn1 =document.getElementById('btn1');
+	var btn2 =document.getElementById('btn2');
+	var btn3 =document.getElementById('btn3');
+	var btn4 =document.getElementById('btn4');
+	var btn5 =document.getElementById('btn5');
+
+	
+	var btnu2z =document.getElementById('btnu2z');
+	var btnu2 =document.getElementById('btnu2');
+	
+	var btnu4 =document.getElementById('btnu4');
+	var btnu5 =document.getElementById('btnu5');
+
+	var btnu2x =document.getElementById('btnu2x');
+	var btnux =document.getElementById('btnux');
+
+	var btnu2_x =document.getElementById('btnu2-x');
+	var btnu_x =document.getElementById('btnu-x');
+
+	var btnu2y =document.getElementById('btnu2y');
+	var btnuy =document.getElementById('btnuy');
+
+	var btnu2_y =document.getElementById('btnu2-y');
+	var btnu_y =document.getElementById('btnu-y');
+
+	var mymofang =document.getElementById('mofang');
+	var mymofang2 =document.getElementById('mofang2');
+	var mymofang3 =document.getElementById('mofang3');
+	var x = 0;
+	var x2 = 90;
+	var y = 0;
+	var y3 = 90
+	var z = 0;
+
+	var xA = 0;
+	var yA = 0;
+	var zA = 0;
+
+	btnA.onclick = function  () {
+		xA = xA + 45;
+		yA = yA + 45;
+		zA = zA + 45;
+		mysection[0].style.transform = "rotateX("+xA+"deg)"+"rotateY("+yA+"deg)"+"rotate("+zA+"deg)";
+	}
+
+	btn0.onclick = function  () {
+		x = x + 45;
+		x2 = x2 +45;
+		mofongchange ();
+	}
+	btn1.onclick = function  () {
+		y = y + 45;
+		y3 = y3 + 45;
+		mofongchange ();
+	}
+	btn2.onclick = function  () {
+		z = z + 45;
+		mofongchange ();
+	}
+	btn3.onclick = function  () {
+		x = x - 45;
+		x2 = x2 -45;
+		mofongchange ();
+	}
+	btn4.onclick = function  () {
+		y = y - 45;
+		y3 = y3 - 45;
+		mofongchange ();
+	}
+	btn5.onclick = function  () {
+		z = z - 45;
+		mofongchange ();
+	}
+
+	function mofongchange () {
+		mymofang.style.transform = "rotateX("+x+"deg)"+"rotateY("+y+"deg)"+"rotate("+z+"deg)";
+		mymofang2.style.transform = "rotateX("+x2+"deg)"+"rotateY("+y+"deg)"+"rotate("+z+"deg)";
+		
+		mymofang3.style.transform = "rotateX("+x+"deg)"+"rotateY("+y3+"deg)"+"rotate("+z+"deg)";
+	}
+
+
+	
+	btnu2z.onclick = function  () {
+		u2z = u2z + 90;
+		mydivsz[1].style.transform ="rotate("+u2z+"deg)";
+	}
+	btnu2.onclick = function  () {
+		uz = uz + 90;
+		mydivsz[0].style.transform ="rotate("+uz+"deg)";
+	}
+	
+	btnu4.onclick = function  () {
+		u2z = u2z - 90;
+		mydivsz[1].style.transform ="rotate("+u2z+"deg)";
+	}
+	btnu5.onclick = function  () {
+		uz = uz - 90;
+		mydivsz[0].style.transform ="rotate("+uz+"deg)";
+	}
+
+
+
+	btnu2x.onclick = function  () {
+		u2x = u2x + 90;
+		mydivsx[1].style.transform ="rotate("+u2x+"deg)";
+	}
+	btnux.onclick = function  () {
+		ux = ux + 90;
+		mydivsx[0].style.transform ="rotate("+ux+"deg)";
+	}
+	
+	btnu2_x.onclick = function  () {
+		u2x = u2x - 90;
+		mydivsx[1].style.transform ="rotate("+u2x+"deg)";
+	}
+	btnu_x.onclick = function  () {
+		ux = ux - 90;
+		mydivsx[0].style.transform ="rotate("+ux+"deg)";
+	}
+
+
+
+	btnu2y.onclick = function  () {
+		u2y = u2y + 90;
+		mydivsy[1].style.transform ="rotate("+u2y+"deg)";
+	}
+	btnuy.onclick = function  () {
+		uy = uy + 90;
+		mydivsy[0].style.transform ="rotate("+uy+"deg)";
+	}
+	
+	btnu2_y.onclick = function  () {
+		u2y = u2y - 90;
+		mydivsy[1].style.transform ="rotate("+u2y+"deg)";
+	}
+	btnu_y.onclick = function  () {
+		uy = uy - 90;
+		mydivsy[0].style.transform ="rotate("+uy+"deg)";
+	}
+</script>
+</body>
+</html>
