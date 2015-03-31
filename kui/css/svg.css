@@ -1,0 +1,86 @@
+@charset="utf-8";
+
+	.one path:hover{
+		fill:#daEE00;
+	}
+
+	.tow path:hover{
+		fill:#FF8936;
+	}
+	.three path:hover{
+		fill:#C1272D;
+	}
+	.owleyes:hover{
+		fill:#FF8988;
+	}
+	
+	.zi{
+		-webkit-transform-origin:center center;
+		-webkit-animation:zhuanlitt 4000ms ease 800ms infinite forwards;
+	}
+	.loadone{
+		-webkit-transform-origin:center center;
+		-webkit-animation:zhuan360 2000ms ease 800ms infinite forwards;
+	}
+
+	.loadtow{
+		-webkit-transform-origin:center center;
+		-webkit-animation:zhuan_360 2000ms ease 800ms infinite forwards;
+	}
+
+	.circle{
+			
+			-webkit-transform-origin:center center;
+			
+			-webkit-animation:zhuan30 2000ms ease 800ms infinite forwards;
+			
+		}
+		@-webkit-keyframes zhuan30{
+			from{
+				transform:rotate(0deg);
+				-webkit-transform:rotate(0deg);
+			}
+			to{
+				transform:rotate(30deg);
+				-webkit-transform:rotate(30deg);
+			}
+		}
+
+		@-webkit-keyframes zhuan360{
+			from{
+				transform:rotate(0deg);
+				-webkit-transform:rotate(0deg);
+			}
+			to{
+				transform:rotate(360deg);
+				-webkit-transform:rotate(360deg);
+			}
+		}
+
+		@-webkit-keyframes zhuan_360{
+			from{
+				transform:rotate(0deg);
+				-webkit-transform:rotate(0deg);
+			}
+			to{
+				transform:rotate(-360deg);
+				-webkit-transform:rotate(-360deg);
+			}
+		}
+
+		@-webkit-keyframes zhuanlitt{
+			0%{
+				transform:rotate(0deg);
+				-webkit-transform:rotate(0deg);
+			}
+			50%{
+				transform:rotate(-30deg);
+				-webkit-transform:rotate(-30deg);
+			}
+			100%{
+				transform:rotate(0deg);
+				-webkit-transform:rotate(0deg);
+			}
+		}
+		
+		
