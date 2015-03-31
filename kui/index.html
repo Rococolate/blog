@@ -7,9 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="css/reset.css">
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 	<script type="text/javascript" src="js/zeptoWithFxTouch.min.js"></script>
-	<style type="text/css">
-
-	</style>
+	
 </head>
 <body>
 	
@@ -28,11 +26,6 @@
 		</div>
 		
 	</div>
-	<script type="text/javascript">
-	var windowWidth = $(window).width();
-	
-
-	</script>
 	
 	<section class="home">
 		<div id="huadonglunbo" class="swipe">
@@ -93,10 +86,6 @@
 			</ul>
 		</div>
 	</section>
-	<script type="text/javascript">
-	var $myContentLis = $("section.home>div.content>ul li");
-		$myContentLis.css("height",windowWidth/4+"px");
-	</script>
 	
 	<nav id="nav" class="nav" style="visibility:hidden">
 		<ul>
@@ -108,6 +97,7 @@
 	</nav>
 	<script type="text/javascript">
 	setTimeout(function  () {
+		var windowWidth = $(window).width();
 		var loading = document.getElementById('loading');
 		var logo = document.getElementById('logo');
 		var nav = document.getElementById('nav');
@@ -115,6 +105,7 @@
 		logo.style.display = "none";
 		nav.style.visibility = "inherit";
 		document.body.style.overflow = "inherit";
+		$(".home .content>ul li").css("height",windowWidth/4+"px");
 	},10000)
 	var $navlis = $("nav ul li");
 	var $navicon = $("nav ul .kui_icon_ye");
