@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>demo</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui" />
 	<link rel="stylesheet" type="text/css" href="css/reset.css">
 	<script type="text/javascript" src="js/zeptoWithFxTouch.min.js"></script>
 	<style type="text/css">
@@ -37,7 +38,16 @@
 			-o-text-size-adjust: none;
 			text-size-adjust: none;
 		}
-		#scroller ul {list-style: none; padding: 0; margin: 0;width:100%;display: flex;position: relative;}
+		#scroller ul {
+			list-style: none; 
+			padding: 0; 
+			margin: 0;
+			width:100%;
+			display: -webkit-flex;
+			display: flex;
+
+			position: relative;
+		}
 		#scroller li {
 			width: 272px; 
 			padding-right: 8px; 
@@ -76,7 +86,7 @@
 	<script type="text/javascript">
 	var $scroller = $("#scroller");
 	var $wrapper = $("#wrapper");
-	var windowWidth = $(window).width();
+	var l = 1;
 	var pageNum = 4;
 	var timer;
 	var last = 40;
@@ -101,36 +111,41 @@
 				var finger = event.touches[0];	//获得手指
 				tempX = finger.pageX;		//临时Y
 				dX = changeX + tempX - startX ;	//坐标差
-				console.log("当前坐标差",dX);
+				console.log("当前坐标差",dX,changeX,tempX);
 
-				$scroller.css("transform","translateX("  + dX + "px)");
+				$scroller.css("-webkit-transform","translateX("  + dX + "px)");
 	});
 
 	$wrapper.on("touchend",function(event){
+		var windowWidth = $(window).width();
 		var endScroll = - $("#scroller li").length * 280 + windowWidth;
 		changeX = dX;
 		if(changeX >= 0){
-			$scroller.animate({"transform":"translateX(0px)"},600);
+			$scroller.animate({"-webkit-transform":"translateX(0px)"},600);
 			changeX = 0;
 		}else if(changeX <= endScroll ){
-			$scroller.animate({"transform":"translateX("+( endScroll - last)+"px)"},600);
+			$scroller.animate({"-webkit-transform":"translateX("+( endScroll - last)+"px)"},600);
 			changeX = endScroll - last;
-			clearTimeout(timer);
-			timer = setTimeout(function(){
-				for(var i = 0 ; i < 2 ; i ++){
-					pageNum ++ ;
-					if(pageNum < 9){
-						$("<li><img src='images/"+ pageNum +".jpg'/></li>").appendTo("#scroller ul");
-						scrollerChangeWidth();
-					}else{
-						$("#scroller ul").css("overflow","hidden");
-						last = 0;
-						$scroller.animate({"transform":"translateX("+( endScroll - last)+"px)"},600);
-						changeX = endScroll - last;
+			if(l){
+				clearTimeout(timer);
+				timer = setTimeout(function(){
+					for(var i = 0 ; i < 2 ; i ++){
+						pageNum ++ ;
+						if(pageNum < 9){
+							$("<li><img src='images/"+ pageNum +".jpg'/></li>").appendTo("#scroller ul");
+							scrollerChangeWidth();
+						}else{
+							l = 0;
+							$("#scroller ul").css("overflow","hidden");
+							last = 0;
+							$scroller.animate({"-webkit-transform":"translateX("+( endScroll - last)+"px)"},600);
+							changeX = endScroll - last;
+						}
 					}
-				}
 
-			},1000);
+				},1000);
+			}
+			
 		}
 		
 	});
