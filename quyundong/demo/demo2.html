@@ -139,7 +139,7 @@
 
 		if(changeX >= 0){
 			
-			$scroller.animate({"-webkit-transform":"translateX(0px)"},600,'ease-in-out');
+			$scroller.animate({"-webkit-transform":"translateX(0px)"},600,'ease-out');
 			changeX = 0;
 		}else if(changeX <= endScroll){
 			
@@ -159,11 +159,11 @@
 					
 				}else if(Scroll >= 0){
 					
-					$scroller.animate({"-webkit-transform":"translateX(0px)"},600,'ease-in-out');
+					$scroller.animate({"-webkit-transform":"translateX(0px)"},600,'ease-out');
 					changeX = 0;
 				}else if(dX){
 					
-					$scroller.animate({"-webkit-transform":"translateX("+( Scroll )+"px)"},600,'ease-in-out');
+					$scroller.animate({"-webkit-transform":"translateX("+( Scroll )+"px)"},600,'ease-out');
 					changeX = Scroll ;
 				}
 			}	
@@ -172,7 +172,7 @@
 		}
 	});
 	function endScrollfn(endScroll){
-		$scroller.animate({"-webkit-transform":"translateX("+( endScroll - last)+"px)"},600,'ease-in-out');
+		$scroller.animate({"-webkit-transform":"translateX("+( endScroll - last)+"px)"},600,'ease-out');
 		changeX = endScroll - last;
 		if(l){
 			clearTimeout(timer);
@@ -186,7 +186,7 @@
 						l = 0;
 						$("#scroller ul").css("overflow","hidden");
 						last = 0;
-						$scroller.animate({"-webkit-transform":"translateX("+( endScroll - last)+"px)"},600,'ease-in-out');
+						$scroller.animate({"-webkit-transform":"translateX("+( endScroll - last)+"px)"},600,'ease-out');
 						changeX = endScroll - last;
 					}
 				}
