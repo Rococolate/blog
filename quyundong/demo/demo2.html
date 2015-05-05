@@ -91,6 +91,7 @@
 	var timer;
 	var last = 40;
 	var starDate;
+	var move = 0;
 
 	scrollerChangeWidth();
 	
@@ -101,14 +102,14 @@
 	var changeX = 0 ;
 
 	$wrapper.on("touchstart",function(event){
-		var finger = event.touches[0];	//获得手指
-		startX = finger.pageX;
-		starDate = new Date;
-		console.log("开始触摸位置已经记录",startX);
+			var finger = event.touches[0];	//获得手指
+			startX = finger.pageX;
+			starDate = new Date;
+			console.log("开始触摸位置已经记录",startX);
 	});
 
 	$wrapper.on("touchmove",function(event){
-
+		move = 1;
 		event.preventDefault();	//阻止默认事件
 				var finger = event.touches[0];	//获得手指
 				tempX = finger.pageX;		//临时Y
@@ -121,7 +122,7 @@
 	$wrapper.on("touchend",function(event){
 
 		var a = dX ;
-		if(tempX){
+		if(tempX && dX){
 			a = tempX - startX;
 		}
 		
@@ -133,10 +134,10 @@
 		
 		changeX = dX;
 
-		if(changeX >= 0){
+		if(changeX >= 0 && move){
 			$scroller.animate({"-webkit-transform":"translateX(0px)"},600);
 			changeX = 0;
-		}else if(changeX <= endScroll ){
+		}else if(changeX <= endScroll && move){
 			endScrollfn(endScroll);
 			
 		}else{
@@ -146,18 +147,20 @@
 
 				mul = 2;
 				Scroll = a * mul + changeX;
-				if( Scroll <= endScroll ){
+				if( Scroll <= endScroll && move){
 					endScrollfn(endScroll);
-				}else if(Scroll >= 0){
+				}else if(Scroll >= 0 && move){
 					$scroller.animate({"-webkit-transform":"translateX(0px)"},600);
 					changeX = 0;
-				}else{
+				}else if(move){
 					$scroller.animate({"-webkit-transform":"translateX("+( Scroll )+"px)"},600);
 					changeX = Scroll ;
 				}
 			}	
 		}
 		tempX = 0 ;
+		move = 0 ;
+		
 	});
 	function endScrollfn(endScroll){
 		$scroller.animate({"-webkit-transform":"translateX("+( endScroll - last)+"px)"},600);
