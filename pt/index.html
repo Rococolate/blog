@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui" />
+	<title>Document</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		div#pin{
+			margin: 0px auto;
+			padding-top: 20px;
+			width: 600px;
+			height:600px;
+			background-color: pink;
+			border: 1px solid #666;
+			position: relative;
+			border-radius: 5px;
+		}
+
+
+		div#pin>ul{
+			margin: 0px auto;
+			
+			/*width: 320px;
+			height: 495px;*/
+			border: 5px solid #fff;
+			border-radius: 5px;
+			list-style: none;
+			background-color: #fff;
+			position: relative;
+		}
+		div#pin>ul>li{
+			/*width: 80px;
+			height: 82.5px;*/
+			/*float: left;*/
+			/*background-color: blue;
+			/*background: url(images/bg.png) no-repeat;*/
+			/*-webkit-background-size: 320px 495px;
+			background-size: 320px 495px;*/
+			border: 1px solid #fff;
+			box-sizing:border-box;
+			position: absolute;
+			/*top: 0;
+			left:0;*/
+		}
+
+		/*div#pin>ul>li:nth-child(4n+1){background-position-x: 0;}
+		div#pin>ul>li:nth-child(4n+2){background-position-x: -80px;left:80px;}
+		div#pin>ul>li:nth-child(4n+3){background-position-x: -160px;left:160px;}
+		div#pin>ul>li:nth-child(4n+4){background-position-x: -240px;left:240px;}*/
+		/*div#pin>ul>li.row2{background-position-y: -82.5px;top:82.5px;}
+		div#pin>ul>li.row3{background-position-y: -165px;top:165px;}
+		div#pin>ul>li.row4{background-position-y: -247.5px;top:247.5px;}
+		div#pin>ul>li.row5{background-position-y: -330px;top:330px;}
+		div#pin>ul>li.row6{background-position-y: -412.5px;top:412.5px;}*/
+		div#pin>ul>li:last-child{display: none;}
+
+		#random{
+			width: 80px;
+			height: 40px;
+			border-radius: 5px;
+			background-color: yellowgreen;
+			border: 1px solid green;
+			position:absolute;
+			left:50%;
+			top:50%;
+			margin-left: -40px;
+			margin-top: -20px;
+			text-align: center;
+			line-height: 40px;
+			color: #fff;
+			cursor: pointer; 
+			z-index: 999;
+		}
+		#reset{
+			width: 80px;
+			height: 40px;
+			border-radius: 5px;
+			background-color: yellowgreen;
+			border: 1px solid green;
+			position:absolute;
+			bottom:10px;
+			left:50%;
+			margin-left: -40px;
+			margin-top: -15px;
+			text-align: center;
+			line-height: 40px;
+			color: #fff;
+			cursor: pointer; 
+		}
+		.transiTion{
+			transition:all 0.5s ease 0s;
+		}
+		
+		#cover{
+			width:100%;
+			height: 100px;
+			background-color: yellowgreen;
+			opacity: 0.7;
+			position: absolute;
+			top:50%;
+			margin-top: -50px;
+			z-index: 99;
+		}
+
+
+		@media(max-width:450px) and (min-width:321px){
+			div#pin{
+				width: 100%;
+			}
+		}
+
+		@media(max-width:320px){
+			div#pin{
+				width: 100%;
+				border: 0px solid #000;
+				
+			}
+			div#pin>ul{
+				border: 0px solid #000;
+				margin-top: 0px;
+			}
+		}
+	</style>
+	<script type="text/javascript" src="js/zeptoWithFxTouch.min.js"></script>
+
+</head>
+<body>
+	<div id="cover"></div>
+	<button id="random">START</button>
+	<div id="pin">
+		
+		<button id="reset">RESET</button>
+		<ul>
+				
+		</ul>
+	</div>
+	<script type="text/javascript">
+	(function game (row,col,width,height,url,degree) {
+			var randomli;
+			var $myul = $("div#pin>ul");
+			var eachWidth = width / col ;
+			var eachHeight = height / row ;
+
+			for(var i = 0 ; i < row * col ; i++){
+				$("<li></li>").appendTo($myul);
+			}
+	
+			var $mylis = $("div#pin>ul>li");
+			var myArray = [];
+			var lock = 1;
+			var x = 0;
+			var y = 0;
+			var range = true  ;
+				
+	
+			(function init (){
+					$myul.css({
+						"width":width+"px",
+						"height":height+"px"
+					});
+					for(var i = 0 ;i < row ; i++){
+						myArray[i] = [];
+							for(var j = 0 ; j < col ; j++){
+								x = (col*i+j)%col * - eachWidth;
+								y = parseInt((col*i+j)/col) * - eachHeight;
+	
+								$mylis.eq(col*i+j).attr({
+									"data-x":i,
+									"data-y":j,
+									"ori-data-x":i,
+									"ori-data-y":j
+									
+								}).css({
+									
+									"background":"url("+url+") no-repeat",
+									"background-position":x+"px "+y+"px",
+									"-webkit-background-size": width+"px "+height+"px",
+									"background-size": width+"px "+height+"px",
+									"left":-x+"px",
+									"top":-y+"px",
+									"width":eachWidth+"px",
+									"height":eachHeight+"px"
+								});
+								myArray[i][j] = {
+									"x":i,
+									"y":j,
+									"dp":1,
+									"top":$mylis.eq(col*i+j).css("top"),
+									"left":$mylis.eq(col*i+j).css("left")
+								};
+							}
+					}
+					myArray[row - 1][col - 1].dp = 0;
+				})()
+				
+			$mylis.click(function(){
+				$mylis.removeClass("transiTion");
+				if(!$mylis.is("animated")){
+					var $thisli = $(this);
+					$thisli.addClass("transiTion");
+					move($thisli);
+				}
+			});
+	
+			$("#reset").click(function(){
+				$("#cover").css("display","block");
+				$("#random").css("display","block");
+				$mylis.removeClass("transiTion");
+				if(lock){
+					lock = 0;
+					setTimeout(function(){
+						lock = 1;
+					},500);
+					reset();
+				}
+			});
+	
+			$("#random").click(function(){
+					$(this).css("display","none");
+					$("#cover").css("display","none");
+					$mylis.removeClass("transiTion");
+					if(lock){
+						lock = 0;
+						setTimeout(function(){
+							lock = 1;
+						},1000);
+						for(var i = 0;i < 1000 ; i++){
+							randomli = parseInt(Math.random()*(row * col - 1));
+							$thisli = $mylis.eq(randomli);
+							if(move($thisli) === degree){
+								i = 1000 ;
+							} ;
+						}
+					}
+			});
+			
+			function reset (){
+				
+				for(var i = 0 ;i < row ; i++){
+						for(var j = 0 ; j < col ; j++){
+							x = (col*i+j)%col * - eachWidth;
+							y = parseInt((col*i+j)/col) * - eachHeight;
+							myArray[i][j].dp = 1;
+							$mylis.eq(col*i+j).attr({
+								"data-x":i,
+								"data-y":j,
+								"style":""
+							}).css({
+								
+								"background":"url("+url+") no-repeat",
+								"background-position":x+"px "+y+"px",
+								"-webkit-background-size": width+"px "+height+"px",
+								"background-size": width+"px "+height+"px",
+								"left":-x+"px",
+								"top":-y+"px",
+								"width":eachWidth+"px",
+								"height":eachHeight+"px"
+							});
+	
+						}
+				}
+				myArray[row - 1][col - 1].dp = 0;
+			}
+	
+			function move ($this) {
+				//读取点击元素的坐标
+				var data_x = parseInt($this.attr("data-x"));
+				var data_y = parseInt($this.attr("data-y"));
+			
+				//向上查询是否有空位置 （对应位置数组里的dp属性为0）
+				if(data_y-1>=0 && myArray[data_x][data_y-1].dp == 0){
+					//当上面是空时，数组里的对应dp属性与自己当前对应的dp属性对换
+					myArray[data_x][data_y-1].dp = 1;
+					myArray[data_x][data_y].dp = 0;
+					//并将自己移动到空数组里携带的top和left的位置，同时将自己的data－x，data－y位置信息更改
+					$this.css({"left":myArray[data_x][data_y-1].left,"top":myArray[data_x][data_y-1].top}).attr({"data-x":myArray[data_x][data_y-1].x,"data-y":myArray[data_x][data_y-1].y});
+	
+					//向下查询是否有空位置
+				}else if(data_y+1<col && myArray[data_x][data_y+1].dp == 0){
+	
+					myArray[data_x][data_y+1].dp = 1;
+					myArray[data_x][data_y].dp = 0;
+					
+					$this.css({"left":myArray[data_x][data_y+1].left,"top":myArray[data_x][data_y+1].top}).attr({"data-x":myArray[data_x][data_y+1].x,"data-y":myArray[data_x][data_y+1].y});
+	
+					//向左查询是否有空位置
+				}else if(data_x-1>=0 && myArray[data_x-1][data_y].dp == 0){
+	
+					myArray[data_x-1][data_y].dp = 1;
+					myArray[data_x][data_y].dp = 0;
+	
+					$this.css({"left":myArray[data_x-1][data_y].left,"top":myArray[data_x-1][data_y].top}).attr({"data-x":myArray[data_x-1][data_y].x,"data-y":myArray[data_x-1][data_y].y});
+	
+					//向右查询是否有空位置
+				}else if(data_x+1<row && myArray[data_x+1][data_y].dp == 0){
+	
+					myArray[data_x+1][data_y].dp = 1;
+					myArray[data_x][data_y].dp = 0;
+	
+					$this.css({"left":myArray[data_x+1][data_y].left,"top":myArray[data_x+1][data_y].top}).attr({"data-x":myArray[data_x+1][data_y].x,"data-y":myArray[data_x+1][data_y].y});
+					
+	
+				}
+	
+				//调试
+	
+				for(var i = 0 , k = 0;i < row * col ; i++){
+						if( $mylis.eq(i).attr("data-x")==$mylis.eq(i).attr("ori-data-x") && $mylis.eq(i).attr("data-y")==$mylis.eq(i).attr("ori-data-y")){
+							k++;
+						}
+				}
+				console.log(k);
+				if(k == row * col && lock ==1){
+					alert("你赢了！");
+				}
+			return k;
+			}
+		})(4,3,320,495,"images/bg.png",5)
+	
+
+	</script>
+</body>
+</html>
