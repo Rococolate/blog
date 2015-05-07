@@ -81,9 +81,10 @@
 	var up = document.getElementById('up');
 
 	up.onclick = function () {
-		alert(1);
+		alert(10);
 		forImg.innerHTML = "" ;
 		var file = fileObj.files[0];
+		alert(file);
 		forImg.innerHTML = (window.URL.createObjectURL(file));
 
 		var img = new Image();
