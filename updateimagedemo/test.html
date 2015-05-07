@@ -84,7 +84,7 @@
 		alert(1);
 		forImg.innerHTML = "" ;
 		var file = fileObj.files[0];
-		 	alert(file);
+		forImg.innerHTML = toString(file) ;
 
 		var img = new Image();
 
@@ -150,6 +150,8 @@
 		}
 
 		img.src = window.URL.createObjectURL(file);
+
+
 
 
 	}
