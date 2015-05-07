@@ -84,14 +84,14 @@
 		alert(1);
 		forImg.innerHTML = "" ;
 		var file = fileObj.files[0];
-		 	console.log(file);
+		 	alert(file);
 
 		var img = new Image();
 
 		var smallimg = new Image();
 
 		img.onload = function(){
-
+			alert(2);
 			var w = img.width;
 
 			var h = img.height;
@@ -129,7 +129,7 @@
 			var resultsblob = new Blob([ia], {type:'image/jpeg'});
 
 
-			console.log(resultsblob);
+			alert(resultsblob);
 
 			forImg.appendChild(img);
 			var span1 = document.createElement('span');
@@ -143,6 +143,7 @@
 				span2.innerHTML = resultsblob.size;
 				span2.style.top = img.height + 10 + "px";
 				forImg.appendChild(span2);
+				alert(3);
 			}
 
 			smallimg.src = resultsBase64;
