@@ -167,10 +167,20 @@
 
 		img.onload = function(){
 
-			var canvas = document.createElement('canvas'), ctx;
+			var w = img.width;
+			var h = img.height;
 
-			canvas.width  = 400;
-			canvas.height = 400*img.height/img.width;
+
+
+			var canvas = document.createElement('canvas'), ctx;
+			if(w >= h){
+				canvas.width  = 400 ;
+				canvas.height = 400 * h / w;
+			}else{
+				canvas.width = 400 * w / h ;
+				canvas.height = 400 ;
+			}
+			
 			ctx           = canvas.getContext('2d');
 
 			ctx.fillStyle = '#fff';
