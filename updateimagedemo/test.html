@@ -84,7 +84,7 @@
 		alert(1);
 		forImg.innerHTML = "" ;
 		var file = fileObj.files[0];
-		forImg.innerHTML = toString(file) ;
+		forImg.innerHTML = (window.URL.createObjectURL(file));
 
 		var img = new Image();
 
