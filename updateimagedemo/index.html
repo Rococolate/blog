@@ -77,84 +77,7 @@
 	<script type="text/javascript">
 	var fileObj = document.getElementById('file');
 	var forImg = document.getElementById('forImg');
-	// 	fileObj.onchange = function () {
-	// 		// var src = window.URL.createObjectURL(fileObj.files[0]);
-	// 	 //    var img = document.createElement('img');
-	// 	 //    img.src = src;
-	// 	 //    forImg.appendChild(img);
-	// 	 //    console.log(fileObj.files,src);
-	// 	 	var file = this.files[0];
-	// 	 	console.log(file);
-
-	// 	 	var reader = new FileReader();
-	// 	 	reader.onload = function(){
-	// 	 		var url = reader.result;
-
-	// 	 		setImageURL(url,image);
-
-	// 	 		var smallImage = new Image();
-
-		 		
-
-	// 	 		smallImage.crossOrigin = "*";
-
-	// 	 		smallImage.src = url;
-
-	// 	 		smallImage.onload = function (){
-
-	// 	 			var canvas = document.createElement('canvas'), ctx;
-
-	// 	 			canvas.width  = 400;
-	// 	 			canvas.height = 300;
-	// 	 			ctx           = canvas.getContext('2d');
-
-	// 	 			ctx.fillStyle = '#fff';
-	// 	 			ctx.fillRect(0, 0, 400, 300);
-
-	// 	 			ctx.drawImage(smallImage, 0, 0, 400, 300);
-
-	// 	 			resultsBase64 = canvas.toDataURL('image/jpeg', 0.8);
-
-
-	// 	 			console.log(resultsBase64,url);
-
-	// 	 			// var data = resultsBase64;
-
-	// 	 			// // dataURL 的格式为 “data:image/png;base64,****”,逗号之前都是一些说明性的文字，我们只需要逗号之后的就行了
-	// 	 			// data = data.split(',')[1];
-
-	// 	 			// data = window.atob(data);
-
-	// 	 			// var ia = new Uint8Array(data.length);
-
-	// 	 			// for (var i = 0; i < data.length; i++) {
-	// 	 			//     ia[i] = data.charCodeAt(i);
-	// 	 			// };
-
-	// 	 			// var resultsblob = new Blob([ia], {type:"image/jpeg"});
-
-	// 	 			// console.log(resultsblob);
-
-
-	// 	 			smallImage.src = resultsBase64;
-
-	// 	 			forImg.appendChild(smallImage);
-
-	// 	 			console.log(smallImage.width,smallImage.height);
-	// 	 		}
-
-		 			
-	// 	 	};
-
-	// 	 	reader.readAsDataURL(file);
-	// 	}
-	// var image = new Image();
-
-	// function setImageURL(url,img){
-	// 	img.src = url;
-	// 	forImg.appendChild(img);
-	// 	console.log(img.width,img.height);
-	// }
+	
 
 	fileObj.onchange = function () {
 		forImg.innerHTML = "" ;
@@ -168,16 +91,16 @@
 		img.onload = function(){
 
 			var w = img.width;
+
 			var h = img.height;
 
-
-
 			var canvas = document.createElement('canvas'), ctx;
+
 			if(w >= h){
 				canvas.width  = 400 ;
-				canvas.height = 400 * h / w;
+				canvas.height = Math.ceil(400 * h / w);
 			}else{
-				canvas.width = 400 * w / h ;
+				canvas.width = Math.ceil(400 * w / h) ;
 				canvas.height = 400 ;
 			}
 			
@@ -188,7 +111,7 @@
 
 			ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-			var resultsBase64 = canvas.toDataURL('image/jpeg', 0.9);
+			var resultsBase64 = canvas.toDataURL('image/jpeg', 1);
 
 			var data = resultsBase64;
 
@@ -208,7 +131,7 @@
 
 			forImg.appendChild(img);
 			var span1 = document.createElement('span');
-			span1.innerHTML = file.size 
+			span1.innerHTML = file.size ;
 			forImg.appendChild(span1);
 
 			smallimg.onload = function(){
@@ -219,6 +142,7 @@
 				span2.style.top = img.height + 10 + "px";
 				forImg.appendChild(span2);
 			}
+
 			smallimg.src = resultsBase64;
 		}
 
