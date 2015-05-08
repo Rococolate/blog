@@ -77,10 +77,9 @@
 	<script type="text/javascript">
 	var fileObj = document.getElementById('file');
 	var forImg = document.getElementById('forImg');
-	
 
 	fileObj.onchange = function () {
-		alert(1);
+		
 		forImg.innerHTML = "" ;
 		var file = this.files[0];
 		 	console.log(file);
@@ -105,7 +104,7 @@
 				canvas.height = 400 ;
 			}
 			
-			ctx           = canvas.getContext('2d');
+			ctx = canvas.getContext('2d');
 
 			ctx.fillStyle = '#fff';
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -132,14 +131,15 @@
 
 			forImg.appendChild(img);
 			var span1 = document.createElement('span');
-			span1.innerHTML = file.size ;
+			span1.innerHTML = file.size / 1024 + "KB";
 			forImg.appendChild(span1);
 
 			smallimg.onload = function(){
 
 				forImg.appendChild(smallimg);
 				var span2 = document.createElement('span');
-				span2.innerHTML = resultsblob.size;
+				span2.innerHTML = resultsblob.size / 1024 + "KB";
+				
 				span2.style.top = img.height + 10 + "px";
 				forImg.appendChild(span2);
 			}
