@@ -78,7 +78,7 @@
 (function(){
 	var fileObj = document.getElementById('file');
 	var forImg = document.getElementById('forImg');
-
+	window.URL    = window.URL || window.webkitURL;
 	fileObj.onchange = function () {
 		
 		forImg.innerHTML = "" ;
