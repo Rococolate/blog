@@ -75,6 +75,7 @@
 		
 	</div>
 	<script type="text/javascript">
+(function(){
 	var fileObj = document.getElementById('file');
 	var forImg = document.getElementById('forImg');
 
@@ -139,7 +140,7 @@
 				forImg.appendChild(smallimg);
 				var span2 = document.createElement('span');
 				span2.innerHTML = resultsblob.size / 1024 + "KB";
-				
+
 				span2.style.top = img.height + 10 + "px";
 				forImg.appendChild(span2);
 			}
@@ -148,9 +149,11 @@
 		}
 
 		img.src = window.URL.createObjectURL(file);
-
-
 	}
+
+})();
+
+	
 
 	</script>
 </body>
