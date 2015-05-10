@@ -66,7 +66,7 @@
                 results = that.results,
                 blob    = (typeof file === 'string') ? file : URL.createObjectURL(file);
 
-            img.crossOrigin = "*";
+            // img.crossOrigin = "*";
             img.onload = function () {
 
                 // 获得图片缩放尺寸
