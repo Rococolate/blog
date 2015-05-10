@@ -114,8 +114,8 @@
                     results.base64Len = results.base64.length;
 
                     callback(results);
-                }
-            };
+                };
+            
             img.src = blob;
         },
 
