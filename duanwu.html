@@ -339,12 +339,12 @@
 	var nowScale = 1;
 	var $iCanFly = $("#iCanFly");
 	var $eating = $("#eating");
-	var l = 1;
+	
 	$btnthrow.click(function() {
-		if(l){
+		
 			var deg = parseInt(Math.random()*90-45);
 			var deg1 = parseInt(Math.random()*90-45);
-			l = 0;
+			
 			nowScale = nowScale + 0.02 ;
 			$eating.addClass("eat");
 			$kaolabody.css("-webkit-transform","scale("+nowScale+")");
@@ -353,10 +353,10 @@
 				"-webkit-transform":"rotateX(0deg) translateY(0px) translateX(0px) translateZ(0px) scale(0.7)"
 			},700,"cubic-bezier(.51,.04,.95,.32)",function(){
 				$eating.removeClass("eat");
-				l = 1;
+				
 				$(this).css({"-webkit-transform":"scale(1) rotateX("+deg1+"deg) rotateY("+deg+"deg) translateZ(300px)","display":"none"});
 			});
-		}
+		
 		
 	});
 	</script>
