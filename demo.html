@@ -12,7 +12,8 @@
 	<script type="text/javascript">
 	var mydiv = document.getElementById('text');
 	var msg = window.navigator.userAgent;
-	mydiv.innerHTML = msg;
+	var windowHigth = window.screen.height;
+	mydiv.innerHTML = msg + '<br/>' + windowHigth;
 	</script>
 </body>
 </html>
