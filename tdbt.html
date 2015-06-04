@@ -150,7 +150,7 @@
 		nav .logo{
 			width:0.6rem;
 			height:0.3rem;
-			background-color:rebeccapurple;
+			background-color:skyblue;
 			position: absolute;
 			top:0;
 			left:50%;
@@ -181,6 +181,32 @@
 			left:50%;
 			margin-top: -0.5rem;
 			margin-left: -0.5rem;
+		}
+		/*shareCover*/
+		.shareCover{
+			position: fixed;
+			width: 3.2rem;
+			height: 6rem;
+			max-width: 640px;
+			display: none;
+			top:0;
+			left:50%;
+			-webkit-transform:translateX(-50%); 
+			transform:translateX(-50%); 
+			background-color:rgba(0,0,0,0.8);
+		}
+		.shareCover .inShareCover{
+			width: 2.2rem;
+			height: 2.2rem;
+			font-size: 0.16rem;
+			text-align: left;
+			position: absolute;
+			left:50%;
+			top:1rem;
+			margin-left: -1.1rem;
+			background-color: #fff;
+			border-radius: 3px;
+
 		}
 		/*index*/
 		.index{
@@ -323,6 +349,66 @@
 			font-size: 0.36rem;
 		}
 		/*page2*/
+		.page2 .zongziCartoon{
+			width: 2.2rem;
+			height: 2.2rem;
+			margin: 0.4rem auto 0.3rem;
+			background-color: violet;
+			border-radius: 3px;
+		}
+		.page2 .text{
+			width: 80%;
+			text-align: left;
+			margin: 0 auto;
+			font-size: 0.16rem;
+		}
+		.page2 .ufuncodeBtn{
+			display: block;
+			width: 1rem;
+			height: 0.4rem;
+			margin: 0.2rem auto;
+			background-color:gold;
+			border-radius: 3px;
+			line-height: 0.4rem;
+		}
+
+		.page2 .shareBtn{
+			display: block;
+			width: 1rem;
+			height: 0.4rem;
+			margin: 0.1rem auto;
+			background-color:yellowgreen;
+			border-radius: 3px;
+			line-height: 0.4rem;
+		}
+		/*page3*/
+		.page3 .ufuncodeShow{
+			width: 2.2rem;
+			height: 2.2rem;
+			margin: 0.7rem auto 0.3rem;
+			background-color: #fff;
+			border-radius: 3px;
+		}
+		.page3 .downloadBtn{
+			display: block;
+			width: 1rem;
+			height: 0.4rem;
+			margin: 0.2rem auto;
+			background-color:gold;
+			border-radius: 3px;
+			line-height: 0.4rem;
+		}
+
+		.page3 .againBtn{
+			display: block;
+			width: 1rem;
+			height: 0.4rem;
+			margin: 0.1rem auto;
+			background-color:green;
+			border-radius: 3px;
+			line-height: 0.4rem;
+		}
+
 	</style>
 </head>
 <body>
@@ -350,10 +436,17 @@
 			</div>
 			<button class="leftHandBtn"></button><button class="rightHandBtn"></button>
 		</div>
-		<div class="page page2">page2</div>
-		<div class="page page3">page3</div>
-		<div class="page page4">page4</div>
-		<div class="page page5">page5</div>
+		<div class="page page2">
+			<div class="zongziCartoon"></div>
+			<p class="text"></p>
+			<button class="ufuncodeBtn">了解U趣码</button>
+			<button class="shareBtn">分享给吃货</button>
+		</div>
+		<div class="page page3">
+			<div class="ufuncodeShow"></div>
+			<button class="downloadBtn">立即使用U趣码</button>
+			<button class="againBtn">不服？再战！</button>
+		</div>
 	</section>
 	<section class="index" id="index">
 		<h3 class="title">左手右手包粽子</h3>
@@ -363,9 +456,16 @@
 		</div>
 	</section>
 	<section class="cover" id="cover">
-		<div class="inCover">3</div>
+		<div class="inCover"></div>
 	</section>
-	<nav class="">
+	<section class="shareCover">
+		<div class="inShareCover">
+			<p>
+				五月五，过端午！<br/>端午魔性粽子出没！<br/>点击右上角分享你的成果。
+			</p>
+		</div>
+	</section>
+	<nav>
 		<div class="logo">logo</div>
 	</nav>
 	<script type="text/javascript" src="js/zeptoWithFxTouch.min.js"></script>
@@ -377,64 +477,48 @@
 	var inCover = $(".inCover");
 	var page1 = $("#page1");
 	var page2 = $(".page2");
+	var page3 = $(".page3");
 	var second = $(".second");
 	var msecond = $(".msecond");
 	var leftHandBtn = $(".leftHandBtn");
 	var rightHandBtn = $(".rightHandBtn");
 	var timer = $(".timer");
+	var text = $(".text");
+	var ufuncodeBtn = $(".ufuncodeBtn");
+	var againBtn = $(".againBtn");
+	var shareBtn = $(".shareBtn");
+	var shareCover = $(".shareCover");
 	var inCoverText = 3;
+	inCover.html(inCoverText);
 	var time5000 = 5000;
 	var lock = 1;
 	var count = 0;
 
+	function overText(m) { 
+		var mytext;
+		this.mytext =  ["5秒包了" + m + "个粽子？？？你是猪吗？！赏你一张U趣码，再战500回合！",
+						"5秒包了" + m + "个粽子，你的速度比猪快，获得U趣码鼓励～",
+						"5秒包了" + m + "个粽子，速度堪比豺狼虎豹，捕获U趣码一张！",
+						"5秒包了" + m + "个粽子，不鸣则已，一鸣惊人！U趣码来抱大腿，捂脸",
+						"5秒包了" + m + "个粽子，超音速包粽专业户～～双手奉上U趣码一张！",
+						"5秒包了" + m + "个粽子？！你一定是开挂了吧～～",
+						] 
+				}
 
 	$(document).ready(function () {
 		
 		var $windowWidth = $(window).width();
-		$("html").css("font-size",(100/320)*$windowWidth+"px");
+		$("html").css( "font-size" ,( 100 / 320 ) * $windowWidth + "px" );
 
 		$(window).resize(function(){
 			$windowWidth = $(window).width();
-			$("html").css("font-size",(100/320)*$windowWidth+"px");
+			$("html").css( "font-size" ,( 100 / 320 ) * $windowWidth + "px" );
 		});
 
 	});
 
 	index.click(function(){
-		$(this).css("display","none");
-		main.css("display","block");
-		cover.css("display","block");
-
-		setTimeout(function(){
-			page1.addClass("fadeIn");
-		},200);
-
-		var timer3 = setInterval(function(){
-			inCoverText -- ;
-			inCover.html(inCoverText);
-		},1000);
-
-		setTimeout(function(){
-			clearInterval(timer3);
-			cover.css("display","none");
-			var timer5 = setInterval(function(){
-
-				time5000 = time5000 - 100;
-				console.log(time5000,parseInt(time5000/1000),time5000%1000/100);
-				second.html(parseInt(time5000/1000));
-				msecond.html(time5000%1000/100 * 10);
-
-				if(time5000 === 0){
-					clearInterval(timer5);
-					lock = 0;
-					page1.removeClass("fadeIn");
-					main.animate({"-webkit-transform":"translateY(-5.04rem)"},1000,"ease",function(){
-						page2.addClass("fadeIn");
-					});
-				}
-			},100);
-			
-		},3000);
+		gameStart();
 	});
 
 	leftHandBtn.on("touchstart",function(){
@@ -445,12 +529,117 @@
 		action();
 	});
 
+	ufuncodeBtn.click(function(){
+		page2.removeClass("fadeIn");
+		main.animate({"-webkit-transform":"translateY(-10.08rem)"},1000,"ease",function(){
+
+			page3.addClass("fadeIn");
+
+		});
+	});
+
+	shareBtn.click(function(){
+		shareCover.css("display","block");
+	});
+	shareCover.click(function(){
+		$(this).css("display","none");
+	});
+
+	againBtn.click(function(){
+		page3.removeClass("fadeIn");
+		main.animate({"-webkit-transform":"translateY(-0rem)"},500,"ease",function(){
+
+			page1.addClass("fadeIn");
+			cover.css("display","block");
+			time5000 = 5000;
+			second.html( parseInt( time5000 / 1000 ) );
+			msecond.html( time5000 % 1000 / 100 * 10 );
+			inCoverText = 3;
+			inCover.html(inCoverText);
+			lock = 1;
+			count = 0;
+			timer.css({"-webkit-transform":"translateX(" + count/60 * 100 + "%)"});
+			gameStart();
+
+
+		});
+	});
+
+	function gameStart(){
+
+			index.css("display","none");
+			main.css("display","block");
+			cover.css("display","block");
+
+			setTimeout(function(){
+
+				page1.addClass("fadeIn");
+
+			},200);
+
+			var timer3 = setInterval(function(){
+
+				inCoverText -- ;
+				inCover.html(inCoverText);
+
+			},1000);
+
+			setTimeout(function(){
+
+				clearInterval(timer3);
+				cover.css("display","none");
+				var timer5 = setInterval(function(){
+
+					time5000 = time5000 - 100;
+					console.log( time5000 , parseInt( time5000 / 1000 ) ,time5000 %1000 / 100 );
+					second.html( parseInt( time5000 / 1000 ) );
+					msecond.html( time5000 % 1000 / 100 * 10 );
+
+					if(time5000 === 0){
+
+						clearInterval(timer5);
+						lock = 0;
+						page1.removeClass("fadeIn");
+						main.animate({"-webkit-transform":"translateY(-5.04rem)"},1000,"ease",function(){
+
+							page2.addClass("fadeIn");
+							whatTheText(count);
+
+						});
+					}
+				},100);
+				
+			},3000);
+		}
+
+	function whatTheText(n){
+
+		var sText = new overText(n);
+		console.log(sText);
+		if( n >= 60 ){
+			text.html(sText.mytext[5]);
+		}else if( n >= 43 ){
+			text.html(sText.mytext[4]);			
+		}else if( n >= 33 ){
+			text.html(sText.mytext[3]);
+		}else if( n >= 21 ){
+			text.html(sText.mytext[2]);
+		}else if( n >= 1){
+			text.html(sText.mytext[1]);
+		}else{
+			text.html(sText.mytext[0]);			
+		}
+
+	}
+
 	function action(){
+
 		if(lock){
 			count ++;
 			console.log(count);
-			timer.css({"-webkit-transform":"translateX("+ count/60 *100+"%)"});
-		}	
+			timer.css({"-webkit-transform":"translateX(" + count/60 * 100 + "%)"});
+		}
+
 	}
 	window.onload = function(){
 		loading.css("display","none"); 
