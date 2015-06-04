@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>端午</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui" />
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<script type="text/javascript" src="js/jweixin-1.0.0.js"></script>
+	<style type="text/css">
+		html{
+			width: 100%;
+			height: 100%;
+			font-size: 100px;
+			overflow: auto;
+		}
+		i{
+			font-style: normal;
+			display: block;
+		}
+		button{
+			border:0px;
+		}
+		body{
+			font-size: 0.14rem;
+			margin: 0 auto;
+			width: 3.2rem;
+			height: 5.04rem;
+			max-width: 640px;
+			max-height:1008px; 
+			overflow: hidden;
+			background-color:chocolate;
+			text-align: center;
+		}
+		.hide{
+			display: none;
+		}
+		.loading{
+			width: 3.2rem;
+			height: 5.04rem;
+			max-width: 640px;
+			max-height:1008px;
+			background-color:cornflowerblue;
+			overflow: hidden;
+		}
+		.loading .actors{
+			width: 1.2rem;
+			height: 0.3rem;
+			/*background-color: pink;*/
+			margin: 0.5rem auto;
+		}
+		.loading .theatre{
+			width: 1.2rem;
+			height: 0.3rem;
+		}
+		.theatre .actor{
+			width: 0.3rem;
+			height: 0.3rem;
+			float: left;
+			/*background-color: gold;*/
+			position: relative;
+		}
+		.actor .acting{
+			display: block;
+			width: 0.12rem;
+			height: 0.12rem;
+			border-radius: 50%;
+			position: absolute;
+			top: 50%;
+			left:50%;
+			margin-top: -0.06rem;
+			margin-left: -0.06rem;
+			background-color: yellowgreen;
+		}
+
+		.actor .acting:before{
+			display: block;
+			content: "";
+			width: 0.12rem;
+			height: 0.12rem;
+			border-radius: 50%;
+			position: relative;
+			top:0;
+			left:0;
+			background-color: green;
+		}
+		.showY1{-webkit-animation: showY 1s linear 0s infinite alternate;}
+		.showY1:before{-webkit-animation: showX 1s linear -0.33s infinite alternate;}
+		.showY2{-webkit-animation: showY 1s linear -0.33s infinite alternate;}
+		.showY2:before{-webkit-animation: showX 1s linear -0.66s infinite alternate;}
+		.showY3{-webkit-animation: showY 1s linear -0.66s infinite alternate;}
+		.showY3:before{-webkit-animation: showX 1s linear -0.1s infinite alternate;}
+		.showY4{-webkit-animation: showY 1s linear -1s infinite alternate;}
+		.showY4:before{-webkit-animation: showX 1s linear 0s infinite alternate;}
+		@-webkit-keyframes showY
+			{
+				0% {-webkit-transform:scaleY(1);}
+				
+				100% {-webkit-transform:scaleY(3);}
+			}
+		@-webkit-keyframes showX
+		{
+			0% {-webkit-transform:scaleX(1);}
+			
+			100% {-webkit-transform:scaleX(2);}
+		}
+		.main{
+			-webkit-transform:translateY(-15.12rem);
+			transform:translateY(-15.12rem);
+			width: 100%;
+		}
+		.page{
+			width: 3.2rem;
+			height: 5.04rem;
+			max-width: 640px;
+			max-height:1008px; 
+			overflow: hidden;
+		}
+		.page1{position:relative;background-color:pink;}
+		.page2{position:relative;background-color:coral;}
+		.page3{position:relative;background-color:gold;}
+		.page4{position:relative;background-color:tomato;}
+		.page5{position:relative;background-color:yellowgreen;}
+		.page6{position:relative;background-color:plum;}
+		.page7{position:relative;background-color:chocolate;}
+		.page8{position:relative;background-color:navy;}
+		/*nav*/
+		nav{
+			width: 100%;
+			height: 60px;
+			position: absolute;
+			top:0;
+			left:0;
+			text-align: center;
+			-webkit-box-sizing:border-box;
+			box-sizing:border-box;
+		}
+		nav .logo{
+			width:0.6rem;
+			height:0.6rem;
+			background-color:rebeccapurple;
+			position: absolute;
+			top:0;
+			left:50%;
+			-webkit-transform:translateX(-50%);
+			transform:translateX(-50%);
+		}
+		nav .leftBtn{
+			width:0.6rem;
+			height:0.4rem;
+			background-color:rebeccapurple;
+			position: absolute;
+			top:0;
+			left:0;
+		}
+		nav .rightBtn{
+			width:0.6rem;
+			height:0.4rem;
+			background-color:rebeccapurple;
+			position: absolute;
+			top:0;
+			right:0;
+		}
+		h3{
+			width: 1.6rem;
+			height: 0.6rem;
+			margin: 0.7rem auto 0.1rem;
+			background-color:navy;
+		}
+		/*page1*/
+		.page1 .bigPicture{
+			position: absolute;
+			width: 3.2rem;
+			max-width: 640px;
+			height: 3.2rem;
+			max-height: 640px;
+			background-color:yellowgreen;
+			top:1rem;
+			left:0;
+		}
+		.page1 .title{
+			width: 100%;
+			display: block;
+			position: absolute;
+			top: 1.2rem;
+		}
+		.page1 .makeRiceDumplingsBtn{
+			position: absolute;
+			width: 1.5rem;
+			height: 0.6rem;
+			top:3.6rem;
+			left:50%;
+			-webkit-transform:translateX(-50%);
+			transform:translateX(-50%);
+			background-color:gold;
+		}
+		.page1 .myPrizeCenterBtn{
+			position: absolute;
+			width: 1.2rem;
+			height: 0.5rem;
+			top:4.3rem;
+			left:50%;
+			-webkit-transform:translateX(-50%);
+			transform:translateX(-50%);
+			background-color:gold;
+		}
+		/*page2*/
+		.page2 .page2h3{
+			width: 1.6rem;
+			height: 0.8rem;
+			margin: 0.8rem auto 0.2rem;
+			background-color:navy;
+		}
+		.choseAndNext{
+			display: inline-block;
+			width: 1rem;
+			height: 0.4rem;
+			background-color: yellowgreen;
+			margin-top: 0.2rem;
+
+		}
+		.page2 .entree{
+			display: block;
+			width: 3.2rem;
+			height: 2rem;
+			margin: 0 auto;
+			background-color: pink;
+		}
+		
+		.page2 .choseEntree{
+			width: 33.33%;
+			height:2rem;
+			float: left;
+			 
+		}
+		.page2 .choseEntree1{background-color:yellow;}
+		.page2 .choseEntree2{background-color:yellowgreen;}
+		.page2 .choseEntree3{background-color:green;}
+
+		.page2 .choseEntreeBg1{width: 100%;height: 100%; background-color: rgba(222,111,123,0.4);}
+		.page2 .choseEntreeBg2{width: 100%;height: 100%; background-color: rgba(222,111,123,0.4);}
+		.page2 .choseEntreeBg3{width: 100%;height: 100%; background-color: rgba(222,111,123,0.4);}
+		/*page3*/
+		.page3 .auxiliary{
+			display: block;
+			width: 3.2rem;
+			height: 2.4rem;
+			margin: 0 auto;
+			background-color: pink;
+		}
+		
+		.page3 .choseAuxiliary{
+			width: 33.33%;
+			height:1.2rem;
+			float: left; 
+		}
+
+		.page3 .choseAuxiliary1{background-color:yellow;}
+		.page3 .choseAuxiliary2{background-color:yellowgreen;}
+		.page3 .choseAuxiliary3{background-color:green;}
+		.page3 .choseAuxiliary4{background-color:gold;}
+		.page3 .choseAuxiliary5{background-color:pink;}
+		.page3 .choseAuxiliary6{background-color:tomato;}
+
+		.page3 .choseAuxiliaryBg1{width: 100%;height: 100%; background-color: rgba(222,111,123,0.4);}
+		.page3 .choseAuxiliaryBg2{width: 100%;height: 100%; background-color: rgba(222,111,123,0.4);}
+		.page3 .choseAuxiliaryBg3{width: 100%;height: 100%; background-color: rgba(222,111,123,0.4);}
+		.page3 .choseAuxiliaryBg4{width: 100%;height: 100%; background-color: rgba(222,111,123,0.4);}
+		.page3 .choseAuxiliaryBg5{width: 100%;height: 100%; background-color: rgba(222,111,123,0.4);}
+		.page3 .choseAuxiliaryBg6{width: 100%;height: 100%; background-color: rgba(222,111,123,0.4);}
+
+		/*page4*/
+		.page4 .timeOutBar{
+			width: 75%;
+			height: 0.3rem;
+			background-color: pink;
+			margin:0.1rem auto;
+		}
+		.timebar{
+			width: 100%;
+			height: 100%;
+			background-color:skyblue;
+			-webkit-transform:translateX(-100%);
+			transform:translateX(-100%);
+		}
+		.page4 .zongzi{
+			width: 70%;
+			height: 2rem;
+			background-color:yellowgreen;
+			margin: 0.1rem auto;
+		}
+		.page4 .leftHandBtn{
+			width: 50%;
+			height: 1.6rem;
+			background-color: gold;
+			float: left;
+		}
+		.page4 .rightHandBtn{
+			width: 50%;
+			height: 1.6rem;
+			background-color: yellow;
+			float: left;
+		}
+	</style>
+</head>
+<body>
+	<section class="loading">
+		<div class="actors">
+			<ul class="theatre">
+				<li class="actor"><i class="acting showY1"></i></li>
+				<li class="actor"><i class="acting showY2"></i></li>
+				<li class="actor"><i class="acting showY3"></i></li>
+				<li class="actor"><i class="acting showY4"></i></li>
+			</ul>
+		</div>
+	</section>
+	<section class="main hide">
+		<!-- <div class="page page1">
+			<div class="bigPicture"></div>
+			<div class="title">五月五，过端午<br/>百变粽子君</div>
+			<button class="makeRiceDumplingsBtn">包粽嗨起来</button>
+			<button class="myPrizeCenterBtn">查看我的奖品</button>
+		</div> -->
+		<!-- <div class="page page2">
+			<h3 class="page2h3"></h3>
+			<ul class="entree">
+				<li class="choseEntree choseEntree1"><i class="choseEntreeBg1"></i></li>
+				<li class="choseEntree choseEntree2"><i class="choseEntreeBg2"></i></li>
+				<li class="choseEntree choseEntree3"><i class="choseEntreeBg3"></i></li>
+			</ul>
+			<button class="choseAndNext">选定，下一步</button>
+		</div>
+		<div class="page page3">
+			<h3 class="page3h3"></h3>
+			<ul class="auxiliary">
+				<li class="choseAuxiliary choseAuxiliary1"><i class="choseAuxiliaryBg1"></i></li>
+				<li class="choseAuxiliary choseAuxiliary2"><i class="choseAuxiliaryBg2"></i></li>
+				<li class="choseAuxiliary choseAuxiliary3"><i class="choseAuxiliaryBg3"></i></li>
+				<li class="choseAuxiliary choseAuxiliary4"><i class="choseAuxiliaryBg4"></i></li>
+				<li class="choseAuxiliary choseAuxiliary5"><i class="choseAuxiliaryBg5"></i></li>
+				<li class="choseAuxiliary choseAuxiliary6"><i class="choseAuxiliaryBg6"></i></li>
+			</ul>
+			<button class="choseAndNext">选定，下一步</button>
+		</div> -->
+		<div class="page page4">
+			<h3></h3>
+			<div class="timeOutBar"><div class="timebar"></div></div>
+			<div class="zongzi">
+				<ul>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div>
+			<button class="leftHandBtn"></button><button class="rightHandBtn"></button>
+		</div>
+		<div class="page page5">page5</div>
+		<div class="page page6">page6</div>
+		<div class="page page7">page7</div>
+		<div class="page page8">page8</div>
+	</section>
+	<section class="cover">
+		
+	</section>
+	<nav class="hide">
+		<div class="logo"></div>
+		<!-- <button class="leftBtn">官方公众号</button>
+		<button class="rightBtn">活动介绍</button> -->
+	</nav>
+	<script type="text/javascript" src="js/zeptoWithFxTouch.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			var $windowWidth = $(window).width();
+			$("html").css("font-size",(100/320)*$windowWidth+"px");
+
+			$(window).resize(function(){
+				$windowWidth = $(window).width();
+				$("html").css("font-size",(100/320)*$windowWidth+"px");
+			});
+		});
+	</script>
+</body>
+</html>
