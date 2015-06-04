@@ -416,7 +416,7 @@
 			clearInterval(timer3);
 			cover.css("display","none");
 			var timer5 = setInterval(function(){
-				
+
 				time5000 = time5000 - 100;
 				console.log(time5000,parseInt(time5000/1000),time5000%1000/100);
 				second.html(parseInt(time5000/1000));
@@ -426,7 +426,7 @@
 					clearInterval(timer5);
 					lock = 0;
 					page1.removeClass("fadeIn");
-					main.animate({"transform":"translateY(-5.04rem)"},1000,"ease",function(){
+					main.animate({"-webkit-transform":"translateY(-5.04rem)"},1000,"ease",function(){
 						page2.addClass("fadeIn");
 					});
 				}
