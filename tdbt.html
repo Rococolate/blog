@@ -389,7 +389,7 @@
 
 
 	$(document).ready(function () {
-		loading.css("display","none"); 
+		
 		var $windowWidth = $(window).width();
 		$("html").css("font-size",(100/320)*$windowWidth+"px");
 
@@ -451,6 +451,9 @@
 			console.log(count);
 			timer.css({"-webkit-transform":"translateX("+ count/60 *100+"%)"});
 		}	
+	}
+	window.onload = function(){
+		loading.css("display","none"); 
 	}
 	</script>
 </body>
