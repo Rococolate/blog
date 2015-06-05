@@ -62,11 +62,13 @@ $index.click(function(){
 	gameStart();
 });
 
-$leftHandBtn.on("touchstart",function(){
+$leftHandBtn.click(function(){
+	
 	acting();
 });
 
-$rightHandBtn.on("touchstart",function(){
+$rightHandBtn.click(function(){
+	
 	acting();
 });
 
