@@ -28,8 +28,10 @@ var time5000 = 5000;
 var lock = 1;
 var count = 0;
 var shareMsg = "五月五，过端午~包粽嗨起来！";
-var startTime = null;
-var endTime = null;
+var lstartTime = null;
+var lstartTime = null;
+var rendTime = null;
+var rendTime = null;
 
 function OverText(m) { 
 	var mytext;
@@ -76,21 +78,41 @@ $index.click(function(){
 // 	acting();
 // });
 
- $handBtn.on("touchstart",function(e){
+ $leftHandBtn.on("touchstart",function(e){
 	console.log(e);
 	$logo.html(e.touches.length);
-	if(e.touches.length<=2){
+	if(e.touches.length<=4){
 		lock = 1;
 	}else{
 		lock = 0;
 	}
-	startTime = e.timeStamp;
+	lstartTime = e.timeStamp;
 	
 });
- $handBtn.on("touchend",function(e){
+ $leftHandBtn.on("touchend",function(e){
 	console.log(e);
-	endTime = e.timeStamp;
-	if(endTime - startTime >= 60){
+	lendTime = e.timeStamp;
+	if(lendTime - lstartTime >= 40){
+		acting();
+	}
+	
+});
+
+ $rightHandBtn.on("touchstart",function(e){
+	console.log(e);
+	$logo.html(e.touches.length);
+	if(e.touches.length<=4){
+		lock = 1;
+	}else{
+		lock = 0;
+	}
+	rstartTime = e.timeStamp;
+	
+});
+ $rightHandBtn.on("touchend",function(e){
+	console.log(e);
+	rendTime = e.timeStamp;
+	if(rendTime - rstartTime >= 40){
 		acting();
 	}
 	
