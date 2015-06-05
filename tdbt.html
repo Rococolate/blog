@@ -35,12 +35,18 @@
 		}
 		/*loading*/
 		.loading{
+			position: fixed;
 			width: 3.2rem;
-			height: 5.04rem;
+			height: 6rem;
 			max-width: 640px;
-			max-height:1008px;
+			top:0;
+			left:50%;
+			-webkit-transform:translateX(-50%); 
+			transform:translateX(-50%);
 			background-color:cornflowerblue;
 			overflow: hidden;
+			z-index: 99;
+
 		}
 		.loading .actors{
 			width: 1.2rem;
@@ -502,6 +508,6 @@
 	</nav>
 	<script type="text/javascript" src="js/zeptoWithFxTouch.min.js"></script>
 	<script type="text/javascript" src="js/jweixin-1.0.0.js"></script>
-	<script type="text/javascript" src="tdbf.js"></script>
+	<script type="text/javascript" src="js/tdbf.js"></script>
 </body>
 </html>
