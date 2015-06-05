@@ -10,6 +10,7 @@ var $second = $(".second");
 var $msecond = $(".msecond");
 var $leftHandBtn = $(".leftHandBtn");
 var $rightHandBtn = $(".rightHandBtn");
+var $handBtn = $(".handBtn");
 var $timer = $(".timer");
 var $text = $(".text");
 var $ufuncodeBtn = $(".ufuncodeBtn");
@@ -62,13 +63,18 @@ $index.click(function(){
 	gameStart();
 });
 
-$leftHandBtn.tap(function(){
-	
-	acting();
-});
+// $leftHandBtn.on("touchstart",function(e){
+// 	console.log(e);
+// 	acting();
+// });
 
-$rightHandBtn.tap(function(){
-	
+// $rightHandBtn.on("touchstart",function(e){
+// 	console.log(e);
+// 	acting();
+// });
+
+ $handBtn.on("touchstart",function(e){
+	console.log(e);
 	acting();
 });
 
