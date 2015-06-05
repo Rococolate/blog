@@ -21,6 +21,7 @@ var $backgroundMusic = $("#backgroundMusic");
 var $picState1 = $("#picState1");
 var $picState2 = $("#picState2");
 var $body = $("body");
+var $logo = $(".logo");
 var inCoverText = 3;
 	$inCover.html(inCoverText);
 var time5000 = 5000;
@@ -77,6 +78,7 @@ $index.click(function(){
 
  $handBtn.on("touchstart",function(e){
 	console.log(e);
+	$logo.html(e.touches.length);
 	if(e.touches.length<=1){
 		lock = 1;
 	}else{
