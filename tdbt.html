@@ -5,7 +5,6 @@
 	<title>端午</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui" />
 	<link rel="stylesheet" type="text/css" href="css/reset.css">
-	<script type="text/javascript" src="js/jweixin-1.0.0.js"></script>
 	<style type="text/css">
 		html{
 			width: 100%;
@@ -410,6 +409,7 @@
 		}
 
 	</style>
+
 </head>
 <body>
 	<section class="loading" id="loading">
@@ -469,32 +469,33 @@
 		<div class="logo">logo</div>
 	</nav>
 	<script type="text/javascript" src="js/zeptoWithFxTouch.min.js"></script>
+	<script type="text/javascript" src="js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript">
-	var index = $("#index");
-	var main = $("#main");
-	var loading = $("#loading");
-	var cover = $("#cover");
-	var inCover = $(".inCover");
-	var page1 = $("#page1");
-	var page2 = $(".page2");
-	var page3 = $(".page3");
-	var second = $(".second");
-	var msecond = $(".msecond");
-	var leftHandBtn = $(".leftHandBtn");
-	var rightHandBtn = $(".rightHandBtn");
-	var timer = $(".timer");
-	var text = $(".text");
-	var ufuncodeBtn = $(".ufuncodeBtn");
-	var againBtn = $(".againBtn");
-	var shareBtn = $(".shareBtn");
-	var shareCover = $(".shareCover");
+	var $index = $("#index");
+	var $main = $("#main");
+	var $loading = $("#loading");
+	var $cover = $("#cover");
+	var $inCover = $(".inCover");
+	var $page1 = $("#page1");
+	var $page2 = $(".page2");
+	var $page3 = $(".page3");
+	var $second = $(".second");
+	var $msecond = $(".msecond");
+	var $leftHandBtn = $(".leftHandBtn");
+	var $rightHandBtn = $(".rightHandBtn");
+	var $timer = $(".timer");
+	var $text = $(".text");
+	var $ufuncodeBtn = $(".ufuncodeBtn");
+	var $againBtn = $(".againBtn");
+	var $shareBtn = $(".shareBtn");
+	var $shareCover = $(".shareCover");
 	var inCoverText = 3;
-	inCover.html(inCoverText);
+	$inCover.html(inCoverText);
 	var time5000 = 5000;
 	var lock = 1;
 	var count = 0;
 
-	function overText(m) { 
+	function OverText(m) { 
 		var mytext;
 		this.mytext =  ["5秒包了" + m + "个粽子？？？你是猪吗？！赏你一张U趣码，再战500回合！",
 						"5秒包了" + m + "个粽子，你的速度比猪快，获得U趣码鼓励～",
@@ -517,48 +518,48 @@
 
 	});
 
-	index.click(function(){
+	$index.click(function(){
 		gameStart();
 	});
 
-	leftHandBtn.on("touchstart",function(){
-		action();
+	$leftHandBtn.on("touchstart",function(){
+		acting();
 	});
 
-	rightHandBtn.on("touchstart",function(){
-		action();
+	$rightHandBtn.on("touchstart",function(){
+		acting();
 	});
 
-	ufuncodeBtn.click(function(){
-		page2.removeClass("fadeIn");
-		main.animate({"-webkit-transform":"translateY(-10.08rem)"},1000,"ease",function(){
+	$ufuncodeBtn.click(function(){
+		$page2.removeClass("fadeIn");
+		$main.animate({"-webkit-transform":"translateY(-10.08rem)"},1000,"ease",function(){
 
-			page3.addClass("fadeIn");
+			$page3.addClass("fadeIn");
 
 		});
 	});
 
-	shareBtn.click(function(){
-		shareCover.css("display","block");
+	$shareBtn.click(function(){
+		$shareCover.css("display","block");
 	});
-	shareCover.click(function(){
+	$shareCover.click(function(){
 		$(this).css("display","none");
 	});
 
-	againBtn.click(function(){
-		page3.removeClass("fadeIn");
-		main.animate({"-webkit-transform":"translateY(-0rem)"},500,"ease",function(){
+	$againBtn.click(function(){
+		$page3.removeClass("fadeIn");
+		$main.animate({"-webkit-transform":"translateY(-0rem)"},500,"ease",function(){
 
-			page1.addClass("fadeIn");
-			cover.css("display","block");
+			$page1.addClass("fadeIn");
+			$cover.css("display","block");
 			time5000 = 5000;
-			second.html( parseInt( time5000 / 1000 ) );
-			msecond.html( time5000 % 1000 / 100 * 10 );
+			$second.html( parseInt( time5000 / 1000 ) );
+			$msecond.html( time5000 % 1000 / 100  );
 			inCoverText = 3;
-			inCover.html(inCoverText);
+			$inCover.html(inCoverText);
 			lock = 1;
 			count = 0;
-			timer.css({"-webkit-transform":"translateX(" + count/60 * 100 + "%)"});
+			$timer.css({"-webkit-transform":"translateX(" + count / 60 * 100 + "%)"});
 			gameStart();
 
 
@@ -567,42 +568,42 @@
 
 	function gameStart(){
 
-			index.css("display","none");
-			main.css("display","block");
-			cover.css("display","block");
+			$index.css("display","none");
+			$main.css("display","block");
+			$cover.css("display","block");
 
 			setTimeout(function(){
 
-				page1.addClass("fadeIn");
+				$page1.addClass("fadeIn");
 
 			},200);
 
 			var timer3 = setInterval(function(){
 
 				inCoverText -- ;
-				inCover.html(inCoverText);
+				$inCover.html(inCoverText);
 
 			},1000);
 
 			setTimeout(function(){
 
 				clearInterval(timer3);
-				cover.css("display","none");
+				$cover.css("display","none");
 				var timer5 = setInterval(function(){
 
 					time5000 = time5000 - 100;
 					console.log( time5000 , parseInt( time5000 / 1000 ) ,time5000 %1000 / 100 );
-					second.html( parseInt( time5000 / 1000 ) );
-					msecond.html( time5000 % 1000 / 100 * 10 );
+					$second.html( parseInt( time5000 / 1000 ) );
+					$msecond.html( time5000 % 1000 / 100 );
 
 					if(time5000 === 0){
 
 						clearInterval(timer5);
 						lock = 0;
-						page1.removeClass("fadeIn");
-						main.animate({"-webkit-transform":"translateY(-5.04rem)"},1000,"ease",function(){
+						$page1.removeClass("fadeIn");
+						$main.animate({"-webkit-transform":"translateY(-5.04rem)"},1000,"ease",function(){
 
-							page2.addClass("fadeIn");
+							$page2.addClass("fadeIn");
 							whatTheText(count);
 
 						});
@@ -614,35 +615,34 @@
 
 	function whatTheText(n){
 
-		var sText = new overText(n);
+		var sText = new OverText(n);
 		console.log(sText);
 		if( n >= 60 ){
-			text.html(sText.mytext[5]);
+			$text.html(sText.mytext[5]);
 		}else if( n >= 43 ){
-			text.html(sText.mytext[4]);			
+			$text.html(sText.mytext[4]);			
 		}else if( n >= 33 ){
-			text.html(sText.mytext[3]);
+			$text.html(sText.mytext[3]);
 		}else if( n >= 21 ){
-			text.html(sText.mytext[2]);
+			$text.html(sText.mytext[2]);
 		}else if( n >= 1){
-			text.html(sText.mytext[1]);
+			$text.html(sText.mytext[1]);
 		}else{
-			text.html(sText.mytext[0]);			
+			$text.html(sText.mytext[0]);			
 		}
-
 	}
 
-	function action(){
+	function acting(){
 
 		if(lock){
 			count ++;
 			console.log(count);
-			timer.css({"-webkit-transform":"translateX(" + count/60 * 100 + "%)"});
+			$timer.css({"-webkit-transform":"translateX(" + count / 60 * 100 + "%)"});
 		}
 
 	}
 	window.onload = function(){
-		loading.css("display","none"); 
+		$loading.css("display","none"); 
 	}
 	</script>
 </body>
