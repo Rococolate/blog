@@ -17,6 +17,9 @@ var $againBtn = $(".againBtn");
 var $shareBtn = $(".shareBtn");
 var $shareCover = $(".shareCover");
 var $backgroundMusic = $("#backgroundMusic");
+var $picState1 = $("#picState1");
+var $picState2 = $("#picState2");
+var $body = $("body");
 var inCoverText = 3;
 	$inCover.html(inCoverText);
 var time5000 = 5000;
@@ -183,6 +186,22 @@ function acting(){
 		console.log(count);
 		$timer.css({"-webkit-transform":"translateX(" + count / 60 * 100 + "%)"});
 	}
+
+	if(count%2){
+		$body.removeClass("shake").addClass("shake1");
+		$picState2.removeClass("zIndex wobble");
+		$picState1.removeClass("ops");
+		$picState1.addClass("zIndex wobble");
+		$picState2.addClass("ops");
+	}else{
+		$body.removeClass("shake1").addClass("shake");
+		$picState1.removeClass("zIndex wobble");
+		$picState2.removeClass("ops");
+		$picState2.addClass("zIndex wobble");
+		$picState1.addClass("ops");
+	}
+
+	$body.removeClass("shake").addClass("shake");
 
 }
 

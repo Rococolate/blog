@@ -35,6 +35,9 @@
 			background-color:chocolate;
 			text-align: center;
 		}
+		.ops{
+			opacity: 0;
+		}
 		.hide{
 			display: none;
 		}
@@ -386,6 +389,89 @@
 		.inStagePic2{background-color: violet;}
 		.inStagePic3{background-color: plum;}
 		.inStagePic4{background-color: gold;}
+
+		.wobble{
+			-webkit-animation: wobble 0.2s linear 0s;
+		}
+
+		@-webkit-keyframes wobble {
+		  0% {
+		    -webkit-transform: none;
+		    transform: none;
+		  }
+
+		  15% {
+		    -webkit-transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg);
+		    transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg);
+		  }
+
+		  30% {
+		    -webkit-transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg);
+		    transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg);
+		  }
+
+		  45% {
+		    -webkit-transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg);
+		    transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg);
+		  }
+
+		  60% {
+		    -webkit-transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg);
+		    transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg);
+		  }
+
+		  75% {
+		    -webkit-transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg);
+		    transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg);
+		  }
+
+		  100% {
+		    -webkit-transform: none;
+		    transform: none;
+		  }
+		}
+
+		.shake{
+			-webkit-animation: shake 0.2s linear 0s;
+		}
+
+		@-webkit-keyframes shake {
+		  0%, 100% {
+		    -webkit-transform: translate3d(0, 0, 0);
+		    transform: translate3d(0, 0, 0);
+		  }
+
+		  10%, 30%, 50%, 70%, 90% {
+		    -webkit-transform: translate3d(-10px, 0, 0);
+		    transform: translate3d(-10px, 0, 0);
+		  }
+
+		  20%, 40%, 60%, 80% {
+		    -webkit-transform: translate3d(10px, 0, 0);
+		    transform: translate3d(10px, 0, 0);
+		  }
+		}
+
+		.shake1{
+			-webkit-animation: shake1 0.2s linear 0s;
+		}
+
+		@-webkit-keyframes shake1 {
+		  0%, 100% {
+		    -webkit-transform: translate3d(0, 0, 0);
+		    transform: translate3d(0, 0, 0);
+		  }
+
+		  10%, 30%, 50%, 70%, 90% {
+		    -webkit-transform: translate3d(-10px, 0, 0);
+		    transform: translate3d(-10px, 0, 0);
+		  }
+
+		  20%, 40%, 60%, 80% {
+		    -webkit-transform: translate3d(10px, 0, 0);
+		    transform: translate3d(10px, 0, 0);
+		  }
+		}
 		/*page2*/
 		.page2 .zongziCartoon{
 			width: 2.2rem;
@@ -469,10 +555,10 @@
 				<div class="timeOutBar"><div class="timebar"><div class="timer"></div></div></div>
 				<div class="zongzi">
 					<ul class="zongziStage">
-						<li class="picState"><i class="inStagePic inStagePic1"></i></li>
-						<li class="picState"><i class="inStagePic inStagePic2"></i></li>
-						<li class="picState"><i class="inStagePic inStagePic3"></i></li>
-						<li class="picState"><i class="inStagePic inStagePic4"></i></li>
+						<li class="picState" id="picState1"><i class="inStagePic inStagePic1"></i></li>
+						<li class="picState" id="picState2"><i class="inStagePic inStagePic2"></i></li>
+						<!-- <li class="picState"><i class="inStagePic inStagePic3"></i></li>
+						<li class="picState"><i class="inStagePic inStagePic4"></i></li> -->
 					</ul>
 				</div>
 				<button class="leftHandBtn"></button><button class="rightHandBtn"></button>
