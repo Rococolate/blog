@@ -21,12 +21,15 @@ var $backgroundMusic = $("#backgroundMusic");
 var $picState1 = $("#picState1");
 var $picState2 = $("#picState2");
 var $body = $("body");
+var $logo = $(".logo");
 var inCoverText = 3;
 	$inCover.html(inCoverText);
 var time5000 = 5000;
 var lock = 1;
 var count = 0;
 var shareMsg = "五月五，过端午~包粽嗨起来！";
+var startTime = null;
+var endTime = null;
 
 function OverText(m) { 
 	var mytext;
@@ -75,7 +78,22 @@ $index.click(function(){
 
  $handBtn.on("touchstart",function(e){
 	console.log(e);
-	acting();
+	$logo.html(e.touches.length);
+	if(e.touches.length<=1){
+		lock = 1;
+	}else{
+		lock = 0;
+	}
+	startTime = e.timeStamp;
+	
+});
+ $handBtn.on("touchend",function(e){
+	console.log(e);
+	endTime = e.timeStamp;
+	if(endTime - startTime >= 60){
+		acting();
+	}
+	
 });
 
 $ufuncodeBtn.click(function(){
@@ -193,24 +211,22 @@ function acting(){
 		count ++;
 		console.log(count);
 		$timer.css({"-webkit-transform":"translateX(" + count / 60 * 100 + "%)"});
+		if(count%2){
+			$body.removeClass("shake").addClass("shake1");
+			$picState2.removeClass("zIndex wobble");
+			$picState1.removeClass("ops");
+			$picState1.addClass("zIndex wobble");
+			$picState2.addClass("ops");
+		}else{
+			$body.removeClass("shake1").addClass("shake");
+			$picState1.removeClass("zIndex wobble");
+			$picState2.removeClass("ops");
+			$picState2.addClass("zIndex wobble");
+			$picState1.addClass("ops");
+		}
+
+		$body.removeClass("shake").addClass("shake");
 	}
-
-	if(count%2){
-		$body.removeClass("shake").addClass("shake1");
-		$picState2.removeClass("zIndex wobble");
-		$picState1.removeClass("ops");
-		$picState1.addClass("zIndex wobble");
-		$picState2.addClass("ops");
-	}else{
-		$body.removeClass("shake1").addClass("shake");
-		$picState1.removeClass("zIndex wobble");
-		$picState2.removeClass("ops");
-		$picState2.addClass("zIndex wobble");
-		$picState1.addClass("ops");
-	}
-
-	$body.removeClass("shake").addClass("shake");
-
 }
 
 var myURL = window.location.href.split('#')[0];
