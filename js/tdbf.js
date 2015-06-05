@@ -79,7 +79,7 @@ $index.click(function(){
  $handBtn.on("touchstart",function(e){
 	console.log(e);
 	$logo.html(e.touches.length);
-	if(e.touches.length<=1){
+	if(e.touches.length<=2){
 		lock = 1;
 	}else{
 		lock = 0;
