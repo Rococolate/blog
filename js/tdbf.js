@@ -87,7 +87,7 @@ $index.click(function(){
 
  $leftHandBtn.on("touchstart",function(e){
 	console.log(e);
-	if(e.touches.length<=4){
+	if(e.touches.length<=2){
 		lock = 1;
 	}else{
 		lock = 0;
@@ -104,7 +104,7 @@ $index.click(function(){
 
  $rightHandBtn.on("touchstart",function(e){
 	console.log(e);
-	if(e.touches.length<=4){
+	if(e.touches.length<=2){
 		lock = 1;
 	}else{
 		lock = 0;
