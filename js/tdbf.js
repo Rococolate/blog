@@ -52,16 +52,23 @@ function OverText(m) {
 					] 
 }
 
-$(document).ready(function () {
-	
+$(document).ready(function(){
 	var $windowWidth = $(window).width();
-	$("html").css( "font-size" ,( 100 / 320 ) * $windowWidth + "px" );
-
+	setTimeout(function(){
+		$windowWidth = $(window).width();
+		if($windowWidth > 640){
+			$windowWidth = 640;
+		}
+		$("html").css("font-size",(100/320) * $windowWidth + "px");
+	},100);
+	
 	$(window).resize(function(){
 		$windowWidth = $(window).width();
-		$("html").css( "font-size" ,( 100 / 320 ) * $windowWidth + "px" );
+		if($windowWidth > 640){
+			$windowWidth = 640;
+		}
+		$("html").css("font-size",(100/320) * $windowWidth + "px");
 	});
-
 });
 
 $index.click(function(){
@@ -80,41 +87,36 @@ $index.click(function(){
 
  $leftHandBtn.on("touchstart",function(e){
 	console.log(e);
-	$logo.html(e.touches.length);
 	if(e.touches.length<=4){
 		lock = 1;
 	}else{
 		lock = 0;
 	}
-	lstartTime = e.timeStamp;
+	
 	
 });
  $leftHandBtn.on("touchend",function(e){
 	console.log(e);
-	lendTime = e.timeStamp;
-	if(lendTime - lstartTime >= 40){
+	
 		acting();
-	}
 	
 });
 
  $rightHandBtn.on("touchstart",function(e){
 	console.log(e);
-	$logo.html(e.touches.length);
 	if(e.touches.length<=4){
 		lock = 1;
 	}else{
 		lock = 0;
 	}
-	rstartTime = e.timeStamp;
+	
 	
 });
  $rightHandBtn.on("touchend",function(e){
 	console.log(e);
-	rendTime = e.timeStamp;
-	if(rendTime - rstartTime >= 40){
+	
 		acting();
-	}
+	
 	
 });
 

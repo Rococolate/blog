@@ -94,25 +94,85 @@
 			left:0;
 			background-color: green;
 		}
-		.showY1{-webkit-animation: showY 1s linear 0s infinite alternate;}
-		.showY1:before{-webkit-animation: showX 1s linear -0.33s infinite alternate;}
-		.showY2{-webkit-animation: showY 1s linear -0.33s infinite alternate;}
-		.showY2:before{-webkit-animation: showX 1s linear -0.66s infinite alternate;}
-		.showY3{-webkit-animation: showY 1s linear -0.66s infinite alternate;}
-		.showY3:before{-webkit-animation: showX 1s linear -0.1s infinite alternate;}
-		.showY4{-webkit-animation: showY 1s linear -1s infinite alternate;}
-		.showY4:before{-webkit-animation: showX 1s linear 0s infinite alternate;}
+		.showY1{
+			-webkit-animation: showY 1s linear 0s infinite alternate;
+			animation: showY 1s linear 0s infinite alternate;
+		}
+		.showY1:before{
+			-webkit-animation: showX 1s linear -0.33s infinite alternate;
+			animation: showX 1s linear -0.33s infinite alternate;
+		}
+		.showY2{
+			-webkit-animation: showY 1s linear -0.33s infinite alternate;
+			animation: showY 1s linear -0.33s infinite alternate;
+		}
+		.showY2:before{
+			-webkit-animation: showX 1s linear -0.66s infinite alternate;
+			animation: showX 1s linear -0.66s infinite alternate;
+		}
+		.showY3{
+			-webkit-animation: showY 1s linear -0.66s infinite alternate;
+			animation: showY 1s linear -0.66s infinite alternate;
+		}
+		.showY3:before{
+			-webkit-animation: showX 1s linear -0.1s infinite alternate;
+			animation: showX 1s linear -0.1s infinite alternate;
+		}
+		.showY4{
+			-webkit-animation: showY 1s linear -1s infinite alternate;
+			animation: showY 1s linear -1s infinite alternate;
+		}
+		.showY4:before{
+			-webkit-animation: showX 1s linear 0s infinite alternate;
+			animation: showX 1s linear 0s infinite alternate;
+		}
 		@-webkit-keyframes showY
 			{
-				0% {-webkit-transform:scaleY(1);}
+				0% {
+					-webkit-transform:scaleY(1);
+					transform:scaleY(1);
+				}
 				
-				100% {-webkit-transform:scaleY(3);}
+				100% {
+					-webkit-transform:scaleY(3);
+					transform:scaleY(3);
+				}
 			}
 		@-webkit-keyframes showX
 		{
-			0% {-webkit-transform:scaleX(1);}
+			0% {
+				-webkit-transform:scaleX(1);
+				transform:scaleX(1);
+			}
 			
-			100% {-webkit-transform:scaleX(2);}
+			100% {
+				-webkit-transform:scaleX(2);
+				transform:scaleX(2);
+			}
+		}
+		@keyframes showY
+			{
+				0% {
+					-webkit-transform:scaleY(1);
+					transform:scaleY(1);
+				}
+				
+				100% {
+					-webkit-transform:scaleY(3);
+					transform:scaleY(3);
+				}
+			}
+		@keyframes showX
+		{
+			0% {
+				-webkit-transform:scaleX(1);
+				transform:scaleX(1);
+			}
+			
+			100% {
+				-webkit-transform:scaleX(2);
+				transform:scaleX(2);
+			}
 		}
 		/*main*/
 		.main{
@@ -546,7 +606,7 @@
 </head>
 <body>
 	<audio src="audio/tfbs.mp3" preload id="backgroundMusic" class="hide"></audio>
-	<section class="loading hide" id="loading">
+	<section class="loading" id="loading">
 		<div class="actors">
 			<ul class="theatre">
 				<li class="actor"><i class="acting showY1"></i></li>
@@ -607,9 +667,8 @@
 			<div class="logo">logo</div>
 		</nav>
 	</DIV>
-	
 	<script type="text/javascript" src="js/zeptoWithFxTouch.min.js"></script>
 	<script type="text/javascript" src="js/jweixin-1.0.0.js"></script>
-	<script type="text/javascript" src="js/tdbf.js"></script>
+	<script type="text/javascript" src="js/tdbf.js?ver=1.01"></script>
 </body>
 </html>
