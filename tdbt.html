@@ -32,12 +32,14 @@
 			max-width: 640px;
 			max-height:1008px; 
 			overflow: hidden;
-			background-color:chocolate;
+			/*background-color:chocolate;*/
+			background:url(images/min/backgroundimage.jpg) no-repeat;
+			-webkit-background-size: cover;
+			background-size: cover;
+			background-position: top left;
 			text-align: center;
 		}
-		.ops{
-			opacity: 0;
-		}
+		
 		.hide{
 			display: none;
 		}
@@ -197,10 +199,12 @@
 			-webkit-transform:translateY(0%);
 			transform:translateY(0%);
 		}
-		
-		.page2{position:relative;background-color:tomato;}
+		.page1{
+			position: relative;
+		}
+		/*.page2{position:relative;background-color:tomato;}
 		.page3{position:relative;background-color:yellowgreen;}
-		.page1{position:relative;background-color:chocolate;}
+		.page1{position:relative;background-color:chocolate;}*/
 		
 		/*nav*/
 		nav{
@@ -217,11 +221,13 @@
 			z-index: 99999;
 		}
 		nav .logo{
-			width:0.6rem;
-			height:0.3rem;
-			background-color:skyblue;
+			width:0.38rem;
+			height:0.34rem;
+			background: url(images/min/zz.png) no-repeat;
+			-webkit-background-size: cover;
+			background-size: cover;
 			position: absolute;
-			top:0;
+			top:0.1rem;
 			left:50%;
 			-webkit-transform:translateX(-50%);
 			transform:translateX(-50%);
@@ -287,117 +293,124 @@
 			left:50%;
 			-webkit-transform:translateX(-50%); 
 			transform:translateX(-50%); 
-			background-color:skyblue;
 		}
 		.index .title{
-			display: inline-block;
-			margin-top:0.8rem;
-			height: 0.4rem;
-			line-height: 0.4rem;
-			font-size: 0.2rem;
+			display:block;
+			width: 2.76rem;
+			margin:0.2rem auto; 
+			height: 0.7rem;
 			background-color: pink; 
+			background:url(images/min/title.png) no-repeat;
+			-webkit-background-size: cover;
+			background-size: cover;
 		}
 		.index .stage{
-			width:2.4rem;
-			height: 2.8rem;
-			border-radius: 3px;
-			background-color: #fff;
-			margin:0.3rem auto;
+			width:3.2rem;
+			height: 3.03rem;
+			background: url(images/min/shoting.png) no-repeat;
+			-webkit-background-size: cover;
+			background-size: cover;
+			margin:0.9rem auto 0.1rem;
 			position: relative;
 		}
 		.stage .tip{
-			width: 0.8rem;
-			height: 0.3rem;
-			background-color:gold;
+			width: 1.29rem;
+			height: 0.77rem;
+			background: url(images/min/text.png) no-repeat;
+			-webkit-background-size: cover;
+			background-size: cover;
 			position: absolute;
 			top: 0;
-			left: 0;
+			left: 0.2rem;
 			line-height: 0.3rem;
 			border-radius: 3px;
-			-webkit-transform-origin:0% 0%;
-			transform-origin:0% 0%;
+			z-index: 99;
+			-webkit-transform-origin:50% 100%;
+			transform-origin:50% 100%;
 			-webkit-animation: tip 2s ease 0s infinite alternate;
 		}
 		@-webkit-keyframes tip
 		{
 			0% {-webkit-transform:scale(1);}
 			
-			100% {-webkit-transform:scale(2);}
+			100% {-webkit-transform:scale(1.5);}
+		}
+		@keyframes tip
+		{
+			0% {transform:scale(1);}
+			
+			100% {transform:scale(1.5);}
 		}
 		.stage .riceMan{
-			width: 0.8rem;
-			height: 0.8rem;
-			background-color: yellowgreen;
+			width: 2.1rem;
+			height: 2.54rem;
+			background:url(images/min/zzman.png) no-repeat;
+			-webkit-background-size: cover;
+			background-size: cover;
 			position: absolute;
 			top:50%;
 			left:50%;
-			margin-top: -0.4rem;
-			margin-left: -0.4rem;
+			margin-top: -1.05rem;
+			margin-left: -1.26rem;
 			border-radius: 10%;
-			-webkit-animation: riceMan 8s linear 0s infinite ;
+			-webkit-animation: riceMan 4s linear 0s infinite ;
 		}
 		@-webkit-keyframes riceMan
 		{
 			0% {-webkit-transform:translateX(0%);}
-			25% {-webkit-transform:translateX(-100%);}
-			75% {-webkit-transform:translateX(100%);}
+			25% {-webkit-transform:translateX(-30%);}
+			75% {-webkit-transform:translateX(30%);}
 			100% {-webkit-transform:translateX(0%);}
+
+		}
+		@keyframes riceMan
+		{
+			0% {transform:translateX(0%);}
+			25% {transform:translateX(-30%);}
+			75% {transform:translateX(30%);}
+			100% {transform:translateX(0%);}
 
 		}
 		/*page1*/
 		.page1 .timeOutBar{
 			line-height: 0.6rem;
-			width: 75%;
-			height: 0.3rem;
-			background-color: pink;
+			width: 1.92rem;
+			height: 0.28rem;
+			background: url(images/min/timebar.png) no-repeat;
+			-webkit-background-size: cover;
+			background-size: cover;
 			margin:0.1rem auto;
 			position: relative;
 		}
-		.page1 .timeOutBar:before{
-			display: block;
-			content: "0";
-			width: 0.1rem;
-			height: 0.3rem;
-			/*background-color: gold;*/
-			position: absolute;
-			left:-0.15rem;
-			top:0;
-			z-index: 999;
-		}
-		.page1 .timeOutBar:after{
-			display: block;
-			content: "60";
-			width: 0.1rem;
-			height: 0.3rem;
-			/*background-color: yellowgreen;*/
-			position: absolute;
-			right:-0.15rem;
-			top:0;
-			z-index: 999;
-		}
 		.timebar{
-			width: 100%;
-			height: 100%;
-			background-color:skyblue;
-			position: relative;
+			width: 1.58rem;
+			height: 0.2rem;
+			position: absolute;
+			top:50%;
+			left: 50%;
+			-webkit-transform:translateY(-50%) translateX(-51%);
+			transform:translateY(-50%) translateX(-51%);
 			overflow: hidden;
 		}
 		.timer{
 			width: 100%;
 			height: 100%;
-			background-color:pink;
+			background:url(images/min/time.png) no-repeat;
+			-webkit-background-size: cover;
+			background-size: cover;
 			position: absolute;
 			top: 0;
 			left: 0;
-			margin-left:-2.4rem; 
+			margin-left:-1.58rem; 
 		}
 		.page1 .zongzi{
-			width: 70%;
-			height: 2rem;
-			background-color:yellowgreen;
-			margin: 0.1rem auto;
+			width:3.2rem;
+			height: 3.03rem;
+			background: url(images/min/shoting.png) no-repeat;
+			-webkit-background-size: cover;
+			background-size: cover;
+			margin-top: -0.4rem;
 			overflow: hidden;
-			border-radius: 3px;
 		}
 		.page1 .handBtn{
 			width: 100%;
@@ -409,22 +422,30 @@
 
 		}
 		.page1 .leftHandBtn{
-			width: 50%;
-			height: 1.6rem;
-			background-color: gold;
-			float: left;
+			width: 1.11rem;
+			height: 0.75rem;
+			background:url(images/min/leftbtn.png) no-repeat;
+			-webkit-background-size: cover;
+			background-size: cover;
+			position: absolute;
+			bottom: 0.5rem;
+			left:0.3rem;
 		}
 		.page1 .rightHandBtn{
-			width: 50%;
-			height: 1.6rem;
-			background-color: yellow;
-			float: left;
+			width: 1.11rem;
+			height: 0.75rem;
+			background:url(images/min/rightbtn.png) no-repeat;
+			-webkit-background-size: cover;
+			background-size: cover;
+			position: absolute;
+			bottom: 0.5rem;
+			right:0.3rem;
 		}
 		.page1 h3{
 			width: 1.6rem;
-			height: 0.6rem;
-			margin: 0.3rem auto 0.1rem;
-			background-color:pink;
+			height: 0.3rem;
+			margin: 0.35rem auto 0.15rem;
+			/*background-color:pink;*/
 			line-height: 0.6rem;
 			font-size: 0.36rem;
 		}
@@ -442,21 +463,21 @@
 			z-index: 9;
 		}
 		.inStagePic{
-			width: 70%;
-			height: 70%;
+			
 			position: absolute;
 			left: 50%;
 			top:50%;
 			transform:translateY(-50%) translateX(-50%);
 			-webkit-transform:translateY(-50%) translateX(-50%);
+			
 		}
 		.zongziStage .picState.zIndex{
 			z-index: 999;
 		}
-		.inStagePic1{background-color: pink;}
-		.inStagePic2{background-color: violet;}
-		.inStagePic3{background-color: plum;}
-		.inStagePic4{background-color: gold;}
+		.inStagePic1{width: 2rem;height: 2.5rem;background: url(images/min/zzmanleft.png) no-repeat;-webkit-background-size: cover;background-size: cover;}
+		.inStagePic2{width: 2rem;height: 2.5rem;background: url(images/min/zzmanright.png) no-repeat;-webkit-background-size: cover;background-size: cover;}
+		.inStagePic3{width: 2.1rem;height: 2.54rem;background: url(images/min/zzman.png) no-repeat;-webkit-background-size: cover;background-size: cover;}
+		/*.inStagePic4{background-color: gold;}*/
 
 		.wobble{
 			-webkit-animation: wobble 0.2s linear 0s;
@@ -623,10 +644,10 @@
 				<div class="timeOutBar"><div class="timebar"><div class="timer"></div></div></div>
 				<div class="zongzi">
 					<ul class="zongziStage">
-						<li class="picState" id="picState1"><i class="inStagePic inStagePic1"></i></li>
-						<li class="picState" id="picState2"><i class="inStagePic inStagePic2"></i></li>
-						<!-- <li class="picState"><i class="inStagePic inStagePic3"></i></li>
-						<li class="picState"><i class="inStagePic inStagePic4"></i></li> -->
+						<li class="picState hide" id="picState1"><i class="inStagePic inStagePic1"></i></li>
+						<li class="picState hide" id="picState2"><i class="inStagePic inStagePic2"></i></li>
+						<li class="picState zIndex" id="picState3"><i class="inStagePic inStagePic3 "></i></li>
+						<!-- <li class="picState"><i class="inStagePic inStagePic4"></i></li> -->
 					</ul>
 				</div>
 				
@@ -647,11 +668,12 @@
 			</div>
 		</section>
 		<section class="index" id="index">
-			<h3 class="title">左手右手包粽子</h3>
+			
 			<div class="stage">
-				<div class="tip">打我呀!</div>
+				<div class="tip"></div>
 				<div class="riceMan"></div>
 			</div>
+			<h3 class="title"></h3>
 		</section>
 		<section class="cover" id="cover">
 			<div class="inCover"></div>
@@ -664,11 +686,11 @@
 			</div>
 		</section>
 		<nav>
-			<div class="logo">logo</div>
+			<div class="logo"></div>
 		</nav>
 	</DIV>
 	<script type="text/javascript" src="js/zeptoWithFxTouch.min.js"></script>
 	<script type="text/javascript" src="js/jweixin-1.0.0.js"></script>
-	<script type="text/javascript" src="js/tdbf.js?ver=1.03"></script>
+	<script type="text/javascript" src="js/tdbf.js?ver=1.04"></script>
 </body>
 </html>
