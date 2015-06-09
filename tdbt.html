@@ -243,13 +243,14 @@
 			left:50%;
 			-webkit-transform:translateX(-50%); 
 			transform:translateX(-50%); 
-			background-color:rgba(0,0,0,0.4);
+			background-color:rgba(0,0,0,0.6);
 		}
 		.cover .inCover{
 			width: 1rem;
 			height: 1rem;
 			line-height: 1rem;
 			font-size: 0.3rem;
+			color:#fff;
 			text-align: center;
 			position: absolute;
 			top: 50%;
@@ -328,6 +329,7 @@
 			-webkit-transform-origin:50% 100%;
 			transform-origin:50% 100%;
 			-webkit-animation: tip 2s ease 0s infinite alternate;
+			animation: tip 2s ease 0s infinite alternate;
 		}
 		@-webkit-keyframes tip
 		{
@@ -354,6 +356,7 @@
 			margin-left: -1.26rem;
 			border-radius: 10%;
 			-webkit-animation: riceMan 4s linear 0s infinite ;
+			animation: riceMan 4s linear 0s infinite ;
 		}
 		@-webkit-keyframes riceMan
 		{
@@ -566,8 +569,33 @@
 			width: 2.2rem;
 			height: 2.2rem;
 			margin: 0.4rem auto 0.3rem;
-			background-color: violet;
+			/*background-color: violet;*/
 			border-radius: 3px;
+			line-height: 2.2rem;
+			text-align: center;
+		}
+		.zongziCartoon .zongziCartoonIn2 img{
+			width: 100%;
+		}
+		.animationUp1{-webkit-animation: animationUp 6s ease 0s infinite ;animation: animationUp 6s ease 0s infinite ;}
+		.animationUp2{-webkit-animation: animationUp 6s ease -1s infinite ;animation: animationUp 6s ease -1s infinite ;}
+		.animationUp3{-webkit-animation: animationUp 6s ease -2s infinite ;animation: animationUp 6s ease -2s infinite ;}
+		.animationUp4{-webkit-animation: animationUp 6s ease -3s infinite ;animation: animationUp 6s ease -3s infinite ;}
+		.animationUp5{-webkit-animation: animationUp 6s ease -4s infinite ;animation: animationUp 6s ease -4s infinite ;}
+		.animationUp6{-webkit-animation: animationUp 6s ease -5s infinite ;animation: animationUp 6s ease -5s infinite ;}
+		@-webkit-keyframes animationUp
+		{
+			0% {-webkit-transform:translateY(0);}
+			25% {-webkit-transform:translateY(-0.1rem);}
+			75% {-webkit-transform:translateY(0.1rem);}
+			100% {-webkit-transform:translateY(0);}
+		}
+		@keyframes animationUp
+		{
+			0% {transform:translateY(0);}
+			25% {transform:translateY(-0.1rem);}
+			75% {transform:translateY(0.1rem);}
+			100% {transform:translateY(0);}
 		}
 		.page2 .text{
 			width: 80%;
@@ -627,7 +655,7 @@
 </head>
 <body>
 	<audio src="audio/tfbs.mp3" preload id="backgroundMusic" class="hide"></audio>
-	<div class="hide"><img src="images/min/zzmanleft.png"><img src="images/min/zzmanright.png"><img src="images/min/leftbtn.png"><img src="images/min/rightbtn.png"></div>
+	<div class="hide"><img src="images/min/zzmanleft.png"><img src="images/min/zzmanright.png"><img src="images/min/leftbtn.png"><img src="images/min/rightbtn.png"><img src="images/min/time.png"><img src="images/min/timebar.png"><img src="images/min/alert.png"></div>
 	<section class="loading" id="loading">
 		<div class="actors">
 			<ul class="theatre">
@@ -657,7 +685,10 @@
 				
 			</div>
 			<div class="page page2">
-				<div class="zongziCartoon"></div>
+				<div class="zongziCartoon">
+					<p class="zongziCartoonIn1"><span class="animationUp1">正</span><span class="animationUp2">在</span><span class="animationUp3">生</span><span class="animationUp4">成</span><span class="animationUp5">粽</span><span class="animationUp6">子</span><span class="animationUp1">。</span><span class="animationUp2">。</span><span class="animationUp3">。</span><span class="animationUp4">请</span><span class="animationUp5">稍</span><span class="animationUp6">后</span></p>
+					<p class="zongziCartoonIn2"></p>
+				</div>
 				<p class="text"></p>
 				<button class="ufuncodeBtn">了解U趣码</button>
 				<button class="shareBtn">分享给吃货</button>
@@ -692,6 +723,6 @@
 	</DIV>
 	<script type="text/javascript" src="js/zeptoWithFxTouch.min.js"></script>
 	<script type="text/javascript" src="js/jweixin-1.0.0.js"></script>
-	<script type="text/javascript" src="js/tdbf.js?ver=1.04"></script>
+	<script type="text/javascript" src="js/tdbf.js?ver=1.06"></script>
 </body>
 </html>

@@ -21,6 +21,8 @@ var $backgroundMusic = $("#backgroundMusic");
 var $picState1 = $("#picState1");
 var $picState2 = $("#picState2");
 var $picState3 = $("#picState3");
+var $zongziCartoonIn1 = $(".zongziCartoonIn1");
+var $zongziCartoonIn2 = $(".zongziCartoonIn2");
 var $body = $("body");
 var $logo = $(".logo");
 var inCoverText = 3;
@@ -210,23 +212,42 @@ function whatTheText(n){
 	var sText = new OverText(n);
 	console.log(sText);
 	      if( n >= 60 ){
+	    sharePic(5);
 		$text.html(sText.mytext[5]);
 		shareMsg = sText.shareText[5];
 	}else if( n >= 43 ){
+		sharePic(4);
 		$text.html(sText.mytext[4]);
 		shareMsg = sText.shareText[4];			
 	}else if( n >= 33 ){
+		sharePic(3);
 		$text.html(sText.mytext[3]);
 		shareMsg = sText.shareText[3];
 	}else if( n >= 21 ){
+		sharePic(2);
 		$text.html(sText.mytext[2]);
 		shareMsg = sText.shareText[2];
 	}else if( n >= 1){
+		sharePic(1);
 		$text.html(sText.mytext[1]);
 		shareMsg = sText.shareText[1];
 	}else{
+		sharePic(0);
 		$text.html(sText.mytext[0]);
 		shareMsg = sText.shareText[0];			
+	}
+}
+
+function sharePic(n){
+	var xhr = new XMLHttpRequest();
+		xhr.open('get', 'images/min/share'+ n +'.png?');
+		// xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+		xhr.onreadystatechange = function () {
+		    if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
+		    	$zongziCartoonIn1.css("display","none");
+		    	$zongziCartoonIn2[0].innerHTML = "<img src='images/min/share"+ n +".png' />";
+		};
+		xhr.send();
 	}
 }
 
