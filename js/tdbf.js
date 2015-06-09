@@ -239,8 +239,9 @@ function whatTheText(n){
 }
 
 function sharePic(n){
+	console.log("ajax")
 	var xhr = new XMLHttpRequest();
-		xhr.open('get', 'images/min/share'+ n +'.png?');
+		xhr.open('get', 'http://rococolate.github.io/blog/images/min/share'+ n +'.png?');
 		// xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 		xhr.onreadystatechange = function () {
 		    if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
