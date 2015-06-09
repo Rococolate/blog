@@ -153,6 +153,10 @@ $againBtn.click(function(){
 		lock = 1;
 		count = 0;
 		$timer.css({"-webkit-transform":"translateX(" + count / 60 * 100 + "%)"});
+		$picState3.css("display","block");
+		$picState2.css("display","none");$picState1.css("display","none");
+		$zongziCartoonIn1.css("display","block");
+		$zongziCartoonIn2.css({"background-image":" ","display":"none"});
 		gameStart();
 
 
@@ -248,7 +252,7 @@ function sharePic(n){
 			if(xhr.status >= 200 && xhr.status < 300 || xhr.status == 304){
 				//成功接收
 				$zongziCartoonIn1.css("display","none");
-				$zongziCartoonIn2.css({"background-image":"url(images/min/share"+ n +".png)"});
+				$zongziCartoonIn2.css({"background-image":"url(images/min/share"+ n +".png)","display":"block"});
 			}else{
 				//接收失败
 				alert("抱歉，文件没有找到");
