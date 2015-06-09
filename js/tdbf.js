@@ -240,16 +240,16 @@ function whatTheText(n){
 
 function sharePic(n){
 	console.log("ajax")
-	var xhr = new XMLHttpRequest();
-		xhr.open('get', 'http://rococolate.github.io/blog/images/min/share'+ n +'.png?');
-		// xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-		xhr.onreadystatechange = function () {
-		    if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
-		    	$zongziCartoonIn1.css("display","none");
-		    	$zongziCartoonIn2[0].innerHTML = "<img src='images/min/share"+ n +".png' />";
-		};
-		xhr.send();
-	}
+	$.ajax({
+		url: 'http://rococolate.github.io/blog/images/min/share0.png',
+		type: 'get',
+		dataType: 'JSON',
+		cache: false,
+		data:'',
+		success: function(){
+			alert("success");
+		}
+	});
 }
 
 function acting(){
