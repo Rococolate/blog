@@ -241,13 +241,20 @@ function whatTheText(n){
 function sharePic(n){
 	console.log("ajax")
 	var xhr = new XMLHttpRequest();
-	xhr.open('get', 'http://rococolate.github.io/blog/images/min/share0.png');
+	xhr.open('get', 'http://rococolate.github.io/blog/images/min/share'+ n +'.png');
 	// xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 	xhr.onreadystatechange = function () {
-	    if (xhr.readyState === 4 && xhr.status === 200) {
-			alert("success");
-	     }
-	};
+	    if(xhr.readyState == 4 ){
+			if(xhr.status >= 200 && xhr.status < 300 || xhr.status == 304){
+				//成功接收
+				$zongziCartoonIn1.css("display","none");
+				$zongziCartoonIn2.css({"background-image":"url(images/min/share"+ n +".png)"});
+			}else{
+				//接收失败
+				alert("抱歉，文件没有找到");
+			}
+		};
+	}
 	xhr.send();
 }
 

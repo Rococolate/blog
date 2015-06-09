@@ -272,17 +272,24 @@
 			background-color:rgba(0,0,0,0.8);
 		}
 		.shareCover .inShareCover{
-			width: 2.2rem;
-			height: 2.2rem;
+			width: 2.77rem;
+			height: 4rem;
 			font-size: 0.16rem;
 			text-align: left;
 			position: absolute;
+			background:url(images/min/alert.png) no-repeat;
+			-webkit-background-size: cover;
+			background-size: cover;
+			color:#fff;
 			left:50%;
-			top:1rem;
-			margin-left: -1.1rem;
-			background-color: #fff;
-			border-radius: 3px;
-
+			top:0.1rem;
+			margin-left: -1.39rem;
+			padding-top: 1rem;
+			-webkit-box-sizing:border-box;
+			box-sizing:border-box;
+			padding-top: 1rem;
+			padding-left: 0.3rem;
+			line-height: 1.5;
 		}
 		/*index*/
 		.index{
@@ -568,14 +575,19 @@
 		.page2 .zongziCartoon{
 			width: 2.2rem;
 			height: 2.2rem;
-			margin: 0.4rem auto 0.3rem;
+			margin: 0.5rem auto 0.3rem;
 			/*background-color: violet;*/
 			border-radius: 3px;
 			line-height: 2.2rem;
 			text-align: center;
 		}
-		.zongziCartoon .zongziCartoonIn2 img{
+		.zongziCartoon .zongziCartoonIn2{
 			width: 100%;
+			height: 100%;
+			-webkit-background-size: auto 100%;
+			background-size: auto 100%;
+			background-position: top center;
+			background-repeat: no-repeat;
 		}
 		.animationUp1{-webkit-animation: animationUp 6s ease 0s infinite ;animation: animationUp 6s ease 0s infinite ;}
 		.animationUp2{-webkit-animation: animationUp 6s ease -1s infinite ;animation: animationUp 6s ease -1s infinite ;}
@@ -723,6 +735,6 @@
 	</DIV>
 	<script type="text/javascript" src="js/zeptoWithFxTouch.min.js"></script>
 	<script type="text/javascript" src="js/jweixin-1.0.0.js"></script>
-	<script type="text/javascript" src="js/tdbf.js?ver=1.11"></script>
+	<script type="text/javascript" src="js/tdbf.js?ver=1.13"></script>
 </body>
 </html>
