@@ -86,9 +86,10 @@ $index.click(function(){
 
  $leftHandBtn.on("touchstart",function(e){
 	console.log(e);
-	$picState3.css("display","none");
-	$picState1.css("display","block");$picState2.css("display","none");
+	
 	if(e.touches.length<=1){
+		$picState3.css("display","none");
+		$picState1.css("display","block");$picState2.css("display","none");
 		lock = 1;
 	}else{
 		lock = 0;
@@ -105,9 +106,10 @@ $index.click(function(){
 
  $rightHandBtn.on("touchstart",function(e){
 	console.log(e);
-	$picState3.css("display","none");
-	$picState2.css("display","block");$picState1.css("display","none");
+	
 	if(e.touches.length<=1){
+		$picState3.css("display","none");
+		$picState2.css("display","block");$picState1.css("display","none");
 		lock = 1;
 	}else{
 		lock = 0;
@@ -158,8 +160,6 @@ $againBtn.click(function(){
 		$zongziCartoonIn1.css("display","block");
 		$zongziCartoonIn2.css({"background-image":" ","display":"none"});
 		gameStart();
-
-
 	});
 });
 
