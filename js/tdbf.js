@@ -35,7 +35,7 @@ var shareMsg = "五月五，过端午~包粽嗨起来！";
 function OverText(m) { 
 	var mytext;
 	var shareText;
-	this.mytext =  ["5秒包了" + m + "个粽子？？？你是猪吗？！赏你一张U趣码，再战500回合！",
+	this.mytext =  ["5秒包了" + m + "个粽子？？？你是猪吗？赏你一张U趣码，再战500回合！",
 					"5秒包了" + m + "个粽子，你的速度比猪快，获得U趣码鼓励～",
 					"5秒包了" + m + "个粽子，速度堪比豺狼虎豹，捕获U趣码一张！",
 					"5秒包了" + m + "个粽子，不鸣则已，一鸣惊人！U趣码来抱大腿，捂脸",
@@ -94,14 +94,11 @@ $index.click(function(){
 	}else{
 		lock = 0;
 	}
-	
-	
 });
  $leftHandBtn.on("touchend",function(e){
 	console.log(e);
 	
 		acting();
-	
 });
 
  $rightHandBtn.on("touchstart",function(e){
@@ -114,15 +111,11 @@ $index.click(function(){
 	}else{
 		lock = 0;
 	}
-	
-	
 });
  $rightHandBtn.on("touchend",function(e){
 	console.log(e);
 	
 		acting();
-	
-	
 });
 
 $ufuncodeBtn.click(function(){
@@ -130,7 +123,6 @@ $ufuncodeBtn.click(function(){
 	$main.animate({"-webkit-transform":"translateY(-10.08rem)"},1000,"ease",function(){
 
 		$page3.addClass("fadeIn");
-
 	});
 });
 

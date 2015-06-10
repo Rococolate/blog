@@ -28,9 +28,8 @@
 			font-size: 0.14rem;
 			margin: 0 auto;
 			width: 3.2rem;
-			height: 5.04rem;
+			height: 100%;
 			max-width: 640px;
-			max-height:1008px; 
 			overflow: hidden;
 			/*background-color:chocolate;*/
 			background:url(images/min/backgroundimage.jpg) no-repeat;
@@ -50,7 +49,7 @@
 			height: 100%;
 			top:0;
 			left: 0;
-			background-color:cornflowerblue;
+			/*background-color:cornflowerblue;*/
 			overflow: hidden;
 			z-index: 99;
 
@@ -301,24 +300,33 @@
 			left:50%;
 			-webkit-transform:translateX(-50%); 
 			transform:translateX(-50%); 
+			overflow: hidden;
 		}
 		.index .title{
 			display:block;
 			width: 2.76rem;
-			margin:0.2rem auto; 
+			left: 50%;
+			-webkit-transform:translateX(-50%); 
+			transform:translateX(-50%); 
+			bottom: 0.5rem;
 			height: 0.7rem;
+			position: absolute;
 			background-color: pink; 
 			background:url(images/min/title.png) no-repeat;
 			-webkit-background-size: cover;
 			background-size: cover;
 		}
 		.index .stage{
-			width:3.2rem;
-			height: 3.03rem;
-			background: url(images/min/shoting.png) no-repeat;
+			width: 3.2rem;
+			height: 6rem;
+			max-width: 640px;
+			top:0;
+			left:0;
+			/*background: url(images/min/shoting.png) no-repeat;*/
+			background: url(images/zzmanmin.gif) no-repeat;
 			-webkit-background-size: cover;
 			background-size: cover;
-			margin:0.9rem auto 0.1rem;
+			background-position: top center;
 			position: relative;
 		}
 		.stage .tip{
@@ -328,7 +336,7 @@
 			-webkit-background-size: cover;
 			background-size: cover;
 			position: absolute;
-			top: 0;
+			top: 0.4rem;
 			left: 0.2rem;
 			line-height: 0.3rem;
 			border-radius: 3px;
@@ -669,14 +677,14 @@
 	<audio src="audio/tfbs.mp3" preload id="backgroundMusic" class="hide"></audio>
 	<div class="hide"><img src="images/min/zzmanleft.png"><img src="images/min/zzmanright.png"><img src="images/min/leftbtn.png"><img src="images/min/rightbtn.png"><img src="images/min/time.png"><img src="images/min/timebar.png"><img src="images/min/alert.png"></div>
 	<section class="loading" id="loading">
-		<div class="actors">
+		<!-- <div class="actors">
 			<ul class="theatre">
 				<li class="actor"><i class="acting showY1"></i></li>
 				<li class="actor"><i class="acting showY2"></i></li>
 				<li class="actor"><i class="acting showY3"></i></li>
 				<li class="actor"><i class="acting showY4"></i></li>
 			</ul>
-		</div>
+		</div> -->
 	</section>
 	<DIV class="mobile">
 		<section class="main hide" id="main">
@@ -715,7 +723,7 @@
 			
 			<div class="stage">
 				<div class="tip"></div>
-				<div class="riceMan"></div>
+				<!-- <div class="riceMan"></div> -->
 			</div>
 			<h3 class="title"></h3>
 		</section>
@@ -729,9 +737,9 @@
 				</p>
 			</div>
 		</section>
-		<nav>
+		<!-- <nav>
 			<div class="logo"></div>
-		</nav>
+		</nav> -->
 	</DIV>
 	<script type="text/javascript" src="js/zeptoWithFxTouch.min.js"></script>
 	<script type="text/javascript" src="js/jweixin-1.0.0.js"></script>
