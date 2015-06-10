@@ -74,6 +74,9 @@ $index.click(function(){
 	gameStart();
 });
 
+$(document).on("touchmove",function(event){
+	event.preventDefault();	//阻止默认事件
+});
 // $leftHandBtn.on("touchstart",function(e){
 // 	console.log(e);
 // 	acting();
