@@ -17,7 +17,10 @@ var $ufuncodeBtn = $(".ufuncodeBtn");
 var $againBtn = $(".againBtn");
 var $shareBtn = $(".shareBtn");
 var $shareCover = $(".shareCover");
+var $sound = $("#sound");
 var $backgroundMusic = $("#backgroundMusic");
+	$backgroundMusic[0].volume = 0.1;
+	console.log($backgroundMusic);
 var $picState1 = $("#picState1");
 var $picState2 = $("#picState2");
 var $picState3 = $("#picState3");
@@ -93,6 +96,7 @@ $(document).on("touchmove",function(event){
 	if(e.touches.length<=1){
 		$picState3.css("display","none");
 		$picState1.css("display","block");$picState2.css("display","none");
+		sound();
 		lock = 1;
 	}else{
 		lock = 0;
@@ -110,6 +114,7 @@ $(document).on("touchmove",function(event){
 	if(e.touches.length<=1){
 		$picState3.css("display","none");
 		$picState2.css("display","block");$picState1.css("display","none");
+		sound();
 		lock = 1;
 	}else{
 		lock = 0;
@@ -255,6 +260,12 @@ function sharePic(n){
 		};
 	}
 	xhr.send();
+}
+
+function sound(){
+	$sound[0].pause();
+	$sound[0].currentTime = 0;
+	$sound[0].play();
 }
 
 function acting(){
