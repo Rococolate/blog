@@ -318,6 +318,11 @@ function sharePic(n){
 				//成功接收
 				$zongziCartoonIn1.css("display","none");
 				$zongziCartoonIn2.css({"background-image":"url(images/min/share"+ (n-1) +".png)","display":"block"});
+				if( n == 0){
+					$zongziCartoonIn2.css({"-webkit-background-size":"100% auto","background-size":"100% auto"});
+				}else{
+					$zongziCartoonIn2.css({"-webkit-background-size":"auto 100%","background-size":"auto 100%"});
+				}
 			}else{
 				//接收失败
 				alert("抱歉，文件没有找到");
