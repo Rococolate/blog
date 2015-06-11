@@ -63,20 +63,36 @@ function OverText(m) {
 
 $(document).ready(function(){
 	var $windowWidth = $(window).width();
+	var $windowHeight = $(window).height();
 	setTimeout(function(){
 		$windowWidth = $(window).width();
 		if($windowWidth > 640){
 			$windowWidth = 640;
 		}
 		$("html").css("font-size",(100/320) * $windowWidth + "px");
+		if($windowHeight < 450 ){
+			$page2.addClass("ip4");
+			$page3.addClass("ip4");
+		}else{
+			$page2.removeClass("ip4");
+			$page3.removeClass("ip4");
+		}
 	},100);
 	
 	$(window).resize(function(){
 		$windowWidth = $(window).width();
+		$windowHeight = $(window).height();
 		if($windowWidth > 640){
 			$windowWidth = 640;
 		}
 		$("html").css("font-size",(100/320) * $windowWidth + "px");
+		if($windowHeight < 450 ){
+			$page2.addClass("ip4");
+			$page3.addClass("ip4");
+		}else{
+			$page2.removeClass("ip4");
+			$page3.removeClass("ip4");
+		}
 	});
 });
 
@@ -458,7 +474,7 @@ window.onload = function(){
 
 // var containC = "";
 // $("#submitC").click(function(){
-// 	containC = containC + $("#containC").val() + "<br/>";
 // 	var time = new Date();
+// 	containC = containC + $("#containC").val() +"("+ time +")"+ "<br/>";
 // 	$("#containC").val() = "";
 // });
