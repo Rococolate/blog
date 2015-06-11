@@ -185,7 +185,6 @@
 		}
 		.page{
 			width: 3.2rem;
-			/*height: 5.04rem;*/
 			height: 33.33%;
 			max-width: 640px;
 			max-height:1008px; 
@@ -193,6 +192,12 @@
 			opacity: 0;
 			-webkit-transition:all 1s ease 0s;
 			transition:all 1s ease 0s;
+			-webkit-transform:translateY(10%);
+			transform:translateY(10%);
+		}
+		.page .page2{
+			-webkit-transition:all 2s ease 1s;
+			transition:all 2s ease 1s;
 			-webkit-transform:translateY(10%);
 			transform:translateY(10%);
 		}
@@ -329,6 +334,43 @@
 			background-position: top center;
 			position: relative;
 		}
+		.index .heart{
+			width: 0.46rem;
+			height: 0.53rem;
+			top:50%;
+			left:50%;
+			-webkit-transform: translateX(-220%) translateY(-170%) scale(0.8);
+  			transform: translateX(-220%) translateY(-170%) scale(0.8);
+			background: url(images/min/heart.png) no-repeat;
+			-webkit-background-size: cover;
+			background-size: cover;
+			background-position: top center;
+			position: absolute;
+		}
+		.index .pi{
+			width: 0.56rem;
+			height: 0.48rem;
+			top:50%;
+			left:50%;
+			-webkit-transform: translateX(50%) translateY(50%) scale(0.8);
+  			transform: translateX(50%) translateY(50%) scale(0.8);
+			background: url(images/min/pi.png) no-repeat;
+			-webkit-background-size: cover;
+			background-size: cover;
+			background-position: top center;
+			position: absolute;
+		}
+		.index .leg{
+			width: 1rem;
+			height: 1rem;
+			top:50%;
+			left:0;
+			background: url(images/min/leg.gif) no-repeat;
+			-webkit-background-size: cover;
+			background-size: cover;
+			background-position: top center;
+			position: fixed;
+		}
 		.index .tip{
 			width: 2.64rem;
 			height: 0.9rem;
@@ -336,7 +378,7 @@
 			-webkit-background-size: cover;
 			background-size: cover;
 			position: fixed;
-			top: 0.4rem;
+			top: 0.3rem;
 			left: 50%;
 			margin-left: -1.32rem;
 			line-height: 0.3rem;
@@ -505,9 +547,36 @@
 			z-index: 999;
 		}
 		.inStagePic1{width: 2rem;height: 2.5rem;background: url(images/min/zzmanleft.png) no-repeat;-webkit-background-size: cover;background-size: cover;}
-		.inStagePic2{width: 2rem;height: 2.5rem;background: url(images/min/zzmanright.png) no-repeat;-webkit-background-size: cover;background-size: cover;}
-		.inStagePic3{width: 2.1rem;height: 2.54rem;background: url(images/min/zzman.png) no-repeat;-webkit-background-size: cover;background-size: cover;}
-		/*.inStagePic4{background-color: gold;}*/
+		.inStagePic2{width: 2rem;height: 2.5rem;background: url(images/min/zzmanright.png) no-repeat;-webkit-background-size: cover;background-size: cover;position: relative;}
+		.inStagePic3{width: 2.1rem;height: 2.54rem;background: url(images/min/zzman.png) no-repeat;-webkit-background-size: cover;background-size: cover;position: relative;}
+		.inStagePic2 .blood{
+			display: none;
+			content: "";
+			position: absolute;
+			top: 0;
+			left:0;
+			width:1rem;
+			height: 0.85rem;
+			background: url(images/min/blood2.png) no-repeat;
+			-webkit-background-size: cover;
+			background-size: cover;
+			-webkit-transform: translate3d(-0.55rem,0.45rem,0) scale(1.2);
+			transform: translate3d(-0.55rem,0.45rem,0) scale(1.2);
+		}
+		.inStagePic1 .blood{
+			display: none;
+			content: "";
+			position: absolute;
+			top: 0;
+			left:0;
+			width:1rem;
+			height: 0.85rem;
+			background: url(images/min/blood.png) no-repeat;
+			-webkit-background-size: cover;
+			background-size: cover;
+			-webkit-transform: translate3d(1.6rem,0.45rem,0) scale(1.2);
+			transform: translate3d(1.6rem,0.45rem,0) scale(1.2);
+		}
 
 		.wobble{
 			-webkit-animation: wobble 0.2s linear 0s;
@@ -794,8 +863,8 @@
 				<div class="timeOutBar"><div class="timebar"><div class="timer"></div></div></div>
 				<div class="zongzi">
 					<ul class="zongziStage">
-						<li class="picState hide" id="picState1"><i class="inStagePic inStagePic1"></i></li>
-						<li class="picState hide" id="picState2"><i class="inStagePic inStagePic2"></i></li>
+						<li class="picState hide" id="picState1"><i class="inStagePic inStagePic1"><i class="blood"></i></i></li>
+						<li class="picState hide" id="picState2"><i class="inStagePic inStagePic2"><i class="blood"></i></i></li>
 						<li class="picState zIndex" id="picState3"><i class="inStagePic inStagePic3 "></i></li>
 						<!-- <li class="picState"><i class="inStagePic inStagePic4"></i></li> -->
 					</ul>
@@ -824,7 +893,11 @@
 		</section>
 		<section class="index" id="index">
 			<div class="tip"></div>
-			<div class="stage"></div>
+			<div class="leg"></div>
+			<div class="stage">
+				<div class="heart"></div>
+				<div class="pi"></div>
+			</div>
 			<h3 class="title"></h3>
 		</section>
 		<section class="cover" id="cover">
@@ -840,6 +913,6 @@
 	</DIV>
 	<script type="text/javascript" src="js/zeptoWithFxTouch.min.js"></script>
 	<script type="text/javascript" src="js/jweixin-1.0.0.js"></script>
-	<script type="text/javascript" src="js/tdbf.js?ver=1.31"></script>
+	<script type="text/javascript" src="js/tdbf.js?ver=1.34"></script>
 </body>
 </html>

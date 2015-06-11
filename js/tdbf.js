@@ -1,39 +1,41 @@
-var $index = $("#index");
-var $main = $("#main");
-var $loading = $("#loading");
-var $cover = $("#cover");
-var $inCover = $(".inCover");
-var $page1 = $("#page1");
-var $page2 = $(".page2");
-var $page3 = $(".page3");
-var $second = $(".second");
-var $msecond = $(".msecond");
-var $leftHandBtn = $(".leftHandBtn");
-var $rightHandBtn = $(".rightHandBtn");
-var $timer = $(".timer");
-var $text = $(".text");
-var $understand = $(".understand");
-var $againBtn = $(".againBtn");
-var $shareeatbtn = $(".shareeatbtn");
-var $shareCover = $(".shareCover");
-var $inShareCover = $(".inShareCover");
-var $inShareCover2 = $(".inShareCover2");
-var $sharebtn = $(".sharebtn");
-var $backgroundMusic = $("#backgroundMusic");
-	$backgroundMusic[0].volume = 0.1;
-var $picState1 = $("#picState1");
-var $picState2 = $("#picState2");
-var $picState3 = $("#picState3");
-var $zongziCartoonIn1 = $(".zongziCartoonIn1");
-var $zongziCartoonIn2 = $(".zongziCartoonIn2");
-var $body = $("body");
-var $logo = $(".logo");
-var inCoverText = 3;
-	$inCover.html(inCoverText);
-// var time5000 = 5000;
-var lock = 1;
-var count = 0;
-var shareMsg = "五月五，过端午~包粽嗨起来！";
+var $index = $("#index"),
+	$main = $("#main"),
+	$loading = $("#loading"),
+	$cover = $("#cover"),
+	$inCover = $(".inCover"),
+	$page1 = $("#page1"),
+	$page2 = $(".page2"),
+	$page3 = $(".page3"),
+	$second = $(".second"),
+	$msecond = $(".msecond"),
+	$leftHandBtn = $(".leftHandBtn"),
+	$rightHandBtn = $(".rightHandBtn"),
+	$timer = $(".timer"),
+	$text = $(".text"),
+	$understand = $(".understand"),
+	$againBtn = $(".againBtn"),
+	$shareeatbtn = $(".shareeatbtn"),
+	$shareCover = $(".shareCover"),
+	$inShareCover = $(".inShareCover"),
+	$inShareCover2 = $(".inShareCover2"),
+	$sharebtn = $(".sharebtn"),
+	$backgroundMusic = $("#backgroundMusic"),	
+	$picState1 = $("#picState1"),
+	$picState2 = $("#picState2"),
+	$picState3 = $("#picState3"),
+	$zongziCartoonIn1 = $(".zongziCartoonIn1"),
+	$zongziCartoonIn2 = $(".zongziCartoonIn2"),
+	$body = $("body"),
+	$logo = $(".logo"),
+	$blood = $(".blood"),
+	inCoverText = 3,
+	lock = 1,
+	count = 0,
+	shareMsg = "五月五，过端午~包粽嗨起来！";
+
+$backgroundMusic[0].volume = 0.1;
+
+$inCover.html(inCoverText);
 
 for(var i = 0 ; i < 5 ; i ++){
 	$("<li>"+(4-i)+"</li>").appendTo($second);
@@ -45,14 +47,16 @@ for(var i = 0 ; i < 5 ; i ++){
 function OverText(m) { 
 	var mytext;
 	var shareText;
-	this.mytext =  ["5秒包了" + m + "个粽子？？？你是猪吗？赏你一张U趣码，再战500回合！",
+	this.mytext =  ["5秒包了" + m + "个粽子？！恶意卖萌",
+					"5秒包了" + m + "个粽子？？？你是猪吗？赏你一张U趣码，再战500回合！",
 					"5秒包了" + m + "个粽子，你的速度比猪快，获得U趣码鼓励～",
 					"5秒包了" + m + "个粽子，速度堪比豺狼虎豹，捕获U趣码一张！",
 					"5秒包了" + m + "个粽子，不鸣则已，一鸣惊人！U趣码来抱大腿，捂脸",
 					"5秒包了" + m + "个粽子，超音速包粽专业户～～双手奉上U趣码一张！",
 					"5秒包了" + m + "个粽子？！你一定是开挂了吧～～",
 					] ;
-	this.shareText=["5秒包了" + m + "个粽子，我获得了“赤赤猪”称号，丢脸丢大发了！",
+	this.shareText=["5秒包了" + m + "个粽子？！恶意卖萌",
+					"5秒包了" + m + "个粽子，我获得了“赤赤猪”称号，丢脸丢大发了！",
 					"5秒包了" + m + "个粽子，我获得了“一筐猪”称号，求助神队友！",
 					"5秒包了" + m + "个粽子，我获得了“放屁豹”称号，敢不敢来挑战我？！",
 					"5秒包了" + m + "个粽子，我获得了“黑牛哥”称号，感觉自己猛猛哒！",
@@ -192,6 +196,7 @@ $againBtn.click(function(){
 		$picState2.css("display","none");$picState1.css("display","none");
 		$zongziCartoonIn1.css("display","block");
 		$zongziCartoonIn2.css({"background-image":" ","display":"none"});
+		$blood.css("display","none");
 		gameStart();
 	});
 });
@@ -271,7 +276,11 @@ function whatTheText(n){
 
 	var sText = new OverText(n);
 	console.log(sText);
-	      if( n >= 60 ){
+		  if( n >= 70 ){
+		sharePic(6);
+		$text.html(sText.mytext[6]);
+		shareMsg = sText.shareText[6];
+	}else if( n >= 60 ){
 	    sharePic(5);
 		$text.html(sText.mytext[5]);
 		shareMsg = sText.shareText[5];
@@ -301,7 +310,7 @@ function whatTheText(n){
 function sharePic(n){
 	console.log("ajax")
 	var xhr = new XMLHttpRequest();
-	xhr.open('get', 'http://rococolate.github.io/blog/images/min/share'+ n +'.png');
+	xhr.open('get', 'http://rococolate.github.io/blog/images/min/share'+ (n-1) +'.png');
 	// xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 	xhr.onreadystatechange = function () {
 	    if(xhr.readyState == 4 ){
@@ -323,6 +332,9 @@ function acting(){
 
 	if(lock){
 		count ++;
+		if(count > 25){
+			$blood.css("display","block");
+		}
 		console.log(count);
 		$timer.css({"-webkit-transform":"translateX(" + count / 60 * 100 + "%)"});
 		if(count%2){
@@ -472,9 +484,3 @@ window.onload = function(){
 	$loading.css("display","none"); 
 }
 
-// var containC = "";
-// $("#submitC").click(function(){
-// 	var time = new Date();
-// 	containC = containC + $("#containC").val() +"("+ time +")"+ "<br/>";
-// 	$("#containC").val() = "";
-// });
