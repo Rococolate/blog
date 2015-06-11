@@ -317,7 +317,7 @@ function sharePic(n){
 			if(xhr.status >= 200 && xhr.status < 300 || xhr.status == 304){
 				//成功接收
 				$zongziCartoonIn1.css("display","none");
-				$zongziCartoonIn2.css({"background-image":"url(images/min/share"+ n +".png)","display":"block"});
+				$zongziCartoonIn2.css({"background-image":"url(images/min/share"+ (n-1) +".png)","display":"block"});
 			}else{
 				//接收失败
 				alert("抱歉，文件没有找到");
