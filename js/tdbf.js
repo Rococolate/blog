@@ -10,17 +10,17 @@ var $second = $(".second");
 var $msecond = $(".msecond");
 var $leftHandBtn = $(".leftHandBtn");
 var $rightHandBtn = $(".rightHandBtn");
-var $handBtn = $(".handBtn");
 var $timer = $(".timer");
 var $text = $(".text");
-var $ufuncodeBtn = $(".ufuncodeBtn");
+var $understand = $(".understand");
 var $againBtn = $(".againBtn");
-var $shareBtn = $(".shareBtn");
+var $shareeatbtn = $(".shareeatbtn");
 var $shareCover = $(".shareCover");
-var $sound = $("#sound");
+var $inShareCover = $(".inShareCover");
+var $inShareCover2 = $(".inShareCover2");
+var $sharebtn = $(".sharebtn");
 var $backgroundMusic = $("#backgroundMusic");
 	$backgroundMusic[0].volume = 0.1;
-	console.log($backgroundMusic);
 var $picState1 = $("#picState1");
 var $picState2 = $("#picState2");
 var $picState3 = $("#picState3");
@@ -30,10 +30,17 @@ var $body = $("body");
 var $logo = $(".logo");
 var inCoverText = 3;
 	$inCover.html(inCoverText);
-var time5000 = 5000;
+// var time5000 = 5000;
 var lock = 1;
 var count = 0;
 var shareMsg = "五月五，过端午~包粽嗨起来！";
+
+for(var i = 0 ; i < 5 ; i ++){
+	$("<li>"+(4-i)+"</li>").appendTo($second);
+	for(var j = 0 ; j < 10 ; j ++){
+		$("<li>"+(9-j)+"</li>").appendTo($msecond);
+	}
+}
 
 function OverText(m) { 
 	var mytext;
@@ -96,7 +103,7 @@ $(document).on("touchmove",function(event){
 	if(e.touches.length<=1){
 		$picState3.css("display","none");
 		$picState1.css("display","block");$picState2.css("display","none");
-		sound();
+		
 		lock = 1;
 	}else{
 		lock = 0;
@@ -114,7 +121,7 @@ $(document).on("touchmove",function(event){
 	if(e.touches.length<=1){
 		$picState3.css("display","none");
 		$picState2.css("display","block");$picState1.css("display","none");
-		sound();
+		
 		lock = 1;
 	}else{
 		lock = 0;
@@ -126,30 +133,40 @@ $(document).on("touchmove",function(event){
 		acting();
 });
 
-$ufuncodeBtn.click(function(){
+$understand.click(function(){
 	$page2.removeClass("fadeIn");
-	$main.animate({"-webkit-transform":"translateY(-10.08rem)"},1000,"ease",function(){
+	$main.animate({"-webkit-transform":"translateY(-66.66%)"},1000,"ease",function(){
 
 		$page3.addClass("fadeIn");
 	});
 });
 
-$shareBtn.click(function(){
+$shareeatbtn.click(function(){
 	$shareCover.css("display","block");
+	$inShareCover.css("display","block");
+
+});
+
+$sharebtn.click(function(){
+	$shareCover.css("display","block");
+	$inShareCover2.css("display","block");
+
 });
 $shareCover.click(function(){
 	$(this).css("display","none");
+	$inShareCover.css("display","none");
+	$inShareCover2.css("display","none");
 });
 
 $againBtn.click(function(){
 	$page3.removeClass("fadeIn");
-	$main.animate({"-webkit-transform":"translateY(-0rem)"},500,"ease",function(){
+	$main.animate({"-webkit-transform":"translateY(0)"},500,"ease",function(){
 
 		$page1.addClass("fadeIn");
 		$cover.css("display","block");
-		time5000 = 5000;
-		$second.html( parseInt( time5000 / 1000 ) );
-		$msecond.html( time5000 % 1000 / 100  );
+		// time5000 = 5000;
+		// $second.html( parseInt( time5000 / 1000 ) );
+		// $msecond.html( time5000 % 1000 / 100  );
 		inCoverText = 3;
 		$inCover.html(inCoverText);
 		lock = 1;
@@ -164,14 +181,19 @@ $againBtn.click(function(){
 });
 
 function gameStart(){
+		$second.attr({"class":"second"});
+		$msecond.attr({"class":"msecond"});
 
 		$index.css("display","none");
 		$main.css("display","block");
 		$cover.css("display","block");
 
+		
 		setTimeout(function(){
 
 			$page1.addClass("fadeIn");
+			$second.addClass("transition5");
+			$msecond.addClass("transition5");
 
 		},200);
 
@@ -186,30 +208,48 @@ function gameStart(){
 			$backgroundMusic[0].play();
 			clearInterval(timer3);
 			$cover.css("display","none");
-			var timer5 = setInterval(function(){
 
-				time5000 = time5000 - 100;
-				console.log( time5000 , parseInt( time5000 / 1000 ) ,time5000 %1000 / 100 );
-				$second.html( parseInt( time5000 / 1000 ) );
-				$msecond.html( time5000 % 1000 / 100 );
+			$second.addClass("secondmove");
+			$msecond.addClass("msecondmove");
+			// var timer5 = setInterval(function(){
 
-				if(time5000 === 0){
-					$backgroundMusic[0].pause();
-					$backgroundMusic[0].currentTime = 0;
-					clearInterval(timer5);
-					lock = 0;
-					$page1.removeClass("fadeIn");
-					$main.animate({"-webkit-transform":"translateY(-5.04rem)"},1000,"ease",function(){
+			// 	time5000 = time5000 - 100;
+			// 	console.log( time5000 , parseInt( time5000 / 1000 ) ,time5000 %1000 / 100 );
+			// 	$second.html( parseInt( time5000 / 1000 ) );
+			// 	$msecond.html( time5000 % 1000 / 100 );
 
-						$page2.addClass("fadeIn");
-						whatTheText(count);
+			// 	if(time5000 === 0){
+			// 		$backgroundMusic[0].pause();
+			// 		$backgroundMusic[0].currentTime = 0;
+			// 		clearInterval(timer5);
+			// 		lock = 0;
+			// 		$page1.removeClass("fadeIn");
+			// 		$main.animate({"-webkit-transform":"translateY(-5.04rem)"},1000,"ease",function(){
 
-					});
-				}
-			},100);
+			// 			$page2.addClass("fadeIn");
+			// 			whatTheText(count);
+
+			// 		});
+			// 	}
+			// },100);
+
+		var timer5 = setTimeout(function(){	
+			$backgroundMusic[0].pause();
+			$backgroundMusic[0].currentTime = 0;
+			clearTimeout(timer5);
+			lock = 0;
+			$page1.removeClass("fadeIn");
+			$main.animate({"-webkit-transform":"translateY(-33.33%)"},1000,"ease",function(){
+				$page2.addClass("fadeIn");
+				whatTheText(count);
+			});
 			
-		},3000);
-	}
+
+				
+		},5000);
+			
+	},3000);
+}
 
 function whatTheText(n){
 
@@ -262,11 +302,6 @@ function sharePic(n){
 	xhr.send();
 }
 
-function sound(){
-	$sound[0].pause();
-	$sound[0].currentTime = 0;
-	$sound[0].play();
-}
 
 function acting(){
 
@@ -400,7 +435,6 @@ function wxConfigToken (url){
 			                'openCard'
 			              ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 			        	});
-			        
 			    }
 			}
 	xhr.send();
@@ -421,3 +455,10 @@ function newDate (){
 window.onload = function(){
 	$loading.css("display","none"); 
 }
+
+// var containC = "";
+// $("#submitC").click(function(){
+// 	containC = containC + $("#containC").val() + "<br/>";
+// 	var time = new Date();
+// 	$("#containC").val() = "";
+// });
