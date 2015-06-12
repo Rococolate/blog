@@ -583,7 +583,7 @@ window.onload = function(){
 
 var indextime = setInterval(function(){
 
-	if(indexlock >= 3){
+	if(indexlock >= 2){
 		$loading.css("display","none"); 
 		clearInterval(indextime);
 	}
