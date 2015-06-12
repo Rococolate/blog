@@ -39,7 +39,7 @@ var $index = $("#index"),
 (function(){
 	console.log("ajax")
 	var xhr = new XMLHttpRequest();
-	xhr.open('get', 'http://m.qydw.net/static/audio/tfbs.mp3');
+	xhr.open('get', 'http://rococolate.github.io/blog/audio/tfbs.mp3');
 	// xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 	xhr.onreadystatechange = function () {
 	    if(xhr.readyState == 4 ){
