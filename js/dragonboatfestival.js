@@ -520,7 +520,7 @@ window.onload = function(){
 
 var indextime = setInterval(function(){
 
-	if(indexlock > 1){
+	if(indexlock >= 1){
 		$loading.css("display","none"); 
 		clearInterval(indextime);
 	}
