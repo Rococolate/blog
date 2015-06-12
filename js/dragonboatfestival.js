@@ -301,7 +301,10 @@ function gameStart(){
 
 		setTimeout(function(){
 			try{
-				$("#backgroundMusic")[0].play();
+				document.addEventListener("WeixinJSBridgeReady",function () {
+					$("#backgroundMusic")[0].play();
+				},false);
+				// $("#backgroundMusic")[0].play();
 			}catch(e){
 				console.log("error");
 			}
@@ -335,8 +338,12 @@ function gameStart(){
 
 		var timer5 = setTimeout(function(){	
 			try{
-				$("#backgroundMusic")[0].pause();
-				$("#backgroundMusic")[0].currentTime = 0;
+				document.addEventListener("WeixinJSBridgeReady",function () {
+					$("#backgroundMusic")[0].pause();
+					$("#backgroundMusic")[0].currentTime = 0;
+				},false);
+				// $("#backgroundMusic")[0].pause();
+				// $("#backgroundMusic")[0].currentTime = 0;
 			}catch(e){
 				console.log("error");
 			}
