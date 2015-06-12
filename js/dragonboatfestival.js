@@ -401,7 +401,7 @@ function whatTheText(n){
 function sharePic(n){
 	console.log("ajax")
 	var xhr = new XMLHttpRequest();
-	xhr.open('get', '../images/min/share'+ (n-1) +'.png');
+	xhr.open('get', 'images/min/share'+ (n-1) +'.png');
 	// xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 	xhr.onreadystatechange = function () {
 	    if(xhr.readyState == 4 ){
