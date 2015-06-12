@@ -36,25 +36,25 @@ var $index = $("#index"),
 
 
 
-// (function(){
-// 	console.log("ajax")
-// 	var xhr = new XMLHttpRequest();
-// 	xhr.open('get', 'http://m.qydw.net/static/audio/tfbs.mp3?');
-// 	// xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-// 	xhr.onreadystatechange = function () {
-// 	    if(xhr.readyState == 4 ){
-// 			if(xhr.status >= 200 && xhr.status < 300 || xhr.status == 304){
-// 				//成功接收
-// 				$("<audio src='audio/tfbs.mp3' preload id='backgroundMusic' class='hide'></audio>").appendTo("#BGM");
-// 				indexlock ++;
-// 			}else{
-// 				//接收失败
-// 				alert("抱歉，文件没有找到");
-// 			}
-// 		};
-// 	}
-// 	xhr.send();
-// })();
+(function(){
+	console.log("ajax")
+	var xhr = new XMLHttpRequest();
+	xhr.open('get', 'http://m.qydw.net/static/audio/tfbs.mp3');
+	// xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+	xhr.onreadystatechange = function () {
+	    if(xhr.readyState == 4 ){
+			if(xhr.status >= 200 && xhr.status < 300 || xhr.status == 304){
+				//成功接收
+				$("<audio src='audio/tfbs.mp3' preload id='backgroundMusic' class='hide'></audio>").appendTo("#BGM");
+				indexlock ++;
+			}else{
+				//接收失败
+				alert("抱歉，文件没有找到");
+			}
+		};
+	}
+	xhr.send();
+})();
 
 $inCover.html(inCoverText);
 
@@ -180,7 +180,7 @@ document.body.addEventListener('touchmove', function(event) {
 // 		acting();
 // });
 $leftHandBtn[0].addEventListener('touchstart', function(event) {
-    console.log('touchstart event caught and default prevented', event.target);
+    // console.log('touchstart event caught and default prevented', event.target);
     // event.target.focus();
     event.preventDefault();
     if(event.touches.length<=1){
@@ -194,7 +194,7 @@ $leftHandBtn[0].addEventListener('touchstart', function(event) {
 });
 
 $rightHandBtn[0].addEventListener('touchstart', function(event) {
-    console.log('touchstart event caught and default prevented', event.target);
+    // console.log('touchstart event caught and default prevented', event.target);
     // event.target.focus();
     event.preventDefault();
     if(event.touches.length<=1){
@@ -209,15 +209,15 @@ $rightHandBtn[0].addEventListener('touchstart', function(event) {
 
 
 $leftHandBtn[0].addEventListener('touchend', function(event) {
-    console.log('touchend event caught and default prevented', event.target);
-    event.target.focus();
+    // console.log('touchend event caught and default prevented', event.target);
+    // event.target.focus();
     event.preventDefault();
     acting();
 });
 
 $rightHandBtn[0].addEventListener('touchend', function(event) {
-    console.log('touchend event caught and default prevented', event.target);
-    event.target.focus();
+    // console.log('touchend event caught and default prevented', event.target);
+    // event.target.focus();
     event.preventDefault();
     acting();
 });
@@ -583,7 +583,7 @@ window.onload = function(){
 
 var indextime = setInterval(function(){
 
-	if(indexlock >= 1){
+	if(indexlock >= 2){
 		$loading.css("display","none"); 
 		clearInterval(indextime);
 	}
