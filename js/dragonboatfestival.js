@@ -183,7 +183,7 @@ $leftHandBtn[0].addEventListener('touchstart', function(event) {
     console.log('touchstart event caught and default prevented', event.target);
     // event.target.focus();
     event.preventDefault();
-    if(e.touches.length<=1){
+    if(event.touches.length<=1){
 		$picState3.css("display","none");
 		$picState2.css("display","block");$picState1.css("display","none");
 		
