@@ -125,8 +125,14 @@ $index.click(function(){
 	gameStart();
 });
 
-$(document).on("touchmove",function(event){
-	event.preventDefault();	//阻止默认事件
+// $(document).on("touchmove",function(event){
+// 	event.preventDefault();	//阻止默认事件
+// });
+
+document.body.addEventListener('touchmove', function(event) {
+    console.log('touchend event caught and default prevented', event.target);
+    // event.target.focus();
+    event.preventDefault();
 });
 // $leftHandBtn.on("touchstart",function(e){
 // 	console.log(e);
@@ -138,28 +144,46 @@ $(document).on("touchmove",function(event){
 // 	acting();
 // });
 
- $leftHandBtn.on("touchstart",function(e){
-	console.log(e);
+//  $leftHandBtn.on("touchstart",function(e){
+// 	console.log(e);
 	
-	if(e.touches.length<=1){
-		$picState3.css("display","none");
-		$picState1.css("display","block");$picState2.css("display","none");
+// 	if(e.touches.length<=1){
+// 		$picState3.css("display","none");
+// 		$picState1.css("display","block");$picState2.css("display","none");
 		
-		lock = 1;
-	}else{
-		lock = 0;
-	}
-});
- $leftHandBtn.on("touchend",function(e){
-	console.log(e);
+// 		lock = 1;
+// 	}else{
+// 		lock = 0;
+// 	}
+// });
+//  $leftHandBtn.on("touchend",function(e){
+// 	console.log(e);
 	
-		acting();
-});
+// 		acting();
+// });
 
- $rightHandBtn.on("touchstart",function(e){
-	console.log(e);
+//  $rightHandBtn.on("touchstart",function(e){
+// 	console.log(e);
 	
-	if(e.touches.length<=1){
+// 	if(e.touches.length<=1){
+// 		$picState3.css("display","none");
+// 		$picState2.css("display","block");$picState1.css("display","none");
+		
+// 		lock = 1;
+// 	}else{
+// 		lock = 0;
+// 	}
+// });
+//  $rightHandBtn.on("touchend",function(e){
+// 	console.log(e);
+	
+// 		acting();
+// });
+$leftHandBtn[0].addEventListener('touchstart', function(event) {
+    console.log('touchstart event caught and default prevented', event.target);
+    // event.target.focus();
+    event.preventDefault();
+    if(e.touches.length<=1){
 		$picState3.css("display","none");
 		$picState2.css("display","block");$picState1.css("display","none");
 		
@@ -168,11 +192,40 @@ $(document).on("touchmove",function(event){
 		lock = 0;
 	}
 });
- $rightHandBtn.on("touchend",function(e){
-	console.log(e);
-	
-		acting();
+
+$rightHandBtn[0].addEventListener('touchstart', function(event) {
+    console.log('touchstart event caught and default prevented', event.target);
+    // event.target.focus();
+    event.preventDefault();
+    if(event.touches.length<=1){
+		$picState3.css("display","none");
+		$picState1.css("display","block");$picState2.css("display","none");
+		
+		lock = 1;
+	}else{
+		lock = 0;
+	}
 });
+
+
+$leftHandBtn[0].addEventListener('touchend', function(event) {
+    console.log('touchend event caught and default prevented', event.target);
+    event.target.focus();
+    event.preventDefault();
+    acting();
+});
+
+$rightHandBtn[0].addEventListener('touchend', function(event) {
+    console.log('touchend event caught and default prevented', event.target);
+    event.target.focus();
+    event.preventDefault();
+    acting();
+});
+
+
+
+
+
 
 // $understand.click(function(){
 // 	$page2.removeClass("fadeIn");
