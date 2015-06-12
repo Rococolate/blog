@@ -247,7 +247,12 @@ function gameStart(){
 		},1000);
 
 		setTimeout(function(){
-			$("#backgroundMusic")[0].play();
+			try{
+				$("#backgroundMusic")[0].play();
+			}catch(e){
+				console.log("error");
+			}
+			
 			clearInterval(timer3);
 			$cover.css("display","none");
 
@@ -276,8 +281,13 @@ function gameStart(){
 			// },100);
 
 		var timer5 = setTimeout(function(){	
-			$("#backgroundMusic")[0].pause();
-			$("#backgroundMusic")[0].currentTime = 0;
+			try{
+				$("#backgroundMusic")[0].pause();
+				$("#backgroundMusic")[0].currentTime = 0;
+			}catch(e){
+				console.log("error");
+			}
+			
 			clearTimeout(timer5);
 			lock = 0;
 			$page1.removeClass("fadeIn");
