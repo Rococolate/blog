@@ -371,18 +371,17 @@ function whatTheText(n){
 		sharePic(6);
 		$text.html(sText.mytext[6]);
 		shareMsg = sText.shareText[6];
-		Ω
-	}else if( n >= 60 ){
+	}else if( n >= 50 ){
 	    sharePic(5);
 		$text.html(sText.mytext[5]);
 		shareMsg = sText.shareText[5];
 		shareWx();
-	}else if( n >= 43 ){
+	}else if( n >= 40 ){
 		sharePic(4);
 		$text.html(sText.mytext[4]);
 		shareMsg = sText.shareText[4];
 		shareWx();			
-	}else if( n >= 33 ){
+	}else if( n >= 31 ){
 		sharePic(3);
 		$text.html(sText.mytext[3]);
 		shareMsg = sText.shareText[3];
