@@ -13,6 +13,7 @@ var $index = $("#index"),
 	$timer = $(".timer"),
 	$text = $(".text"),
 	$understand = $(".understand"),
+	$backgame = $(".backgame"),
 	$againBtn = $(".againBtn"),
 	$shareeatbtn = $(".shareeatbtn"),
 	$shareCover = $(".shareCover"),
@@ -34,12 +35,13 @@ var $index = $("#index"),
 	count = 0,
 	shareMsg = "五月五，过端午~包粽嗨起来！";
 
-
+var httpHeader = "";
+// var httpHeader = "http://m.quyundong.com/static/";
 
 (function(){
-	console.log("ajax")
+	// console.log("ajax")
 	var xhr = new XMLHttpRequest();
-	xhr.open('get', 'http://rococolate.github.io/blog/audio/tfbs.mp3');
+	xhr.open('get', httpHeader + 'audio/tfbs.mp3');
 	// xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 	xhr.onreadystatechange = function () {
 	    if(xhr.readyState == 4 ){
@@ -82,7 +84,7 @@ function OverText(m) {
 					"5秒包了" + m + "个粽子，我获得了“放屁豹”称号，敢不敢来挑战我？！",
 					"5秒包了" + m + "个粽子，我获得了“黑牛哥”称号，感觉自己猛猛哒！",
 					"5秒包了" + m + "个粽子，我获得了“学霸草”称号，谁能超越我？！",
-					"5秒包了" + m + "个粽子，我就是全宇宙唯一真理！",
+					"5秒包了" + m + "个粽子，我就是全宇宙唯一真理！不服来战！",
 					] 
 }
 
@@ -96,9 +98,11 @@ $(document).ready(function(){
 		}
 		$("html").css("font-size",(100/320) * $windowWidth + "px");
 		if($windowHeight < 450 ){
+			$index.addClass("ip4");
 			$page2.addClass("ip4");
 			$page3.addClass("ip4");
 		}else{
+			$index.removeClass("ip4");
 			$page2.removeClass("ip4");
 			$page3.removeClass("ip4");
 		}
@@ -112,9 +116,11 @@ $(document).ready(function(){
 		}
 		$("html").css("font-size",(100/320) * $windowWidth + "px");
 		if($windowHeight < 450 ){
+			$index.addClass("ip4");
 			$page2.addClass("ip4");
 			$page3.addClass("ip4");
 		}else{
+			$index.removeClass("ip4");
 			$page2.removeClass("ip4");
 			$page3.removeClass("ip4");
 		}
@@ -125,68 +131,17 @@ $index.click(function(){
 	gameStart();
 });
 
-// $(document).on("touchmove",function(event){
-// 	event.preventDefault();	//阻止默认事件
-// });
-
 document.body.addEventListener('touchmove', function(event) {
-    console.log('touchend event caught and default prevented', event.target);
+    // console.log('touchend event caught and default prevented', event.target);
     // event.target.focus();
     event.preventDefault();
 });
-// $leftHandBtn.on("touchstart",function(e){
-// 	console.log(e);
-// 	acting();
-// });
 
-// $rightHandBtn.on("touchstart",function(e){
-// 	console.log(e);
-// 	acting();
-// });
-
-//  $leftHandBtn.on("touchstart",function(e){
-// 	console.log(e);
-	
-// 	if(e.touches.length<=1){
-// 		$picState3.css("display","none");
-// 		$picState1.css("display","block");$picState2.css("display","none");
-		
-// 		lock = 1;
-// 	}else{
-// 		lock = 0;
-// 	}
-// });
-//  $leftHandBtn.on("touchend",function(e){
-// 	console.log(e);
-	
-// 		acting();
-// });
-
-//  $rightHandBtn.on("touchstart",function(e){
-// 	console.log(e);
-	
-// 	if(e.touches.length<=1){
-// 		$picState3.css("display","none");
-// 		$picState2.css("display","block");$picState1.css("display","none");
-		
-// 		lock = 1;
-// 	}else{
-// 		lock = 0;
-// 	}
-// });
-//  $rightHandBtn.on("touchend",function(e){
-// 	console.log(e);
-	
-// 		acting();
-// });
 $leftHandBtn[0].addEventListener('touchstart', function(event) {
     // console.log('touchstart event caught and default prevented', event.target);
     // event.target.focus();
     event.preventDefault();
     if(event.touches.length<=1){
-		$picState3.css("display","none");
-		$picState2.css("display","block");$picState1.css("display","none");
-		
 		lock = 1;
 	}else{
 		lock = 0;
@@ -198,9 +153,6 @@ $rightHandBtn[0].addEventListener('touchstart', function(event) {
     // event.target.focus();
     event.preventDefault();
     if(event.touches.length<=1){
-		$picState3.css("display","none");
-		$picState1.css("display","block");$picState2.css("display","none");
-		
 		lock = 1;
 	}else{
 		lock = 0;
@@ -212,28 +164,15 @@ $leftHandBtn[0].addEventListener('touchend', function(event) {
     // console.log('touchend event caught and default prevented', event.target);
     // event.target.focus();
     event.preventDefault();
-    acting();
+    acting("left");
 });
 
 $rightHandBtn[0].addEventListener('touchend', function(event) {
     // console.log('touchend event caught and default prevented', event.target);
     // event.target.focus();
     event.preventDefault();
-    acting();
+    acting("right");
 });
-
-
-
-
-
-
-// $understand.click(function(){
-// 	$page2.removeClass("fadeIn");
-// 	$main.animate({"-webkit-transform":"translateY(-66.66%)"},1000,"ease",function(){
-
-// 		$page3.addClass("fadeIn");
-// 	});
-// });
 
 $shareeatbtn.click(function(){
 	$shareCover.css("display","block");
@@ -253,14 +192,11 @@ $shareCover.click(function(){
 });
 
 $againBtn.click(function(){
-	$page3.removeClass("fadeIn");
+	$page2.removeClass("fadeIn");
 	$main.animate({"-webkit-transform":"translateY(0)"},500,"ease",function(){
 
 		$page1.addClass("fadeIn");
 		$cover.css("display","block");
-		// time5000 = 5000;
-		// $second.html( parseInt( time5000 / 1000 ) );
-		// $msecond.html( time5000 % 1000 / 100  );
 		inCoverText = 3;
 		$inCover.html(inCoverText);
 		lock = 1;
@@ -272,6 +208,20 @@ $againBtn.click(function(){
 		$zongziCartoonIn2.css({"background-image":" ","display":"none"});
 		$blood.css("display","none");
 		gameStart();
+	});
+});
+
+$understand.click(function(){
+	$page2.removeClass("fadeIn");
+	$main.animate({"-webkit-transform":"translateY(-66.66%)"},500,"ease",function(){
+		$page3.addClass("fadeIn");
+	});
+});
+
+$backgame.click(function(){
+	$page3.removeClass("fadeIn");
+	$main.animate({"-webkit-transform":"translateY(-33.33%)"},500,"ease",function(){
+		$page2.addClass("fadeIn");
 	});
 });
 
@@ -301,12 +251,9 @@ function gameStart(){
 
 		setTimeout(function(){
 			try{
-				document.addEventListener("WeixinJSBridgeReady",function () {
-					$("#backgroundMusic")[0].play();
-				},false);
-				// $("#backgroundMusic")[0].play();
+				$("#backgroundMusic")[0].play();
 			}catch(e){
-				console.log("error");
+				// console.log("error");
 			}
 			
 			clearInterval(timer3);
@@ -314,38 +261,13 @@ function gameStart(){
 
 			$second.addClass("secondmove");
 			$msecond.addClass("msecondmove");
-			// var timer5 = setInterval(function(){
-
-			// 	time5000 = time5000 - 100;
-			// 	console.log( time5000 , parseInt( time5000 / 1000 ) ,time5000 %1000 / 100 );
-			// 	$second.html( parseInt( time5000 / 1000 ) );
-			// 	$msecond.html( time5000 % 1000 / 100 );
-
-			// 	if(time5000 === 0){
-			// 		$backgroundMusic[0].pause();
-			// 		$backgroundMusic[0].currentTime = 0;
-			// 		clearInterval(timer5);
-			// 		lock = 0;
-			// 		$page1.removeClass("fadeIn");
-			// 		$main.animate({"-webkit-transform":"translateY(-5.04rem)"},1000,"ease",function(){
-
-			// 			$page2.addClass("fadeIn");
-			// 			whatTheText(count);
-
-			// 		});
-			// 	}
-			// },100);
 
 		var timer5 = setTimeout(function(){	
 			try{
-				document.addEventListener("WeixinJSBridgeReady",function () {
-					$("#backgroundMusic")[0].pause();
-					$("#backgroundMusic")[0].currentTime = 0;
-				},false);
-				// $("#backgroundMusic")[0].pause();
-				// $("#backgroundMusic")[0].currentTime = 0;
+				$("#backgroundMusic")[0].pause();
+				$("#backgroundMusic")[0].currentTime = 0;
 			}catch(e){
-				console.log("error");
+				// console.log("error");
 			}
 			
 			clearTimeout(timer5);
@@ -354,10 +276,7 @@ function gameStart(){
 			$main.animate({"-webkit-transform":"translateY(-33.33%)"},1000,"ease",function(){
 				$page2.addClass("fadeIn");
 				whatTheText(count);
-			});
-			
-
-				
+			});	
 		},5000);
 			
 	},3000);
@@ -366,11 +285,12 @@ function gameStart(){
 function whatTheText(n){
 
 	var sText = new OverText(n);
-	console.log(sText);
+	// console.log(sText);
 		  if( n >= 70 ){
 		sharePic(6);
 		$text.html(sText.mytext[6]);
 		shareMsg = sText.shareText[6];
+		shareWx();
 	}else if( n >= 50 ){
 	    sharePic(5);
 		$text.html(sText.mytext[5]);
@@ -405,9 +325,9 @@ function whatTheText(n){
 }
 
 function sharePic(n){
-	console.log("ajax")
+	// console.log("ajax")
 	var xhr = new XMLHttpRequest();
-	xhr.open('get', 'images/min/share'+ (n-1) +'.png');
+	xhr.open('get', httpHeader + 'images/min/share'+ (n-1) +'.png');
 	// xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 	xhr.onreadystatechange = function () {
 	    if(xhr.readyState == 4 ){
@@ -425,14 +345,21 @@ function sharePic(n){
 }
 
 
-function acting(){
+function acting(str){
 
 	if(lock){
+		if(str == "left"){
+			$picState3.css("display","none");
+			$picState2.css("display","block");$picState1.css("display","none");
+		}else if(str == "right"){
+			$picState3.css("display","none");
+			$picState1.css("display","block");$picState2.css("display","none");
+		}
 		count ++;
 		if(count > 25){
 			$blood.css("display","block");
 		}
-		console.log(count);
+		// console.log(count);
 		$timer.css({"-webkit-transform":"translateX(" + count / 70 * 100 + "%)"});
 		if(count%2){
 			$body.removeClass("shake").addClass("shake1");
@@ -474,15 +401,17 @@ function shareWx(){
 	    wx.onMenuShareTimeline({
 	        title:shareMsg, // 分享标题
 	        link: myURL, // 分享链接
-	        imgUrl: 'http://m.qydw.net/static/images/min/dbfshare.jpg', // 分享图标
+	        imgUrl: httpHeader + 'images/min/dbfshare.jpg', // 分享图标
 	        success: function () { 
 	            // 用户确认分享后执行的回调函数
 	            // alert("success");
-	            console.log("success");
+	            // console.log("success");
+	            return true;
 	        },
 	        cancel: function () { 
 	            // 用户取消分享后执行的回调函数
 	            // alert("cancel");
+	            return true;
 	        }
 	    });
 
@@ -490,17 +419,19 @@ function shareWx(){
 	        title: '五月五，过端午！包粽嗨起来', // 分享标题
 	        desc: shareMsg, // 分享描述
 	        link: myURL, // 分享链接
-	        imgUrl: 'http://m.qydw.net/static/images/min/dbfshare.jpg', // 分享图标
+	        imgUrl: httpHeader + 'images/min/dbfshare.jpg', // 分享图标
 	        type: 'link', // 分享类型,music、video或link，不填默认为link
 	        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
 	        success: function () { 
 	            // 用户确认分享后执行的回调函数
 	            // alert("success");
-	 	        console.log("success");
+	 	        // console.log("success");
+	 	        return true;
 	        },
 	        cancel: function () { 
 	            // 用户取消分享后执行的回调函数
 	            // alert("cancel");
+	            return true;
 	        }
 	    });
 
@@ -512,8 +443,8 @@ function shareWx(){
 function wxConfigToken (url){
 	var xhr = new XMLHttpRequest();
 	var url = url;
-	console.log(url);
-	xhr.open('get', 'http://m.qydw.net/NmbApi/GetWeixinToken/?url='+url
+	// console.log(url);
+	xhr.open('get', '../NmbApi/GetWeixinToken/?url='+url
 		);
    			
 			// xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
@@ -522,8 +453,8 @@ function wxConfigToken (url){
 			    	indexlock ++;
 			    	shareWx();
 			        result = JSON.parse(xhr.response);
-			        console.log(3,result);
-			        console.log(result.data.timestamp - 0 ,result.data.noncestr,result.data.sha_sign,result.data.jsapi_ticket);
+			        // console.log(3,result);
+			        // console.log(result.data.timestamp - 0 ,result.data.noncestr,result.data.sha_sign,result.data.jsapi_ticket);
 			        wx.config({
 			        	    // debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
 			        	    appId: 'wxe37215df86f33faa', // 必填，公众号的唯一标识
@@ -589,7 +520,7 @@ window.onload = function(){
 
 var indextime = setInterval(function(){
 
-	if(indexlock >= 2){
+	if(indexlock >= 3){
 		$loading.css("display","none"); 
 		clearInterval(indextime);
 	}

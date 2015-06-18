@@ -404,37 +404,6 @@ div.mobile{
 	
 	100% {transform:rotateZ(-2deg);}
 }
-/*.stage .riceMan{
-	width: 2.1rem;
-	height: 2.54rem;
-	background:url(images/min/zzman.png) no-repeat;
-	-webkit-background-size: cover;
-	background-size: cover;
-	position: absolute;
-	top:50%;
-	left:50%;
-	margin-top: -1.05rem;
-	margin-left: -1.26rem;
-	border-radius: 10%;
-	-webkit-animation: riceMan 4s linear 0s infinite ;
-	animation: riceMan 4s linear 0s infinite ;
-}
-@-webkit-keyframes riceMan
-{
-	0% {-webkit-transform:translateX(0%);}
-	25% {-webkit-transform:translateX(-30%);}
-	75% {-webkit-transform:translateX(30%);}
-	100% {-webkit-transform:translateX(0%);}
-
-}
-@keyframes riceMan
-{
-	0% {transform:translateX(0%);}
-	25% {transform:translateX(-30%);}
-	75% {transform:translateX(30%);}
-	100% {transform:translateX(0%);}
-
-}*/
 /*page1*/
 .page1 .timeOutBar{
 	line-height: 0.6rem;
@@ -480,15 +449,7 @@ div.mobile{
 	-o-transform: translateY(2%);
 	transform: translateY(2%);
 }
-/*.page1 .handBtn{
-	width: 100%;
-	height: 1.6rem;
-	background-color: transparent;
-	position: absolute;
-	left: 0;
-	bottom: 0;
-
-}*/
+/*.page1 */
 .page1 .leftHandBtn{
 	width: 1.5rem;
 	height: 1.5rem;
@@ -680,26 +641,7 @@ div.mobile{
 	background-position: top center;
 	background-repeat: no-repeat;
 }
-/*.animationUp1{-webkit-animation: animationUp 6s ease 0s infinite ;animation: animationUp 6s ease 0s infinite ;}
-.animationUp2{-webkit-animation: animationUp 6s ease -1s infinite ;animation: animationUp 6s ease -1s infinite ;}
-.animationUp3{-webkit-animation: animationUp 6s ease -2s infinite ;animation: animationUp 6s ease -2s infinite ;}
-.animationUp4{-webkit-animation: animationUp 6s ease -3s infinite ;animation: animationUp 6s ease -3s infinite ;}
-.animationUp5{-webkit-animation: animationUp 6s ease -4s infinite ;animation: animationUp 6s ease -4s infinite ;}
-.animationUp6{-webkit-animation: animationUp 6s ease -5s infinite ;animation: animationUp 6s ease -5s infinite ;}
-@-webkit-keyframes animationUp
-{
-	0% {-webkit-transform:translateY(0);}
-	25% {-webkit-transform:translateY(-0.1rem);}
-	75% {-webkit-transform:translateY(0.1rem);}
-	100% {-webkit-transform:translateY(0);}
-}
-@keyframes animationUp
-{
-	0% {transform:translateY(0);}
-	25% {transform:translateY(-0.1rem);}
-	75% {transform:translateY(0.1rem);}
-	100% {transform:translateY(0);}
-}*/
+
 .page2 .text{
 	width: 80%;
 	text-align: left;
@@ -740,45 +682,49 @@ div.mobile{
 	background-size: cover;
 }
 /*page3*/
-/*.page3 .ufuncodeShow{
-	width: 2.2rem;
-	height: 2.2rem;
-	margin: 0.7rem auto 0.3rem;
-	background-color: #fff;
-	border-radius: 3px;
-}
-.page3 .gift{
+.page3 .ticket20{
 	display: block;
-	width: 1.16rem;
-	height: 0.34rem;
-	margin: 0.1rem auto;
-	font-size: 0;
-	background:url(../images/min/gift.png) no-repeat;
+	width: 2.78rem;
+	height: 1.48rem;
+	background: url(../images/min/20.png) no-repeat;
 	-webkit-background-size: cover;
 	background-size: cover;
+	position: absolute;
+	left:0.2rem;
+	top:1.3rem;
 }
-
-.page3 .again{
+.page3 .ticket20:after{
+	display: block;
+	content: "";
+	width: 1.63rem;
+	height: 0.95rem;
+	background: url(../images/min/db.png) no-repeat;
+	-webkit-background-size: cover;
+	background-size: cover;
+	position: absolute;
+	right:0rem;
+	top:-0.65rem;
+}
+.page3 .backgame{
 	display: block;
 	width: 1.17rem;
-	height: 0.34rem;
-	margin: 0.1rem auto;
-	font-size: 0;
-	background:url(../images/min/again.png) no-repeat;
+	height: 0.35rem;
+	background: url(../images/min/backgame.png) no-repeat;
 	-webkit-background-size: cover;
 	background-size: cover;
+	margin: 3rem auto 0.2rem;
+	font-size: 0;
 }
-
-.page3 .sharebtn{
+.page3 .godownload{
 	display: block;
-	width: 1.19rem;
-	height: 0.29rem;
-	margin: 0.1rem auto;
-	font-size: 0;
-	background:url(../images/min/sharebtn.png) no-repeat;
+	width: 1.61rem;
+	height: 0.35rem;
+	background: url(../images/min/godownload.png) no-repeat;
 	-webkit-background-size: cover;
 	background-size: cover;
-}*/
+	margin: 0.2rem auto;
+	font-size: 0;
+}
 /*time*/
 .second{
 	float: left;
@@ -843,4 +789,13 @@ div.mobile{
 	-ms-transform: translateX(20%);
 	-o-transform: translateX(20%);
 	transform: translateX(20%);
+}
+.index.ip4 .title,.index.ip4 .tip{
+	zoom:0.9;
+}
+.index.ip4 .tip{
+	top:0.1rem;
+}
+.index.ip4 .title{
+	bottom:0.1rem;
 }
