@@ -7,10 +7,10 @@ title: 我的Blog
 
 <p>最新文章</p>
 
-<ul>
+<ul class="articleList">
 
 	{% for post in site.posts %} 
-		<li>{{ post.date | date_to_string }} 
+		<li><span class="date">{{ post.date | date_to_string }}</span><br /> 
 			<a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
 		</li>
 	{% endfor %}

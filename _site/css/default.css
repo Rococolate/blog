@@ -1,5 +1,134 @@
 @charset:"utf-8";
 
+body,html{
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+	line-height: 1.375;
+}
 body{
-	background-color: #f40;
+	font-size: 16px;
+}
+img{
+	width: 100%;
+	max-width: 768px;
+	margin-bottom: 20px;
+}
+h2{
+	font-size: 2em;
+	font-weight: bold;
+	margin-bottom:20px;
+}
+h3{
+	font-size: 1.75em;
+	margin-bottom: 20px;
+	color:chocolate;
+}
+h4{
+	font-size: 1.5rem;
+	margin-bottom: 20px;
+	color:seagreen;
+}
+h5{
+	font-size: 1.25rem;
+	margin-bottom: 20px;
+}
+p{
+	text-indent: 2em;
+	margin-bottom: 10px;
+	color:#171717;
+}
+em{
+	font-weight: bold;
+}
+blockquote {
+	background:#f9f9f9;
+	border-left:10px solid #ccc;
+	margin:1.5em 10px;
+	padding:.5em 10px;
+	quotes:"\201C""\201D""\2018""\2019";
+}
+blockquote:before {
+	color:#ccc;
+	content:open-quote;
+	font-size:4em;
+	line-height:.1em;
+	margin-right:.25em;
+	vertical-align:-.4em;
+}
+blockquote p {
+	display:inline;
+}
+.hide{
+	display: none;
+}
+/*header*/
+.header{
+	width: 100%;
+	height: 120px;
+	/*background-color:pink;*/
+}
+a{
+	color: #333;
+	text-decoration: underline;
+}
+a:active{
+	color:#333;
+	text-decoration: underline;
+}
+/*nav*/
+.nav{
+	width: 100%;
+	line-height: 16px;
+	font-size: 16px;
+	padding-left: 10%;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	box-sizing:border-box;
+	/*background-color:yellow;*/
+}
+.nav a{
+	padding-left: 3%;
+}
+/*aside*/
+.aside{
+	width: 7%;
+	min-height: 200px;
+	float: left;
+	/*background-color:yellowgreen;*/
+}
+/*content*/
+.content{
+	width: 93%;
+	min-height: 200px;
+	float: left;
+	/*background-color:gold;*/
+	padding:3%;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	box-sizing:border-box;
+}
+.articleList li{
+	width: 100%;
+	max-width: 500px;
+	border: 1px solid #636363;
+	border-radius: 3px;
+	margin-bottom: 10px;
+	padding:3px;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	box-sizing:border-box;
+}
+.date{
+	color:#636363;
+}
+/*color*/
+.red{
+	color:red;
 }

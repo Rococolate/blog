@@ -4,6 +4,265 @@ title: Web移动端自适应布局之rem与高清屏下的矢量图使用
 ---
 
 <h2>{{ page.title }}</h2>
-<p>我的第二篇文章</p>
+<h5>我的第二篇文章</h5>
 <p>{{ page.date | date_to_string }}</p>
-<p>Web移动端自适应布局之rem与高清屏下的矢量图使用(github首发求star)</p>
+<hr />
+<h3>PART ONE -- rem</h3>
+<br /><h4>1、移动大潮下的屏幕碎片化</h4><br />
+<p>从2010年iphone4发布后这5年来，智能手机屏幕尺寸越来越大，规格也越来越多，单是苹果手机家族就4个尺寸，更不用提Android阵型了。</p>
+<img src="{{ site.baseurl }}/images/blog/iphone.png" alt="iphone" /><br />
+<p>在Web移动端我们要使用<span class="red">视口(viewport)</span>来控制浏览器的窗口在合适的大小内显示。我们这&lt;head&gt;&lt;/head&gt;里面加入关于视口的META标签</p>
+<pre><code class="language-markup">
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui" /&gt;
+</code></pre>
+<p>加入视口标签后，手机浏览器会按照设备本身预先设定好的视口大小作为整个窗口的宽和高，不同手机的设置会不一样。</p>
+<img src="{{ site.baseurl }}/images/blog/webview.png" alt="webview" />
+<p>如上图所视，移动端屏幕分辨率碎片化严重。</p>
+
+<br /><h4>2、设计稿相关</h4><br />
+<p>面对多种不同的屏幕宽度，设计稿通常都只会设计一份，前端需要按照这份设计稿去适配不同设备。</p>
+<p>公司的设计稿按照<span class = "red"> 640px </span> × 1136px (I5/5s)给出，对应的5/5s在前端的实际显示应用应为<span class = "red">320px</span>（视口标签加入后），所以在前端布局上所有的尺寸都要<span class = "red">除以2。</span></p>
+
+<pre><code class="language-css">
+html{
+		width: 100%;
+		height: 100%;
+		background-color: #fff;
+	}
+body{
+	width:320px;
+	font-size:16px;
+	color:#000;
+	background-color:tomato;
+	margin:0 auto;   /* 水平居中 */
+}
+</code></pre>
+<img src="{{ site.baseurl }}/images/blog/c1.png" alt="contrast1" />
+
+<p><em>因为浏览器最小能显示的中文字体字号是12px，所以要求设计稿中的中文字体字号<span class="red">最小是24px</span>，而在考虑到移动端阅读的方便，正文一般是用16px，相应的设计稿正文为32px。</em></p>
+
+<br /><h4>3、Web移动端自适应布局之rem</h4><br />
+<p>宽度320px的布局是完美适配I4/4s/I5/5s这类加入视口标签后宽度为320px的机型，但对其他机型需要进行一些处理。</p>
+<p>处理的方法有很多，比如媒体查询法，百分比与flexbox结合大法，vw大法，还有就是rem大法。</p><br />
+<p>今天只说rem。先说一下兼容性，我们祭出 <a href="http://caniuse.com/#feat=rem" target＝"_blank">caniuse.com</a></p>
+<img src="{{ site.baseurl }}/images/blog/rem.png" alt="rem" />
+<p>如图可见，除了低版本IE傲娇外，在移动端是全面支持，可以大胆使用。那么，什么是rem？</p>
+<blockquote><p>Equal to the computed value of ‘font-size’ on the root element.</p></blockquote>
+<p>「rem」是指根元素（root element,html）的字体大小。那么除了html的字体大小不能用rem外，其他所有的css属性需要数值时都能用rem作为单位。这是极好的事情。</p>
+
+<pre><code class="language-css">
+html{
+	font-size:100px;
+}
+body{
+	width:3.2rem;     /* 使用rem,宽为3.2 × 100px ＝ 320px */
+	font-size:16px;
+	color:#000;
+	background-color:tomato;
+	margin:0 auto;   /* 水平居中 */
+}
+</code></pre>
+
+<p>于是对于不同宽的屏幕我们可以改变html的font-size大小，与320px一样的比例来达到适应的目的。屏幕的宽度用JS获取，然后剩下就是简单的比例运算。</p>
+<pre><code class="language-javascript">
+//响应式设置(Zepto/JQ版)
+$(document).ready(function(){                   //页面DOM加载完成时执行
+	var $windowWidth = $(window).width();		//获得页面宽度
+	setTimeout(function(){
+		$windowWidth = $(window).width();
+		$("html").css("font-size",(100/320) * $windowWidth + "px");  //改变html的字体大小
+	},100);
+
+	$(window).resize(function(){                //调试用
+		$windowWidth = $(window).width();
+		$("html").css("font-size",(100/320) * $windowWidth + "px");
+	});
+});
+</code></pre>
+
+<img src="{{ site.baseurl }}/images/blog/c2.png" alt="contrast2" />
+<p>ok，这样基本上就能全部响应了。</p>
+<p>不过还有一个问题是，在PC端一般都是横屏看的话，会比较难看，于是我们在js上有一些小调整。</p>
+<pre><code class="language-javascript">
+//响应式设置(Zepto/JQ版)
+$(document).ready(function(){
+	var $windowWidth = $(window).width();
+	setTimeout(function(){
+		$windowWidth = $(window).width();
+		if($windowWidth > 640){
+			$windowWidth = 640;            		//限定最大宽度为640
+		}
+		$("html").css("font-size",(100/320) * $windowWidth + "px");
+	},100);
+	
+	$(window).resize(function(){
+		$windowWidth = $(window).width();
+		if($windowWidth > 640){
+			$windowWidth = 640;
+		}
+		$("html").css("font-size",(100/320) * $windowWidth + "px");
+	});
+});
+</code></pre>
+
+<br /><h4>4、rem使用的地方</h4><br />
+<p>rem一般用在整体布局方面，局部的微调还是建议用px，如1px的边框，3px的圆角都不建议用rem</p>
+<hr />
+
+<h3>PART&nbsp; TWO -- 矢量图在移动端的应用</h3>
+<br /><h4>1、矢量图？</h4><br />
+<p>矢量图（AI，PDF，EPS，SVG等）是区别于位图（JPG，PNG，GIF等）的一种图片格式，其特点是放大不会失真，在web上应用最广泛的是各种矢量字体和SVG。</p>
+<p>本质上矢量图是运用数学描述图像的一种形式。</p>
+<br /><h4>2、SVG</h4><br />
+<blockquote><p>可缩放矢量图形(SVG)是基于可扩展标记语言（标准通用标记语言的子集），用于描述二维矢量图形的一种图形格式。它由万维网联盟制定，是一个开放标准。</p></blockquote>
+<p>和HTML类似SVG也是XML的子集，而且SVG可以内嵌在HTML中，好处是可以进行通过JS对SVG进行DOM操作，下面是一个SVG文件，并通过&lt;defs&gt;和&lt;use&gt;重复使用。</p>
+<p>&lt;defs&gt;是定义模版，&lt;use&gt;是重复使用。</p>
+<pre><code class="language-markup">
+&lt;svg version="1.1" id="camera" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve"&gt;
+	&lt;defs&gt;
+		&lt;g&gt;
+			&lt;path fill="#003D99" d="M937.9,932.9H86.1C38.6,932.9,0,894.3,0,846.8V234.6c0-47.5,38.6-86.1,86.1-86.1h54.2l43.1-57.4h227.2
+				l57.4,57.4h469.8c47.5,0,86.1,38.6,86.1,86.1v612.2C1024,894.3,985.4,932.9,937.9,932.9z M86.1,205.9c-15.8,0-28.7,12.9-28.7,28.7
+				v612.2c0,15.8,12.9,28.7,28.7,28.7h851.7c15.8,0,28.7-12.9,28.7-28.7V234.6c0-15.8-12.9-28.7-28.7-28.7H444.3l-57.4-57.4H212.1
+				l-43.1,57.4H86.1z"/&gt;
+		&lt;/g&gt;
+		&lt;g&gt;
+			&lt;path fill="#003D99" d="M512,741.7c-126.7,0-229.7-103-229.7-229.7s103-229.7,229.7-229.7s229.7,103,229.7,229.7
+				S638.7,741.7,512,741.7z M512,339.7c-95,0-172.3,77.3-172.3,172.3S417,684.3,512,684.3S684.3,607,684.3,512S607,339.7,512,339.7z"
+				/&gt;
+		&lt;/g&gt;
+		&lt;g&gt;
+			&lt;circle fill="#003D99" cx="446.6" cy="441.9" r="35.1"/>
+		&lt;/g&gt;
+	&lt;/defs&gt;
+&lt;/svg&gt;
+
+&lt;div style="width:10px;"&gt;
+	&lt;svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve"&gt;
+		&lt;use xlink:href="#demo" /&gt;
+	&lt;/svg&gt;
+&lt;/div&gt;
+
+&lt;div style="width:40px;"&gt;
+	&lt;svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve"&gt;
+		&lt;use xlink:href="#demo" /&gt;
+	&lt;/svg&gt;
+&lt;/div&gt;
+
+...
+</code></pre>
+<p>然后放在页面里</p>
+<svg class= "hide">
+	<defs>
+  		<g id="demo">
+		    <g>
+		 		<path fill="#003D99" d="M937.9,932.9H86.1C38.6,932.9,0,894.3,0,846.8V234.6c0-47.5,38.6-86.1,86.1-86.1h54.2l43.1-57.4h227.2
+					l57.4,57.4h469.8c47.5,0,86.1,38.6,86.1,86.1v612.2C1024,894.3,985.4,932.9,937.9,932.9z M86.1,205.9c-15.8,0-28.7,12.9-28.7,28.7
+					v612.2c0,15.8,12.9,28.7,28.7,28.7h851.7c15.8,0,28.7-12.9,28.7-28.7V234.6c0-15.8-12.9-28.7-28.7-28.7H444.3l-57.4-57.4H212.1
+					l-43.1,57.4H86.1z"/>
+			</g>
+			<g>
+				<path fill="#003D99" d="M512,741.7c-126.7,0-229.7-103-229.7-229.7s103-229.7,229.7-229.7s229.7,103,229.7,229.7
+					S638.7,741.7,512,741.7z M512,339.7c-95,0-172.3,77.3-172.3,172.3S417,684.3,512,684.3S684.3,607,684.3,512S607,339.7,512,339.7z"
+					/>
+			</g>
+			<g>
+				<circle fill="#003D99" cx="446.6" cy="441.9" r="35.1"/>
+			</g>
+		</g>
+	</defs>
+</svg>
+<div style="width:10px;">
+	<svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
+		<use xlink:href="#demo" />
+	</svg>
+</div>
+<p>width:10px</p>
+
+<div style="width:40px;">
+	<svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
+		<use xlink:href="#demo" />
+	</svg>
+</div>
+<p>width:40px</p>
+
+<div style="width:120px;">
+	<svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
+		<use xlink:href="#demo" />
+	</svg>
+</div>
+<p>width:120px</p>
+
+<div style="width:200px;">
+	<svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
+		<use xlink:href="#demo" />
+	</svg>
+</div>
+<p>width:200px</p>
+
+<div style="width:280px;">
+	<svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
+		<use xlink:href="#demo" />
+	</svg>
+</div>
+<p>width:280px</p>
+
+<div style="width:280px;" id="svgDemo">
+	<svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+		 viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
+		<pattern  y="1024" width="20" height="20" patternUnits="userSpaceOnUse" id="grid" viewBox="0 -20.5 20 20" overflow="visible">
+			<g>
+				<path fill="none" stroke-width="2" stroke="#000" d="M0-0.5h20v-20"/>
+			</g>
+		</pattern>
+		<rect fill="url(#grid)" width="1024" height="1024"/>
+		<path id="svgCirle" fill="#009245" stroke="#FF7628" stroke-width="0" d="M512,512 L512,112 A400,400,1,0,1,512,112z"/>
+		<circle id="svgCirleHide" fill="#009245" cx="512" cy="512" r="400"/>
+	</svg>
+</div>
+
+<p>于js的交互</p>
+<p>SVG真的很棒！SVG还有很多好棒的功能如<a href="http://www.zhangxinxu.com/wordpress/?p=4264" target＝"_blank">SVGsprite</a>、<a href="http://www.w3cplus.com/svg/why-the-svg-filter-is-awesome.html?utm_source=tuicool" target＝"_blank">SVG滤镜</a>等等，然后。。。。</p>
+<blockquote><p>好用的技术一定不兼容，越好用的技术越不兼容。</p><br /><p style="text-align:right;">----前端第一定律</p></blockquote>
+
+<script type="text/javascript">
+	var l = -1;
+	var $svgCirle = $("#svgCirle");
+	var $svgDemo = $("#svgDemo");
+	var $svgCirleHide = $("#svgCirleHide");
+	var pi = Math.PI;
+	var deg = 0;
+	var laf = null;
+	var t = null;
+	
+	$svgDemo.click(function(){
+		$svgCirleHide.css("display","none");
+		l = l * -1;
+		if(l == 1){
+			clearInterval(t);
+			t = setInterval(setCirle,16);
+		}else if(l == -1){
+			clearInterval(t);
+		}
+	});
+
+	function setCirle(){
+		
+		cx = 400 * Math.cos(deg+3*pi/2)+512;
+		cy = 400 * Math.sin(deg+3*pi/2)+512;
+		if(cx >= 512){
+			laf = 1;
+		}else{
+			laf = 0;
+		}
+		changeCirle();
+		deg = deg + pi/60 ;
+	}
+	function changeCirle(){
+		
+		$svgCirle.attr("d","M512,512 L512,112 A400,400,1,"+laf+",0,"+cx+","+cy+"z");
+	}
+</script>
+
+

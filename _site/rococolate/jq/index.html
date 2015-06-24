@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		div.square{
+			width: 500px;
+			height: 500px;
+			margin: 50px auto;
+			position: relative;
+			
+			background-color: cyan;
+		}
+		div.circle{
+			width: 500px;
+			height: 500px;
+			
+			position: relative;
+			border-radius: 50%;
+			background-color: yellowgreen;
+		}
+		span{
+			width: 18px;
+			height: 18px;
+			border-radius: 50%;
+			background-color: pink;
+			position: absolute;
+			text-align: center;
+			line-height: 18px;
+			margin-left: -9px;
+			margin-top: -9px;
+			top:50%;
+		}
+		span.first{
+			
+			left:0;
+
+		}
+		span.second{
+			
+			left:25%;
+
+		}
+		span.third{
+			
+			left:12.5%;
+		}
+
+		span.bagin{
+			
+			left:50%;
+
+		}
+		div.control{
+			width: 100px;
+			height: 50px;
+			position: relative;
+		}
+		div.control .stop{
+			width: 100px;
+			height: 50px;
+			position: absolute;
+			top: 0;
+			left: 0;
+			background-color: pink;
+			text-align: center;
+			line-height: 50px;
+		}
+		div.control .goon{
+			width: 100px;
+			height: 50px;
+			position: absolute;
+			top: 0;
+			left: 0;
+			background-color: gold;
+			display: none;
+			text-align: center;
+			line-height: 50px;
+		}
+	</style>
+</head>
+<body>
+	<p>
+		请调节速度：<input id="range" type="range" min="1" max="144" value="36" />
+		<b id="sudu"></b>
+	</p>
+	<p>
+		请调节域：<input id="range2" type="range" min="1" max="6" value="1" />
+		<b id="yu"></b>
+	</p>
+	<div class="control">
+		<div class="stop">暂停</div>
+		<div class="goon">继续</div>
+	</div>
+	<div class="square">
+		<div class="circle" id="box1">
+			<span class="bagin"></span>
+			<span class="freedom"></span>
+			<span class="freedom"></span>
+			<span class="freedom"></span>
+			<span class="freedom"></span>
+			<span class="freedom"></span>
+			<span class="freedom"></span>
+			<span class="freedom"></span>
+			<span class="freedom"></span>
+			<span class="freedom"></span>
+			
+		</div>
+	</div>
+<script type="text/javascript" src="jquery-1.11.2.min.js"></script>
+<script type="text/javascript">
+	var a = 0;
+	var b = 5.5;
+	var c ;
+	 
+	$("#box1 span.freedom").each(function(){  //为小球添加left值
+		c = a + "%" ;
+		$(this).css("left",c);
+		a = a + b ;
+		
+	});
+	var $myspan = $("#box1 span");//获得所有小球
+	
+	
+	var spanR = [];				//计算所有小球的半径r
+	$myspan.each(function(){
+		var x = parseFloat($(this).css("left")) - 250;
+		
+		var y = parseFloat($(this).css("top")) - 250;
+		
+		spanR[spanR.length] = Math.sqrt( x * x + y * y );
+		
+	});
+	
+	
+	var speed = 36;//越小越快
+	var sudu = document.getElementById('sudu');
+	var range = document.getElementById('range');
+	sudu.innerHTML = speed;
+	range.onchange = function (){
+		speed = range.value;
+		sudu.innerHTML = speed;
+	}
+
+	var fenmu = 1;//1为正圆
+	var yu = document.getElementById('yu');
+	var range2 = document.getElementById('range2');
+	yu.innerHTML = fenmu;
+	range2.onchange = function (){
+		fenmu = range2.value;
+		yu.innerHTML = fenmu;
+	}
+
+	var pi = Math.PI;
+	var deg = 0;
+	yuan (speed,fenmu);
+	function yuan (sp,fm) {
+		var i ;
+		var spanXY = [];           //获得所有小球的x和y
+		$myspan.each(function(){
+			spanXY[spanXY.length] = $(this).css("left");
+			spanXY[spanXY.length] = $(this).css("top");
+		});
+
+									//所有小球开始动画
+		$myspan.each(function(){
+			 i = $(this).index();    //0号小球callback里定义所有小球的下一个动画位置
+			if(i === 0){
+
+				$(this).stop().animate({"left":spanXY[i*2],"top":spanXY[i*2+1]},40,"linear",function(){
+					
+					$myspan.each(function(){
+						$(this).css({"left":spanR[$(this).index()]*Math.cos(deg+pi)+250,"top":spanR[$(this).index()]*Math.sin(deg+pi/fm)+250});
+					});
+
+					deg = deg + pi / sp;    //改变的角度
+					yuan(speed,fenmu);       //迭代
+				});
+			}else{
+				$(this).stop().animate({"left":spanXY[i*2],"top":spanXY[i*2+1]},40,"linear");
+			}
+		});
+	}
+	$("div.control .stop").click(function(){     //停止按钮
+		$myspan.eq(0).stop(true);
+		$(this).css("display","none").siblings().css("display","block");
+	});
+	$("div.control .goon").click(function(){     //继续按钮
+		$(this).css("display","none").siblings().css("display","block");
+		yuan(speed);
+	});
+
+	
+	
+</script>
+</body>
+</html>

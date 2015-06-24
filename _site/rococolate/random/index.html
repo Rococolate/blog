@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>随机座位</title>
+	<style type="text/css">
+		.jiangtai{
+			margin: 0 auto;
+			padding-left: 40px;
+		}
+		
+		input[type="button"]{
+			width: 200px;
+			height: 40px;
+			background-color: yellowgreen;
+			border-radius: 15px;
+			font-size:25px;
+			color:white;
+			margin: 0 auto;
+			display: block;
+			
+		}
+		.block{
+			width: 70px;
+			height: 70px;
+			line-height: 70px;
+			text-align: center;
+			background-color: pink;
+			margin: 5px 2px;
+			display: inline-block;
+			font-size: 14px;
+			border-radius: 5px;
+		}
+		.main{
+			max-width: 987px;
+			margin: 0 auto;
+			text-align: center;
+		}
+
+		.vhidden{
+			visibility: hidden;
+		}
+		.fs0{
+			font-size: 0;
+		}
+	</style>
+	<script type="text/javascript">
+		var arrayDate =['黄兰成', '梁杏怡', '梁雪娟', '蒋海兰', '庞柏森', '沈明发', '陆康辉', '李莉岚', '黄芷莹', '蒋移兵', '邹丁', '叶瑞仁', '张名全', '赖晓彤', '贺丹', '韦宁', '李嘉文', '李世陶', '黄志禅', '林月榕', '杨艳仪', '邓素梅', '叶婉仪', '陈宣允', '陈嘉琦', '杨泽通', '黄武聪', '张东鹏', '郑泽炳', '陈欣', '张碧婷', '黎彩明', '龙晨', '邹小斌', '陈亮韦', '付姗姗', '李琪', '张彬彬', '吴冠禧', '王一凡', '盛文观', '黄何彬', '曾春燕', '龚琪', '姚文光', '黄绮梦', '黄秀文', '陈金海', '关嘉欣', '陈泰斌', '吕全杨', '刘丁瑜', '郑少真', '刘付晓燕', '杨绍成', '伍尚霞', '张志辉', '李辉辉', '徐海丰', '谭子斌', '黄兵'];
+			
+		function fun(){
+			
+			console.log(arrayDate.length);
+			var num = new Array();
+			var save = new Array();
+			for(var b = 0;b<arrayDate.length;){
+				
+				num[num.length] = "a" + b;
+				var a =	Math.ceil(Math.random()*arrayDate.length);
+				
+				
+
+				for(var j = 0,k = 0;j<=save.length;j++){
+					
+					if(a === save[j]){
+						k++;}
+						
+					}
+				if(k === 0){	
+				save[save.length] = a;
+				
+				document.getElementById(num[num.length-1]).innerHTML = arrayDate[a-1] ;
+				b++;}
+			}
+		}		
+				
+			
+			
+		
+	</script>
+</head>
+<body>
+	<div class="jiangtai">
+		<input type="button"  value="随机讲台请按我" onclick="fun()" class="sp" />
+	</div>
+	<div class="main">
+		<div class="mainA fs0">
+			<div class="block" id="a0">A1</div>
+			<div class="block" id="a1">A2</div>
+			<div class="block" id="a2">A3</div>
+			<div class="block" id="a3">A4</div>
+			<div class="block" id="a4">A5</div>
+			<div class="block vhidden" id="">A6</div>
+			<div class="block vhidden" id="">00</div>
+			<div class="block vhidden" id="">a1</div>
+			<div class="block vhidden" id="">a2</div>
+			<div class="block" id="a5">a3</div>
+			<div class="block" id="a6">a4</div>
+			<div class="block" id="a7">a5</div>
+			<div class="block" id="a8">a6</div>
+		</div>
+		<div class="mainB fs0">
+			<div class="block vhidden" id="">B1</div>
+			<div class="block" id="a9">B2</div>
+			<div class="block" id="a10">B3</div>
+			<div class="block" id="a11">B4</div>
+			<div class="block" id="a12">B5</div>
+			<div class="block vhidden" id="">B6</div>
+			<div class="block vhidden" id="">00</div>
+			<div class="block vhidden" id="">b1</div>
+			<div class="block vhidden" id="">b2</div>
+			<div class="block" id="a13">b3</div>
+			<div class="block" id="a14">b4</div>
+			<div class="block" id="a15">b5</div>
+			<div class="block" id="a16">b6</div>
+		</div>
+		<div class="mainC fs0">
+			<div class="block" id="a17">C1</div>
+			<div class="block" id="a18">C2</div>
+			<div class="block" id="a19">C3</div>
+			<div class="block" id="a20">C4</div>
+			<div class="block" id="a21">C5</div>
+			<div class="block" id="a22">C6</div>
+			<div class="block vhidden" id="">00</div>
+			<div class="block" id="a23">c1</div>
+			<div class="block" id="a24">c2</div>
+			<div class="block" id="a25">c3</div>
+			<div class="block" id="a26">c4</div>
+			<div class="block" id="a27">c5</div>
+			<div class="block" id="a28">c6</div>
+		</div>
+		<div class="mainD fs0">
+			<div class="block vhidden" id="">D1</div>
+			<div class="block" id="a29">D2</div>
+			<div class="block" id="a30">D3</div>
+			<div class="block" id="a31">D4</div>
+			<div class="block" id="a32">D5</div>
+			<div class="block" id="a33">D6</div>
+			<div class="block vhidden" id="">00</div>
+			<div class="block" id="a34">d1</div>
+			<div class="block" id="a35">d2</div>
+			<div class="block" id="a36">d3</div>
+			<div class="block" id="a37">d4</div>
+			<div class="block" id="a38">d5</div>
+			<div class="block" id="a39">d6</div>
+		</div>
+		<div class="mainE fs0">
+			<div class="block vhidden" id="">E1</div>
+			<div class="block" id="a40">E2</div>
+			<div class="block" id="a41">E3</div>
+			<div class="block" id="a42">E4</div>
+			<div class="block" id="a43">E5</div>
+			<div class="block" id="a44">E6</div>
+			<div class="block vhidden" id="">00</div>
+			<div class="block vhidden" id="">e1</div>
+			<div class="block" id="a45">e2</div>
+			<div class="block" id="a46">e3</div>
+			<div class="block" id="a47">e4</div>
+			<div class="block" id="a48">e5</div>
+			<div class="block" id="a49">e6</div>
+		</div>
+		<div class="mainF fs0">
+			<div class="block" id="a50">F1</div>
+			<div class="block" id="a51">F2</div>
+			<div class="block" id="a52">F3</div>
+			<div class="block" id="a53">F4</div>
+			<div class="block" id="a54">F5</div>
+			<div class="block" id="a55">F6</div>
+			<div class="block vhidden" id="">00</div>
+			<div class="block vhidden" id="">f1</div>
+			<div class="block" id="a56">f2</div>
+			<div class="block" id="a57">f3</div>
+			<div class="block" id="a58">f4</div>
+			<div class="block" id="a59">f5</div>
+			<div class="block" id="a60">f6</div>
+		</div>
+	</div>	
+</body>
+</html>

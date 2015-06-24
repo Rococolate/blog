@@ -1,14 +1,21 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="zh">
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui" />
+	<link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/css/default.css">
-	<link rel="shortcut icon"  href="favicon.ico">
+	<link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/css/prism_okaidia.css">
+	<link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/css/prism.css">
+	<link rel="shortcut icon"  href="{{ site.baseurl }}/favicon.ico">
+	<script type="text/javascript" src="{{ site.baseurl }}/js/zeptoWithFx.min.js"></script>
 	<title>{{ page.title }}</title>
+	
 </head>
 <body>
-	{{ content }}
+	<div class="header"></div>
+	<div class="nav"><a href="{{ site.baseurl }}/index.html">Home</a><a href="{{ site.baseurl }}/article.html">Article</a><a href="{{ site.baseurl }}/aboutme.html">About me</a></div>
+	<div class="aside"></div><div class="content">{{ content }}</div>
+	<script type="text/javascript" src="{{ site.baseurl }}/js/prism.js"></script>
 </body>
-
 </html>

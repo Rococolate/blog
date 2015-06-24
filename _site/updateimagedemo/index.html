@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>demo</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui" />
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding:0;
+		}
+		form{
+			max-width: 500px;
+			width: 100%;
+			height: 100px;
+			line-height: 100px;
+			margin: 0 auto;
+			background-color: pink;
+			text-align: center;
+			position: relative;
+		}
+		input[type="file"]{
+			position: absolute;
+			width: 200px;
+			cursor: pointer;
+			font-size: 18px;
+			top:50%;
+			left:10px;
+			margin-top: -9px;
+		}
+		button{
+			position: absolute;
+			display: inline-block;
+			font-size: 18px;
+			width: 50px;
+			height: 50px;
+			border: 0px solid #000;
+			background-color: yellowgreen;
+			line-height: 50px;
+			border-radius: 5px;
+			text-align: center;
+			cursor: pointer;
+			top:50%;
+			right:10px;
+			margin-top: -25px;
+		}
+		#forImg{
+			width: 100%;
+			text-align: center;
+			background-color: yellowgreen;
+			font-size: 0;
+			position: relative;
+		}
+		#forImg span{
+			color:blue;
+			font-size: 20px;
+			position: absolute;
+			left: 10px;
+			top: 10px;
+		}
+		#forImg img{
+			display: block;
+			margin: 0 auto;
+			width: 100%;
+			max-width:400px;
+		}
+	</style>
+</head>
+<body>
+	<form>
+		<input id="file" type="file" />
+		<button id="up">up</button>
+	</form>
+	<div id="forImg" >
+		
+	</div>
+	<script type="text/javascript">
+(function(){
+	var fileObj = document.getElementById('file');
+	var forImg = document.getElementById('forImg');
+	
+	fileObj.onchange = function () {
+	window.URL    = window.URL || window.webkitURL;	
+		forImg.innerHTML = "" ;
+		var file = this.files[0];
+		 	console.log(file);
+
+		var img = new Image();
+
+		var smallimg = new Image();
+
+		img.onload = function(){
+
+			var w = img.width;
+
+			var h = img.height;
+
+			var canvas = document.createElement('canvas'), ctx;
+
+			if(w >= h){
+				canvas.width  = 400 ;
+				canvas.height = Math.ceil(400 * h / w);
+			}else{
+				canvas.width = Math.ceil(400 * w / h) ;
+				canvas.height = 400 ;
+			}
+			
+			ctx = canvas.getContext('2d');
+
+			ctx.fillStyle = '#fff';
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+			ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+			var resultsBase64 = canvas.toDataURL('image/jpeg', 1);
+
+			var data = resultsBase64;
+
+			// dataURL 的格式为 “data:image/png;base64,****”,逗号之前都是一些说明性的文字，我们只需要逗号之后的就行了
+			data = data.split(',')[1];
+			data = window.atob(data);
+			var ia = new Uint8Array(data.length);
+			for (var i = 0; i < data.length; i++) {
+			    ia[i] = data.charCodeAt(i);
+			};
+
+			// canvas.toDataURL 返回的默认格式就是 image/png
+			var resultsblob = new Blob([ia], {type:'image/jpeg'});
+
+
+			console.log(resultsblob);
+
+			forImg.appendChild(img);
+			var span1 = document.createElement('span');
+			span1.innerHTML = file.size / 1024 + "KB";
+			forImg.appendChild(span1);
+
+			smallimg.onload = function(){
+
+				forImg.appendChild(smallimg);
+				var span2 = document.createElement('span');
+				span2.innerHTML = resultsblob.size / 1024 + "KB";
+
+				span2.style.top = img.height + 10 + "px";
+				forImg.appendChild(span2);
+			}
+
+			smallimg.src = resultsBase64;
+		}
+
+		img.src = window.URL.createObjectURL(file);
+	}
+
+})();
+
+	
+
+	</script>
+</body>
+</html>
