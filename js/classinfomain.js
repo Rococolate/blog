@@ -28,17 +28,17 @@ window.onload = function(){
 		}
 	});
 
-	// var rem = $(window).width() * (100/320) ;
+	var rem = $(window).width() * (100/320) ;
 
-	// var $mytable = $("table");
-	// $mytable.each(function(){
-	// 	var thisWidth = $(this).width();
-	// 	var thisHeigth = $(this).height();
-	// 	var bei = (2.96*rem) / thisWidth;
-	// 	var marginBottom = (bei - 1) * thisHeigth;
-	// 	var marginRight = (bei - 1) * thisWidth;
-	// 	if($(this).width() >= $(".classDescriptionContent").width()){
-	// 		$(this).attr({"style":"transform:scale("+ bei+","+ bei +");transform-origin:0% 0%;webkit-transform:scale("+  bei +","+ bei +");webkit-transform-origin:0% 0%;margin-bottom:" + marginBottom +"px;margin-right:" + marginRight +"px;"});
-	// 	}
-	// });
+	var $mytable = $("table");
+	$mytable.each(function(){
+		var thisWidth = $(this).width();
+		var thisHeigth = $(this).height();
+		var bei = (2.96*rem) / thisWidth;
+		var marginBottom = (bei - 1) * thisHeigth;
+		var marginRight = (bei - 1) * thisWidth;
+		if($(this).width() >= $(".classDescriptionContent").width()){
+			$(this).attr({"style":"transform:scale("+ bei+","+ bei +");transform-origin:0% 0%;webkit-transform:scale("+  bei +","+ bei +");webkit-transform-origin:0% 0%;margin-bottom:" + marginBottom +"px;margin-right:" + marginRight +"px;"});
+		}
+	});
 }
