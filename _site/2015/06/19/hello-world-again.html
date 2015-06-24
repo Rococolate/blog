@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="/blog/css/default.css">
 	<link rel="stylesheet" type="text/css" href="/blog/css/prism_okaidia.css">
 	<link rel="stylesheet" type="text/css" href="/blog/css/prism.css">
+	<link rel="stylesheet" type="text/css" href="/blog/css/iconmc.css">
 	<link rel="shortcut icon"  href="/blog/favicon.ico">
 	<script type="text/javascript" src="/blog/js/zeptoWithFx.min.js"></script>
 	<title>Web移动端自适应布局之rem与高清屏下的矢量图使用</title>
@@ -234,10 +235,36 @@ $(document).ready(function(){
 	</svg>
 </div>
 
-<p>于js的交互</p>
-<p>SVG真的很棒！SVG还有很多好棒的功能如<a href="http://www.zhangxinxu.com/wordpress/?p=4264" target＝"_blank">SVGsprite</a>、<a href="http://www.w3cplus.com/svg/why-the-svg-filter-is-awesome.html?utm_source=tuicool" target＝"_blank">SVG滤镜</a>等等，然后。。。。</p>
-<blockquote><p>好用的技术一定不兼容，越好用的技术越不兼容。</p><br /><p style="text-align:right;">----前端第一定律</p></blockquote>
+<p>与JS的交互（点它！）</p>
+<p>SVG还有很多好棒的功能如<a href="http://www.zhangxinxu.com/wordpress/?p=4264" target＝"_blank">SVGsprite</a>、<a href="http://www.w3cplus.com/svg/why-the-svg-filter-is-awesome.html?utm_source=tuicool" target＝"_blank">SVG滤镜</a>等等，但是。。。。</p>
+<blockquote><p>好用的技术不一定兼容，越好用的技术越不兼容。</p><p style="text-align:right;display:block;">----前端第一定律</p></blockquote>
 
+<br /><h4>3、SVG的兼容性</h4><br />
+<p>再次前往<a href="http://caniuse.com/#search=SVG" target＝"_blank">caniuse.com</a></p>
+<p>基本上除了IE678和安卓3.0以下，其他的浏览器都支持SVG的一些基本功能，但其他如SVG滤镜等的高级属性在众多浏览器的表现并不一致。</p>
+<p>于是在考虑到兼容性的场合下还是有其他选择的。</p>
+
+<br /><h4>4、@font-face与字体图标</h4><br />
+<p>@font-face是一个CSS规则,允许你输入自己的字体出现在网站上,即使特定的字体在访问者的计算机上没有安装，而最重要的是连IE6都支持！
+我们可以用矢量图生成字体，然后在网页里当成是文字来使用，也就是我们常说的字体图标。</p>
+<p>强烈推荐下面的良心字体网站，<a href="https://icomoon.io/app/" target＝"_blank">https://icomoon.io/app/</a>支持将上传的SVG转为字体文件，也支持生成SVGsprite。</p>
+<p>即使是复杂的图案也能生成字体图标，而且作为字体能用CSS对其大小，颜色等属性进行操作和排版。</p>
+<ul>
+	<li style="height:100px;">
+		<div class="icon-m3" style="height:100px;line-height:100px;float:left;width:100px;font-size:100px;color:navy"></div>
+		<div class="icon-m2" style="height:100px;line-height:100px;float:left;width:100px;font-size:100px;color:yellowgreen"></div>
+		<div class="icon-m1" style="height:100px;line-height:100px;float:left;width:100px;font-size:100px;color:tomato"></div></li>
+	<li style="height:100px;">
+		<div class="icon-m1" style="height:100px;line-height:100px;float:left;width:100px;font-size:80px;color:chocolate"></div>
+		<div class="icon-m3" style="height:100px;line-height:100px;float:left;width:100px;font-size:80px;color:darkcyan"></div>
+		<div class="icon-m2" style="height:100px;line-height:100px;float:left;width:100px;font-size:80px;color:hotpink"></div></li>
+	<li style="height:100px;">
+		<div class="icon-m2" style="height:100px;line-height:100px;float:left;width:100px;font-size:60px;color:palevioletred"></div>
+		<div class="icon-m1" style="height:100px;line-height:100px;float:left;width:100px;font-size:60px;color:firebrick"></div>
+		<div class="icon-m3" style="height:100px;line-height:100px;float:left;width:100px;font-size:60px;color:seagreen"></div>
+	</li>
+</ul>
+<div class="icon-m1" style="line-height:300px;float:left;width:300px;font-size:300px;color:aliceblue;background-color:lightskyblue;border-radius:20%;"></div>
 <script type="text/javascript">
 	var l = -1;
 	var $svgCirle = $("#svgCirle");
@@ -253,7 +280,15 @@ $(document).ready(function(){
 		l = l * -1;
 		if(l == 1){
 			clearInterval(t);
-			t = setInterval(setCirle,16);
+			t = setInterval(function(){
+				console.log(deg);
+				if(deg >= pi * 2){
+					clearInterval(t);
+					deg = 0;
+					l = -1;
+				}
+				setCirle();
+			},16);
 		}else if(l == -1){
 			clearInterval(t);
 		}
