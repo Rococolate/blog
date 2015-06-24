@@ -38,7 +38,7 @@ window.onload = function(){
 		var marginBottom = (bei - 1) * thisHeigth;
 		var marginRight = (bei - 1) * thisWidth;
 		if($(this).width() >= $(".classDescriptionContent").width()){
-			$(this).attr({"style":"transform:scale("+ bei+","+ bei +");transform-origin:0% 0%;webkit-transform:scale("+  bei +","+ bei +");webkit-transform-origin:0% 0%;margin-bottom:" + marginBottom +"px;margin-right:" + marginRight +"px;"});
+			$(this).attr({"style":"display:block;transform:scale("+ bei+","+ bei +");transform-origin:0% 0%;webkit-transform:scale("+  bei +","+ bei +");webkit-transform-origin:0% 0%;margin-bottom:" + marginBottom +"px;margin-right:" + marginRight +"px;"});
 		}
 	});
 }
