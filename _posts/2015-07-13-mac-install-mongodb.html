@@ -1,0 +1,92 @@
+---
+layout: default
+title: Mac OX上安装MongoDb
+---
+
+<h2>{{ page.title }}</h2>
+
+<p>{{ page.date | date_to_string }}</p>
+<hr />
+<h3>0、前言</h3>
+<p>公司计划下一个版本的PC和wap网站使用node.js技术，正在学习node＋MongoDB的使用。</p>
+<p>P.S 本文安装环境是OS X 10.10.4 Yosemite 优胜美地。</p>
+<h3>1、安装HomeBrew</h3>
+<p>什么是HomeBrew？<a href="http://brew.sh/index_zh-cn.html">Homebrew官网</a></p>
+<blockquote><p>Homebrew installs the stuff you need that Apple didn’t.</p>
+<p style="text-align:right;display:block;">-----Homebrew 使 OS X 更完整。</p></blockquote>
+
+<p>终端输入</p>
+<pre><code class="language-javascript">
+	$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+</code></pre>
+<p>安装成功显示</p>
+<pre><code class="language-javascript">
+==> Installation successful!
+==> Next steps
+Run `brew help` to get started
+wuguanxideMacBook-Pro:~ wuguanxi$ brew -v
+Homebrew 0.9.5
+</code></pre>
+
+<h3>2、安装MongoDB</h3>
+<p>更新Homebrew的package数据库，在Mac的终端中输入：</p>
+<pre><code class="language-javascript">
+	$ brew update
+</code></pre>
+<p>更新成功后，在Mac的终端中输入：</p>
+<pre><code class="language-javascript">
+	$ brew install mongodb
+</code></pre>
+<p>耐心等待然后会看到安装成功：</p>
+<pre><code class="language-javascript">
+	==> Downloading https://homebrew.bintray.com/bottles/mongodb-3.0.4.yosemite.bottle.tar.gz
+	######################################################################## 100.0%
+	==> Pouring mongodb-3.0.4.yosemite.bottle.tar.gz
+	==> Caveats
+
+	To have launchd start mongodb at login:
+	    ln -sfv /usr/local/opt/mongodb/*.plist ~/Library/LaunchAgents
+	Then to load mongodb now:
+	    launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist
+	Or, if you don't want/need launchctl, you can just run:
+	    mongod --config /usr/local/etc/mongod.conf
+	==> Summary
+	🍺  /usr/local/Cellar/mongodb/3.0.4: 17 files, 154M
+</code></pre>
+
+<h3>3、启动MongoDB</h3>
+<p>启动前要先在 “/” 目录下新建/data/db 文件夹</p>
+<pre><code class="language-javascript">
+	$mkdir -p /data/db
+</code></pre>
+<p>然后进入mongodb的bin文件夹执行命令“./mongod”启动mongoDB server</p>
+<pre><code class="language-javascript">
+	$ cd /usr/local/Cellar/mongodb/3.0.4/bin
+	$ sudo ./mongod
+</code></pre>
+
+<h3>4、MongoDB的控制台</h3>
+<p>另外打开一个终端窗口，同样为了方便起见，进入"bin"目录，运行命令"./mongo"</p>
+<pre><code class="language-javascript">
+	$./mongo
+</code></pre>
+
+<h3>5、MongoDB的可视化软件</h3>
+<p><a href="http://robomongo.org/download.html">Robomongo</a>，这个是跨平台的，Windows，Mac, Linux下都可以使用</p>
+<br />
+<br />
+<br />
+
+<div id="disqus_thread"></div>
+	<script type="text/javascript">
+	    /* * * CONFIGURATION VARIABLES * * */
+	    var disqus_shortname = 'rococolate';
+	    
+	    /* * * DON'T EDIT BELOW THIS LINE * * */
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
