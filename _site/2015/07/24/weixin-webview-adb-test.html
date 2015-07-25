@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui" />
+	<link rel="stylesheet" type="text/css" href="/blog/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/blog/css/default.css">
+	<link rel="stylesheet" type="text/css" href="/blog/css/prism_okaidia.css">
+	<link rel="stylesheet" type="text/css" href="/blog/css/prism.css">
+	<link rel="stylesheet" type="text/css" href="/blog/css/iconmc.css">
+	<link rel="shortcut icon"  href="/blog/favicon.ico">
+	<script type="text/javascript" src="/blog/js/zeptoWithFx.min.js"></script>
+	<title>Mac上调试安卓版微信webview</title>
+	
+</head>
+<body>
+	<div class="header"></div>
+	<div class="nav"><a href="/blog/index.html">Home</a><a href="/blog/article.html">Article</a><a href="/blog/aboutme.html">About me</a></div>
+	<div class="aside"></div><div class="content"><h2>Mac上调试安卓版微信webview</h2>
+<img src="/blog/images/blog/mongodb.png" alt="题图" /><br />
+<p>24 Jul 2015</p>
+<hr />
+<h3>0、前言</h3>
+<p>公司很多营销活动在微信上使用，还记得第一次配置微信JSSDK时候的痛，很多时候调试还要alert出来T_T，现在用这个可以直接在Chrome中console出来了。</p>
+<p>P.S 本文安装环境是OS X 10.10.4 Yosemite 优胜美地。本文安装按照<a href="http://bbs.mb.qq.com/thread-243399-1-1.html?pid=313743&fid=93">http://bbs.mb.qq.com/thread-243399-1-1.html?pid=313743&fid=93</a> 实现。</p>
+<p>windows用户按照上面的链接来配置就好了，下面文章是MAC安装时的痛点。</p>
+<h3>1、升级python</h3>
+<p>MAC系统自带python，不过版本较低，是2.7的。然后我们需要升级到3.4</p>
+<p>按照这篇文章<a href="http://zhidao.baidu.com/link?url=pwQ38NZIRL-Z-FLdPy3xG4UlrS0H26ooftxSZGagJcWDVCcUigjSnT8b6AHgIYFDG2pil1MmHQuox1cw50lkXK">http://zhidao.baidu.com/link?url=pwQ38NZIRL-Z-FLdPy3xG4UlrS0H26ooftxSZGagJcWDVCcUigjSnT8b6AHgIYFDG2pil1MmHQuox1cw50lkXK</a><br />进行python的升级替换，但与文章不同的是，我没有删除旧版本。</p>
+<p>升级完成后查看一下版本号</p>
+<pre><code class="language-javascript">
+wuguanxideMacBook-Pro:m.quyundong.com wuguanxi$ python -V
+Python 3.4.3
+</code></pre>
+<p>第一步就ok</p>
+
+<h3>2、安装ADB</h3>
+<p>ADB的全称为Android Debug Bridge，就是起到调试桥的作用，是安卓开发必装的。</p>
+<p>然后突然想起之前装过android sdk，ADB就在那里面。下面是引用：</p>
+
+<blockquote><p>ADB，不少人可能都没听说过，其是Android手机中非常重要的一个运行器，root等等都需要它。而它，也是帮助Android手机和Mac通讯的工具和桥梁。Mac上默认是没装的，如果你用Mac做过Android开发的话，那你应该比较清楚。我只针对那些没做过的哦。搞定ADB之前，你先要去下载一个Android的SDK Manager，<a href="http://developer.android.com/sdk/installing/index.html">地址在这里(需要翻墙)</a>。下载里面的stand-alone sdk tools。然后不要迟疑，解压缩，放的位置嘛，还是一个比较好找到它的位置。你以为这样就OK了？那你错了。ADB根本不在里面。打开android-sdk-macosx/tools，里面有个Android的可执行文件，双击它。它打开了一个窗口，还有一堆的列表。通过这里可以下载各种版本的Android SDK，你默认的会装好里面的Android SDK Tools，而你需要的是安装其下面的Android SDK platform-tools！千万别装错，也千万别不装。因为，ADB就在这里面！！不装，后面配环境等等都是白搭！装好后，你会发现android-sdk-macos下面，多了一个文件夹platform-tools，ADB终于在面前了。</p></blockquote>
+
+
+<h3>3、配置ADB的环境变量</h3>
+<p>打开终端，回到根目录，输入vim ~/.bash_profile<br />python的环境变量已经在里面了。下面就在里面，照着python，输入ADB的环境变量吧。PATH="/Users/Adrian/Work/worktools/android-sdk-macosx/platform-tools:${PATH}"。保存退出。输入source .bash_profile，执行一下环境变量，然后输入下adb，是不是出现了一堆的参数说明？OK，那ADB的环境变量就配置好了。</p>
+
+<p>关键时刻到了。手机通过数据线连接到电脑，打开USB调试，然后在MAC的终端输入adb devices 出现一下类似的代码就表示ADB配置成功了。</p>
+
+<pre><code class="language-javascript">
+* daemon not running. starting it now on port 5037 *
+* daemon started successfully *
+List of devices attached 
+0197c2348055aae6        device
+</code></pre>
+
+<h3>4、最后的步骤</h3>
+<p>按照标准终端方法回到inspector_client20150401目录</p>
+<p>输入sudo chmod +x ./platforms/mac/adb</p>
+<p>输入python inspector.py --adb YOUR/ADB/PATH</p>
+<p>我的路径是 python inspector.py -db /Users/wuguanxi/android-sdk-macosx/platform-tools/adb</p>
+
+
+<pre><code class="language-javascript">
+Adb port forwarding.
+('Serving HTTP on', '0.0.0.0', 'port', 9223, '...')
+</code></pre>
+
+<p>出现这个就成功了。可以在chrome的地址栏输入 localhost:9222/ 就可以看到调试页面。</p>
+
+<p>如果出现链接不上可以选择重新拔数据线，或者重装微信，然后重装TBS内核调试器。</p>
+
+
+<div id="disqus_thread"></div>
+  <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES * * */
+      var disqus_shortname = 'rococolate';
+      
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div>
+	<script type="text/javascript" src="/blog/js/prism.js"></script>
+</body>
+</html>
