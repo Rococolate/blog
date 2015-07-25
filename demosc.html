@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui" />
+	<title>Document</title>
+	<style type="text/css">
+		.loading:after {
+		    overflow: hidden;
+		    display: inline-block;
+		    vertical-align: bottom;
+		    -webkit-animation: ellipsis 2s infinite;
+		    -moz-animation: ellipsis 2s infinite;
+		    animation: ellipsis 2s infinite;
+		    content: "\2026"; /* ascii code for the ellipsis character */
+		}
+		@-moz-keyframes ellipsis {
+		    from {
+		        width: 2px;
+		    }
+		    to {
+		        width: 15px;
+		    }
+		}
+		@-moz-keyframes ellipsis {
+		  from {
+		    width: 2px;
+		  }
+		  to {
+		    width: 15px;
+		  }
+		}
+
+		@-webkit-keyframes ellipsis {
+		  from {
+		    width: 2px;
+		  }
+		  to {
+		    width: 15px;
+		  }
+		}
+	.demo{
+		width: 100px;
+		height: 100px;
+		background-color:pink;
+		line-height: 100px;
+		text-align: center;
+		margin: 30px;
+	}
+	.scale1{transform:scale(1,-1);}
+	.scale2{transform:scale(-1,1);}
+	</style>
+</head>
+<body>
+	<div class="demo">demo</div>
+	<div class="demo scale1">demo</div>
+	<div class="demo scale2">demo</div>
+	<div class="loading">Loading</div>
+
+	<script type="text/javascript">
+	window.onerror = function  (msg,url,line,col,error) {
+		alert(msg);
+		alert(url);
+		alert(line);
+		alert(col);
+		alert(error);
+		return true;
+	}
+
+	var mystr = "wertc";
+
+	console.log(mystr,re(mystr));
+	
+	function re(string){
+		var temp = [];
+		for(var i = 0 ; i < mystr.length ; i ++){
+			temp[temp.length] = mystr[mystr.length - 1 - i];
+		}
+		return temp.join("");
+	}
+	
+	
+		// for(var i = 1 ; i <= 100000 ; i ++){
+		// 	if(isAnswer(i)){
+		// 		console.log(i);
+		// 	}
+		// }
+
+		// function isAnswer (nun) {
+		// 	var arr = [];
+		// 	var count = 0;
+			
+		// 	for(var i = 0 ; nun !== 0 ; i ++){
+		// 		arr[arr.length] = nun % 10;
+		// 		nun = parseInt(nun / 10);
+		// 		// console.log(arr);
+		// 	}
+
+		// 	for(var i = 0 ; i < parseInt(arr.length / 2) ; i ++){
+		// 		if(arr[i] == arr[arr.length - 1 - i]){
+		// 			count++;
+		// 		}
+		// 	}
+			
+		// 	if(count == parseInt(arr.length / 2)){
+		// 		return true;
+		// 	}else{
+		// 		return false;
+		// 	}
+		// }
+	</script>
+</body>
+</html>
