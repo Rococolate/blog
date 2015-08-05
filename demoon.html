@@ -41,7 +41,7 @@
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
     var image = new Image();
-    var imgData = null;
+    
     canvas.width = windowWidth;
     canvas.height = windowHeight;
 
@@ -65,18 +65,21 @@
         var finger = event.touches[0];  //获得手指
         
         event.preventDefault();
-        checkImageData();
+        if(checkImageData() >= 0.8){
+          canvas.style.display = "none";
+        };
       });
 
     };
     function checkImageData(){
-      imgData = context.getImageData(0,0,windowWidth,windowHeight);
+      var imgData = context.getImageData(0,0,windowWidth,windowHeight);
       for(var i = 0 ,j = 0; i < imgData.data.length / 4 ; i ++){
         if(imgData.data[3+4*i] == 0){
           j++;
         }
       }
       console.log(imgData,j,windowWidth*windowHeight,j/(windowWidth*windowHeight));
+      return j/(windowWidth*windowHeight);
     }
     function clearArc(x,y,r,ctx){
       ctx.beginPath();
