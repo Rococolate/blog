@@ -41,6 +41,7 @@
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
     var image = new Image();
+    var imgData = null;
     canvas.width = windowWidth;
     canvas.height = windowHeight;
 
@@ -69,14 +70,13 @@
 
     };
     function checkImageData(){
-      var imgData = context.getImageData(0,0,windowWidth,windowHeight);
+      imgData = context.getImageData(0,0,windowWidth,windowHeight);
       for(var i = 0 ,j = 0; i < imgData.length / 4 ; i ++){
         if(imgData[3+4*i] == 0){
           j++;
         }
       }
       console.log(imgData,j,windowWidth*windowHeight,j/windowWidth*windowHeight);
-      return imgData;
     }
     function clearArc(x,y,r,ctx){
       ctx.beginPath();
