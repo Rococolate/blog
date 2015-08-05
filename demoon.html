@@ -64,10 +64,14 @@
         var finger = event.touches[0];  //获得手指
         
         event.preventDefault();
+        checkImageData();
       });
 
     };
-
+    function checkImageData(){
+      var imgData = context.getImageData(10,10,50,50);
+      console.log(imgData);
+    }
     function clearArc(x,y,r,ctx){
       ctx.beginPath();
       ctx.globalCompositeOperation = 'destination-out';
