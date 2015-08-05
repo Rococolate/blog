@@ -57,7 +57,7 @@
         console.log('touchmove',finger.pageX,finger.pageY,event);
         event.preventDefault();
         setTimeout(function(){
-          clearArc(finger.pageX,finger.pageY,20,context);
+          clearArc(finger.pageX,finger.pageY,40,context);
         },0);
       });
       canvas.addEventListener('touchend', function(event) {
@@ -69,7 +69,7 @@
 
     };
     function checkImageData(){
-      var imgData = context.getImageData(10,10,50,50);
+      var imgData = context.getImageData(0,0,windowWidth,windowHeight);
       console.log(imgData);
     }
     function clearArc(x,y,r,ctx){
