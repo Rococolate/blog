@@ -70,7 +70,12 @@
     };
     function checkImageData(){
       var imgData = context.getImageData(0,0,windowWidth,windowHeight);
-      console.log(imgData);
+      for(var i = 0 ,j = 0; i < imgData.length / 4 ; i ++){
+        if(imgData[3+4*i] == 0){
+          j++;
+        }
+      }
+      console.log(j,windowWidth*windowHeight,j/windowWidth*windowHeight);
     }
     function clearArc(x,y,r,ctx){
       ctx.beginPath();
