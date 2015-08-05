@@ -71,7 +71,7 @@
     };
     function checkImageData(){
       imgData = context.getImageData(0,0,windowWidth,windowHeight);
-      for(var i = 0 ,j = 0; i < imgData.length / 4 ; i ++){
+      for(var i = 0 ,j = 0; i < imgData.data.length / 4 ; i ++){
         if(imgData.data[3+4*i] == 0){
           j++;
         }
