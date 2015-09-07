@@ -58,7 +58,7 @@
         console.log('touchmove',finger.pageX,finger.pageY,event);
         event.preventDefault();
         setTimeout(function(){
-          clearArc(finger.pageX,finger.pageY,40,context);
+          clearArc(finger.pageX,finger.pageY,20,context);
         },0);
       });
       canvas.addEventListener('touchend', function(event) {
@@ -82,12 +82,32 @@
       return j/(windowWidth*windowHeight);
     }
     function clearArc(x,y,r,ctx){
-      ctx.beginPath();
-      ctx.globalCompositeOperation = 'destination-out';
-      ctx.arc(x,y,r,0,Math.PI*2,false);
-      ctx.fill();
+
+      try{
+        
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.beginPath();
+        ctx.arc(x,y,r,0,Math.PI*2,false);
+        ctx.fill();
+      }catch(e){
+        console.log(e);
+         var x = parseInt(x);
+         var y = parseInt(y);
+        for(var i = 0 ,a = null; i < 2 * r ; i ++){
+          for(var j = 0 ; j < 2 * r ; j ++){
+             a =  (i - r) * (i - r) + (j - r ) * (j - r);
+             
+            if(a <= (r * r) ){
+              
+              ctx.clearRect((x-r+i),(y-r+j),1,1);
+            }
+          }
+        }
+      }
     }
 
+    
+    
   </script>
 </body>
 </html>
