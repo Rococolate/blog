@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui" />
+  <title>demo</title>
+  <link rel="stylesheet" type="text/css" href="css/reset.css">
+  <script type="text/javascript" src="js/zeptoWithFx.min.js"></script>
+  <style type="text/css">
+    html{
+      width: 100%;
+      height: 100%;
+    }
+    body{
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    .main{
+      width: 100%;
+      height: 100%;
+      background:url(images/start2.jpg) no-repeat;
+      -webkit-background-size: cover;
+      background-size: cover;
+      position: relative;
+    }
+    .canvas{
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top:0;
+      left:0;
+    }
+  </style>
+<body>
+  <div class="main"></div>
+  <canvas class="canvas" id="canvas"></canvas>
+  <script type="text/javascript">
+    var windowWidth = $(window).width();
+    var windowHeight = $(window).height();
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    var image = new Image();
+    
+    canvas.width = windowWidth;
+    canvas.height = windowHeight;
+
+    image.src = 'images/start.jpg';
+    image.onload = function  (e) {
+      context.drawImage(image,0,0,image.width,image.height,0,0,windowWidth,windowHeight);
+      canvas.addEventListener('touchstart', function(event) {
+        var finger = event.touches[0];  //获得手指
+        
+        event.preventDefault();
+      });
+      canvas.addEventListener('touchmove', function(event) {
+        var finger = event.touches[0];  //获得手指
+        console.log('touchmove',finger.pageX,finger.pageY,event);
+        event.preventDefault();
+        setTimeout(function(){
+          clearArc(finger.pageX,finger.pageY,20,context);
+        },0);
+      });
+      canvas.addEventListener('touchend', function(event) {
+        var finger = event.touches[0];  //获得手指
+        
+        event.preventDefault();
+        if(checkImageData() >= 0.8){
+          canvas.style.display = "none";
+        };
+      });
+
+    };
+    function checkImageData(){
+      var imgData = context.getImageData(0,0,windowWidth,windowHeight);
+      for(var i = 0 ,j = 0; i < imgData.data.length / 4 ; i ++){
+        if(imgData.data[3+4*i] == 0){
+          j++;
+        }
+      }
+      console.log(imgData,j,windowWidth*windowHeight,j/(windowWidth*windowHeight));
+      return j/(windowWidth*windowHeight);
+    }
+    function clearArc(x,y,r,ctx){
+
+      try{
+        
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.beginPath();
+        ctx.arc(x,y,r,0,Math.PI*2,false);
+        ctx.fill();
+      }catch(e){
+        console.log(e);
+         var x = parseInt(x);
+         var y = parseInt(y);
+        for(var i = 0 ,a = null; i < 2 * r ; i ++){
+          for(var j = 0 ; j < 2 * r ; j ++){
+             a =  (i - r) * (i - r) + (j - r ) * (j - r);
+             
+            if(a <= (r * r) ){
+              
+              ctx.clearRect((x-r+i),(y-r+j),1,1);
+            }
+          }
+        }
+      }
+    }
+
+    
+    
+  </script>
+</body>
+</html>
