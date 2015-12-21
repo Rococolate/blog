@@ -39,16 +39,16 @@
 
 <pre><code class="language-css">
 html{
-		width: 100%;
-		height: 100%;
-		background-color: #fff;
-	}
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+  }
 body{
-	width:320px;
-	font-size:16px;
-	color:#000;
-	background-color:tomato;
-	margin:0 auto;   /* 水平居中 */
+  width:320px;
+  font-size:16px;
+  color:#000;
+  background-color:tomato;
+  margin:0 auto;   /* 水平居中 */
 }
 </code></pre>
 <img src="/blog/images/blog/c1.png" alt="contrast1" />
@@ -66,56 +66,90 @@ body{
 
 <pre><code class="language-css">
 html{
-	font-size:100px;
+  font-size:100px;
 }
 body{
-	width:3.2rem;     /* 使用rem,宽为3.2 × 100px ＝ 320px */
-	font-size:16px;
-	color:#000;
-	background-color:tomato;
-	margin:0 auto;   /* 水平居中 */
+  width:3.2rem;     /* 使用rem,宽为3.2 × 100px ＝ 320px , 如果设计稿是750px就用 3.75rem */
+  font-size:16px;
+  color:#000;
+  background-color:tomato;
+  margin:0 auto;   /* 水平居中 */
 }
 </code></pre>
 
 <p>于是对于不同宽的屏幕我们可以改变html的font-size大小，与320px一样的比例来达到适应的目的。屏幕的宽度用JS获取，然后剩下就是简单的比例运算。</p>
-<pre><code class="language-javascript">
+<pre><code class="language-javascript" >
 //响应式设置(Zepto/JQ版)
 $(document).ready(function(){                   //页面DOM加载完成时执行
-	var $windowWidth = $(window).width();		//获得页面宽度
-	setTimeout(function(){
-		$windowWidth = $(window).width();
-		$("html").css("font-size",(100/320) * $windowWidth + "px");  //改变html的字体大小
-	},100);
+  var $windowWidth = $(window).width();   //获得页面宽度
+  setTimeout(function(){
+    $windowWidth = $(window).width();
+    $("html").css("font-size",(100/320) * $windowWidth + "px");  //改变html的字体大小
+  },100);
 
-	$(window).resize(function(){                //调试用
-		$windowWidth = $(window).width();
-		$("html").css("font-size",(100/320) * $windowWidth + "px");
-	});
+  $(window).resize(function(){                //调试用
+    $windowWidth = $(window).width();
+    $("html").css("font-size",(100/320) * $windowWidth + "px");
+  });
 });
 </code></pre>
 
 <img src="/blog/images/blog/c2.png" alt="contrast2" />
 <p>ok，这样基本上就能全部响应了。</p>
 <p>不过还有一个问题是，在PC端一般都是横屏看的话，会比较难看，于是我们在js上有一些小调整。</p>
-<pre><code class="language-javascript">
+<pre><code class="language-javascript" style="text-decoration:line-through">
 //响应式设置(Zepto/JQ版)
 $(document).ready(function(){
-	var $windowWidth = $(window).width();
-	setTimeout(function(){
-		$windowWidth = $(window).width();
-		if($windowWidth > 640){
-			$windowWidth = 640;            		//限定最大宽度为640
-		}
-		$("html").css("font-size",(100/320) * $windowWidth + "px");
-	},100);
-	
-	$(window).resize(function(){
-		$windowWidth = $(window).width();
-		if($windowWidth > 640){
-			$windowWidth = 640;
-		}
-		$("html").css("font-size",(100/320) * $windowWidth + "px");
-	});
+  var $windowWidth = $(window).width();
+  setTimeout(function(){
+    $windowWidth = $(window).width();
+    if($windowWidth > 640){
+      $windowWidth = 640;               //限定最大宽度为640
+    }
+    $("html").css("font-size",(100/320) * $windowWidth + "px");
+  },100);
+  
+  $(window).resize(function(){
+    $windowWidth = $(window).width();
+    if($windowWidth > 640){
+      $windowWidth = 640;
+    }
+    $("html").css("font-size",(100/320) * $windowWidth + "px");
+  });
+});</code></pre>
+<pre><code class="language-javascript">
+// 优化后版本响应式设置(Zepto/JQ版)
+$(document).ready(function(){                              //页面DOM加载完成时执行
+  var $windowWidth = $(window).width();
+  var $designWidth = $("body").attr("data-design-width");  //获得写在body的设计宽度 如果设计稿是750px就在 body上添加属性 data-design-width＝"750" 
+  var $designdpr = $("body").attr("data-design-dpr");      //获得写在body的设计dpr
+  $("html").attr("data-dpr",window.devicePixelRatio);      //获得设备dpr 写在 html 上
+  if(!$designWidth){
+    $designWidth = 640;                                    //没有获得 写在body的设计宽度 时，使用默认宽度 640px
+  }
+  if(!$designdpr){
+    $designdpr = 2;                                        //没有获得 写在body的设计dpr 时，使用默认dpr 2
+  }
+  console.log($windowWidth,$designWidth,$designdpr);
+
+  //下面都是换算 
+
+  setTimeout(function(){
+    $windowWidth = $(window).width();
+    if($windowWidth > $designWidth){
+      $windowWidth = $designWidth;
+    }
+    $("html").css("font-size",(100/($designWidth/$designdpr)) * $windowWidth + "px");
+  },100);
+  
+
+  $(window).resize(function(){
+    $windowWidth = $(window).width();
+    if($windowWidth > $designWidth){
+      $windowWidth = $designWidth;
+    }
+    $("html").css("font-size",(100/($designWidth/$designdpr)) * $windowWidth + "px");
+  });
 });
 </code></pre>
 
@@ -133,107 +167,107 @@ $(document).ready(function(){
 <p>&lt;defs&gt;是定义模版，&lt;use&gt;是重复使用。</p>
 <pre><code class="language-markup">
 &lt;svg version="1.1" id="camera" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve"&gt;
-	&lt;defs&gt;
-		&lt;g&gt;
-			&lt;path fill="#003D99" d="M937.9,932.9H86.1C38.6,932.9,0,894.3,0,846.8V234.6c0-47.5,38.6-86.1,86.1-86.1h54.2l43.1-57.4h227.2
-				l57.4,57.4h469.8c47.5,0,86.1,38.6,86.1,86.1v612.2C1024,894.3,985.4,932.9,937.9,932.9z M86.1,205.9c-15.8,0-28.7,12.9-28.7,28.7
-				v612.2c0,15.8,12.9,28.7,28.7,28.7h851.7c15.8,0,28.7-12.9,28.7-28.7V234.6c0-15.8-12.9-28.7-28.7-28.7H444.3l-57.4-57.4H212.1
-				l-43.1,57.4H86.1z"/&gt;
-		&lt;/g&gt;
-		&lt;g&gt;
-			&lt;path fill="#003D99" d="M512,741.7c-126.7,0-229.7-103-229.7-229.7s103-229.7,229.7-229.7s229.7,103,229.7,229.7
-				S638.7,741.7,512,741.7z M512,339.7c-95,0-172.3,77.3-172.3,172.3S417,684.3,512,684.3S684.3,607,684.3,512S607,339.7,512,339.7z"
-				/&gt;
-		&lt;/g&gt;
-		&lt;g&gt;
-			&lt;circle fill="#003D99" cx="446.6" cy="441.9" r="35.1"/>
-		&lt;/g&gt;
-	&lt;/defs&gt;
+   viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve"&gt;
+  &lt;defs&gt;
+    &lt;g&gt;
+      &lt;path fill="#003D99" d="M937.9,932.9H86.1C38.6,932.9,0,894.3,0,846.8V234.6c0-47.5,38.6-86.1,86.1-86.1h54.2l43.1-57.4h227.2
+        l57.4,57.4h469.8c47.5,0,86.1,38.6,86.1,86.1v612.2C1024,894.3,985.4,932.9,937.9,932.9z M86.1,205.9c-15.8,0-28.7,12.9-28.7,28.7
+        v612.2c0,15.8,12.9,28.7,28.7,28.7h851.7c15.8,0,28.7-12.9,28.7-28.7V234.6c0-15.8-12.9-28.7-28.7-28.7H444.3l-57.4-57.4H212.1
+        l-43.1,57.4H86.1z"/&gt;
+    &lt;/g&gt;
+    &lt;g&gt;
+      &lt;path fill="#003D99" d="M512,741.7c-126.7,0-229.7-103-229.7-229.7s103-229.7,229.7-229.7s229.7,103,229.7,229.7
+        S638.7,741.7,512,741.7z M512,339.7c-95,0-172.3,77.3-172.3,172.3S417,684.3,512,684.3S684.3,607,684.3,512S607,339.7,512,339.7z"
+        /&gt;
+    &lt;/g&gt;
+    &lt;g&gt;
+      &lt;circle fill="#003D99" cx="446.6" cy="441.9" r="35.1"/>
+    &lt;/g&gt;
+  &lt;/defs&gt;
 &lt;/svg&gt;
 
 &lt;div style="width:10px;"&gt;
-	&lt;svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve"&gt;
-		&lt;use xlink:href="#demo" /&gt;
-	&lt;/svg&gt;
+  &lt;svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve"&gt;
+    &lt;use xlink:href="#demo" /&gt;
+  &lt;/svg&gt;
 &lt;/div&gt;
 
 &lt;div style="width:40px;"&gt;
-	&lt;svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve"&gt;
-		&lt;use xlink:href="#demo" /&gt;
-	&lt;/svg&gt;
+  &lt;svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve"&gt;
+    &lt;use xlink:href="#demo" /&gt;
+  &lt;/svg&gt;
 &lt;/div&gt;
 
 ...
 </code></pre>
 <p>然后放在页面里</p>
 <svg class= "hide">
-	<defs>
-  		<g id="demo">
-		    <g>
-		 		<path fill="#003D99" d="M937.9,932.9H86.1C38.6,932.9,0,894.3,0,846.8V234.6c0-47.5,38.6-86.1,86.1-86.1h54.2l43.1-57.4h227.2
-					l57.4,57.4h469.8c47.5,0,86.1,38.6,86.1,86.1v612.2C1024,894.3,985.4,932.9,937.9,932.9z M86.1,205.9c-15.8,0-28.7,12.9-28.7,28.7
-					v612.2c0,15.8,12.9,28.7,28.7,28.7h851.7c15.8,0,28.7-12.9,28.7-28.7V234.6c0-15.8-12.9-28.7-28.7-28.7H444.3l-57.4-57.4H212.1
-					l-43.1,57.4H86.1z"/>
-			</g>
-			<g>
-				<path fill="#003D99" d="M512,741.7c-126.7,0-229.7-103-229.7-229.7s103-229.7,229.7-229.7s229.7,103,229.7,229.7
-					S638.7,741.7,512,741.7z M512,339.7c-95,0-172.3,77.3-172.3,172.3S417,684.3,512,684.3S684.3,607,684.3,512S607,339.7,512,339.7z"
-					/>
-			</g>
-			<g>
-				<circle fill="#003D99" cx="446.6" cy="441.9" r="35.1"/>
-			</g>
-		</g>
-	</defs>
+  <defs>
+      <g id="demo">
+        <g>
+        <path fill="#003D99" d="M937.9,932.9H86.1C38.6,932.9,0,894.3,0,846.8V234.6c0-47.5,38.6-86.1,86.1-86.1h54.2l43.1-57.4h227.2
+          l57.4,57.4h469.8c47.5,0,86.1,38.6,86.1,86.1v612.2C1024,894.3,985.4,932.9,937.9,932.9z M86.1,205.9c-15.8,0-28.7,12.9-28.7,28.7
+          v612.2c0,15.8,12.9,28.7,28.7,28.7h851.7c15.8,0,28.7-12.9,28.7-28.7V234.6c0-15.8-12.9-28.7-28.7-28.7H444.3l-57.4-57.4H212.1
+          l-43.1,57.4H86.1z"/>
+      </g>
+      <g>
+        <path fill="#003D99" d="M512,741.7c-126.7,0-229.7-103-229.7-229.7s103-229.7,229.7-229.7s229.7,103,229.7,229.7
+          S638.7,741.7,512,741.7z M512,339.7c-95,0-172.3,77.3-172.3,172.3S417,684.3,512,684.3S684.3,607,684.3,512S607,339.7,512,339.7z"
+          />
+      </g>
+      <g>
+        <circle fill="#003D99" cx="446.6" cy="441.9" r="35.1"/>
+      </g>
+    </g>
+  </defs>
 </svg>
 <div style="width:10px;">
-	<svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
-		<use xlink:href="#demo" />
-	</svg>
+  <svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
+    <use xlink:href="#demo" />
+  </svg>
 </div>
 <p>width:10px</p>
 
 <div style="width:40px;">
-	<svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
-		<use xlink:href="#demo" />
-	</svg>
+  <svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
+    <use xlink:href="#demo" />
+  </svg>
 </div>
 <p>width:40px</p>
 
 <div style="width:120px;">
-	<svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
-		<use xlink:href="#demo" />
-	</svg>
+  <svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
+    <use xlink:href="#demo" />
+  </svg>
 </div>
 <p>width:120px</p>
 
 <div style="width:200px;">
-	<svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
-		<use xlink:href="#demo" />
-	</svg>
+  <svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
+    <use xlink:href="#demo" />
+  </svg>
 </div>
 <p>width:200px</p>
 
 <div style="width:280px;">
-	<svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
-		<use xlink:href="#demo" />
-	</svg>
+  <svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
+    <use xlink:href="#demo" />
+  </svg>
 </div>
 <p>width:280px</p>
 
 <div style="width:280px;" id="svgDemo">
-	<svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-		 viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
-		<pattern  y="1024" width="20" height="20" patternUnits="userSpaceOnUse" id="grid" viewBox="0 -20.5 20 20" overflow="visible">
-			<g>
-				<path fill="none" stroke-width="2" stroke="#000" d="M0-0.5h20v-20"/>
-			</g>
-		</pattern>
-		<rect fill="url(#grid)" width="1024" height="1024"/>
-		<path id="svgCirle" fill="#009245" stroke="#FF7628" stroke-width="0" d="M512,512 L512,112 A400,400,1,0,1,512,112z"/>
-		<circle id="svgCirleHide" fill="#009245" cx="512" cy="512" r="400"/>
-	</svg>
+  <svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
+    <pattern  y="1024" width="20" height="20" patternUnits="userSpaceOnUse" id="grid" viewBox="0 -20.5 20 20" overflow="visible">
+      <g>
+        <path fill="none" stroke-width="2" stroke="#000" d="M0-0.5h20v-20"/>
+      </g>
+    </pattern>
+    <rect fill="url(#grid)" width="1024" height="1024"/>
+    <path id="svgCirle" fill="#009245" stroke="#FF7628" stroke-width="0" d="M512,512 L512,112 A400,400,1,0,1,512,112z"/>
+    <circle id="svgCirleHide" fill="#009245" cx="512" cy="512" r="400"/>
+  </svg>
 </div>
 
 <p>与JS的交互（点它！）</p>
@@ -251,79 +285,79 @@ $(document).ready(function(){
 <p>强烈推荐下面的良心字体网站，<a href="https://icomoon.io/app/" target＝"_blank">https://icomoon.io/app/</a>支持将上传的SVG转为字体文件，也支持生成SVGsprite。</p>
 <p>即使是复杂的图案也能生成字体图标，而且作为字体能用CSS对其大小，颜色等属性进行操作和排版。</p>
 <ul>
-	<li style="height:100px;">
-		<div class="icon-m3" style="height:100px;line-height:100px;float:left;width:100px;font-size:100px;color:navy"></div>
-		<div class="icon-m2" style="height:100px;line-height:100px;float:left;width:100px;font-size:100px;color:yellowgreen"></div>
-		<div class="icon-m1" style="height:100px;line-height:100px;float:left;width:100px;font-size:100px;color:tomato"></div></li>
-	<li style="height:100px;">
-		<div class="icon-m1" style="height:100px;line-height:100px;float:left;width:100px;font-size:80px;color:chocolate"></div>
-		<div class="icon-m3" style="height:100px;line-height:100px;float:left;width:100px;font-size:80px;color:darkcyan"></div>
-		<div class="icon-m2" style="height:100px;line-height:100px;float:left;width:100px;font-size:80px;color:hotpink"></div></li>
-	<li style="height:100px;">
-		<div class="icon-m2" style="height:100px;line-height:100px;float:left;width:100px;font-size:60px;color:palevioletred"></div>
-		<div class="icon-m1" style="height:100px;line-height:100px;float:left;width:100px;font-size:60px;color:firebrick"></div>
-		<div class="icon-m3" style="height:100px;line-height:100px;float:left;width:100px;font-size:60px;color:seagreen"></div>
-	</li>
+  <li style="height:100px;">
+    <div class="icon-m3" style="height:100px;line-height:100px;float:left;width:100px;font-size:100px;color:navy"></div>
+    <div class="icon-m2" style="height:100px;line-height:100px;float:left;width:100px;font-size:100px;color:yellowgreen"></div>
+    <div class="icon-m1" style="height:100px;line-height:100px;float:left;width:100px;font-size:100px;color:tomato"></div></li>
+  <li style="height:100px;">
+    <div class="icon-m1" style="height:100px;line-height:100px;float:left;width:100px;font-size:80px;color:chocolate"></div>
+    <div class="icon-m3" style="height:100px;line-height:100px;float:left;width:100px;font-size:80px;color:darkcyan"></div>
+    <div class="icon-m2" style="height:100px;line-height:100px;float:left;width:100px;font-size:80px;color:hotpink"></div></li>
+  <li style="height:100px;">
+    <div class="icon-m2" style="height:100px;line-height:100px;float:left;width:100px;font-size:60px;color:palevioletred"></div>
+    <div class="icon-m1" style="height:100px;line-height:100px;float:left;width:100px;font-size:60px;color:firebrick"></div>
+    <div class="icon-m3" style="height:100px;line-height:100px;float:left;width:100px;font-size:60px;color:seagreen"></div>
+  </li>
 </ul>
 <div class="icon-m1" style="line-height:300px;float:left;width:300px;font-size:300px;color:aliceblue;background-color:lightskyblue;border-radius:20%;"></div>
 <script type="text/javascript">
-	var l = -1;
-	var $svgCirle = $("#svgCirle");
-	var $svgDemo = $("#svgDemo");
-	var $svgCirleHide = $("#svgCirleHide");
-	var pi = Math.PI;
-	var deg = 0;
-	var laf = null;
-	var t = null;
-	
-	$svgDemo.click(function(){
-		$svgCirleHide.css("display","none");
-		l = l * -1;
-		if(l == 1){
-			clearInterval(t);
-			t = setInterval(function(){
-				console.log(deg);
-				if(deg >= pi * 2){
-					clearInterval(t);
-					deg = 0;
-					l = -1;
-				}
-				setCirle();
-			},16);
-		}else if(l == -1){
-			clearInterval(t);
-		}
-	});
+  var l = -1;
+  var $svgCirle = $("#svgCirle");
+  var $svgDemo = $("#svgDemo");
+  var $svgCirleHide = $("#svgCirleHide");
+  var pi = Math.PI;
+  var deg = 0;
+  var laf = null;
+  var t = null;
+  
+  $svgDemo.click(function(){
+    $svgCirleHide.css("display","none");
+    l = l * -1;
+    if(l == 1){
+      clearInterval(t);
+      t = setInterval(function(){
+        console.log(deg);
+        if(deg >= pi * 2){
+          clearInterval(t);
+          deg = 0;
+          l = -1;
+        }
+        setCirle();
+      },16);
+    }else if(l == -1){
+      clearInterval(t);
+    }
+  });
 
-	function setCirle(){
-		
-		cx = 400 * Math.cos(deg+3*pi/2)+512;
-		cy = 400 * Math.sin(deg+3*pi/2)+512;
-		if(cx >= 512){
-			laf = 1;
-		}else{
-			laf = 0;
-		}
-		changeCirle();
-		deg = deg + pi/60 ;
-	}
-	function changeCirle(){
-		
-		$svgCirle.attr("d","M512,512 L512,112 A400,400,1,"+laf+",0,"+cx+","+cy+"z");
-	}
+  function setCirle(){
+    
+    cx = 400 * Math.cos(deg+3*pi/2)+512;
+    cy = 400 * Math.sin(deg+3*pi/2)+512;
+    if(cx >= 512){
+      laf = 1;
+    }else{
+      laf = 0;
+    }
+    changeCirle();
+    deg = deg + pi/60 ;
+  }
+  function changeCirle(){
+    
+    $svgCirle.attr("d","M512,512 L512,112 A400,400,1,"+laf+",0,"+cx+","+cy+"z");
+  }
 </script>
 <div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    /* * * CONFIGURATION VARIABLES * * */
-	    var disqus_shortname = 'rococolate';
-	    
-	    /* * * DON'T EDIT BELOW THIS LINE * * */
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
+  <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES * * */
+      var disqus_shortname = 'rococolate';
+      
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 
 

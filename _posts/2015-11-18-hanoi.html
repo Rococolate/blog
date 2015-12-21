@@ -1,0 +1,117 @@
+---
+layout: default
+title: 小游戏汉诺塔实现(弹性盒子 异步 回调 递归)
+---
+
+<h2>{{ page.title }}</h2>
+<img style="display:none;" src="{{ site.baseurl }}/images/blog/52595595_p0_s.jpg" alt="题图" /><img src="{{ site.baseurl }}/images/blog/52595595_p0.jpg" alt="题图" /><br />
+<p>{{ page.date | date_to_string }}</p>
+<p> Author:wuguanxi</p>
+<hr />
+
+<h3>0、汉诺塔（hanoi）</h3>
+<p><a href="http://baike.baidu.com/link?url=0WNIw3MyZa2P_85KF_Q1OOzijw25XYcp606FiZdBxhskzrxwvy4TpaFgGAEcZ-ulpu5cOXUqqvALEiS7B7y0DwcZYMZUz_sLwszTcKNNin-mhqPBDkipNsvmY804qcycxeue-ET126nYfHWkQIzqTq">汉诺塔</a>：汉诺塔（又称河内塔）问题是源于印度一个古老传说的益智玩具。大梵天创造世界的时候做了三根金刚石柱子，在一根柱子上从下往上按照大小顺序摞着64片黄金圆盘。大梵天命令婆罗门把圆盘从下面开始按大小顺序重新摆放在另一根柱子上。并且规定，在小圆盘上不能放大圆盘，在三根柱子之间一次只能移动一个圆盘。</p>
+
+<p><a href="" class="attention">=&gt; 具体DEMO请戳 &lt;=</a></p>
+
+<h3>1、html结构</h3>
+
+<div class="control-group">
+   <div class="control-label">周一至周五</div> 
+    <div class="controls working-hours"> 
+    <select name="working" style="width:200px;" class="working select2-offscreen" data-id="weekday" data-alt="weekday_start_time" tabindex="-1">
+        <option value="">开始时间</option>
+           <option value="360">6:00</option><option value="390">6:30</option><option value="420">7:00</option><option value="450">7:30</option><option value="480">8:00</option><option value="510">8:30</option><option value="540">9:00</option><option value="570">9:30</option><option value="600">10:00</option><option value="630">10:30</option><option value="660">11:00</option><option value="690">11:30</option><option value="720">12:00</option><option value="750">12:30</option><option value="780">13:00</option><option value="810">13:30</option><option value="840">14:00</option><option value="870">14:30</option><option value="900">15:00</option><option value="930">15:30</option><option value="960">16:00</option><option value="990">16:30</option><option value="1020">17:00</option><option value="1050">17:30</option><option value="1080">18:00</option><option value="1110">18:30</option><option value="1140">19:00</option><option value="1170">19:30</option><option value="1200">20:00</option><option value="1230">20:30</option><option value="1260">21:00</option><option value="1290">21:30</option><option value="1320">22:00</option><option value="1350">22:30</option><option value="1380">23:00</option>      </select>
+   至
+    <select name="working" style="width:200px;" class="working select2-offscreen" data-id="weekday" data-alt="weekday_end_time" tabindex="-1">
+        <option value="">结束时间</option>
+           <option value="420">7:00</option><option value="450">7:30</option><option value="480">8:00</option><option value="510">8:30</option><option value="540">9:00</option><option value="570">9:30</option><option value="600">10:00</option><option value="630">10:30</option><option value="660">11:00</option><option value="690">11:30</option><option value="720">12:00</option><option value="750">12:30</option><option value="780">13:00</option><option value="810">13:30</option><option value="840">14:00</option><option value="870">14:30</option><option value="900">15:00</option><option value="930">15:30</option><option value="960">16:00</option><option value="990">16:30</option><option value="1020">17:00</option><option value="1050">17:30</option><option value="1080">18:00</option><option value="1110">18:30</option><option value="1140">19:00</option><option value="1170">19:30</option><option value="1200">20:00</option><option value="1230">20:30</option><option value="1260">21:00</option><option value="1290">21:30</option><option value="1320">22:00</option><option value="1350">22:30</option><option value="1380">23:00</option><option value="1410">23:30</option><option value="1440">24:00</option>      </select>
+  </div>
+    </div>
+
+    <div class="control-group">
+       <div class="control-label">周六</div> 
+        <div class="controls working-hours"> 
+        <select name="working" style="width:200px;" class="working select2-offscreen" data-id="st" data-alt="st_start_time" tabindex="-1">
+            <option value="">开始时间</option>
+               <option value="360">6:00</option><option value="390">6:30</option><option value="420">7:00</option><option value="450">7:30</option><option value="480">8:00</option><option value="510">8:30</option><option value="540">9:00</option><option value="570">9:30</option><option value="600">10:00</option><option value="630">10:30</option><option value="660">11:00</option><option value="690">11:30</option><option value="720">12:00</option><option value="750">12:30</option><option value="780">13:00</option><option value="810">13:30</option><option value="840">14:00</option><option value="870">14:30</option><option value="900">15:00</option><option value="930">15:30</option><option value="960">16:00</option><option value="990">16:30</option><option value="1020">17:00</option><option value="1050">17:30</option><option value="1080">18:00</option><option value="1110">18:30</option><option value="1140">19:00</option><option value="1170">19:30</option><option value="1200">20:00</option><option value="1230">20:30</option><option value="1260">21:00</option><option value="1290">21:30</option><option value="1320">22:00</option><option value="1350">22:30</option><option value="1380">23:00</option>      </select>
+       至
+        <select name="working" style="width:200px;" class="working select2-offscreen" data-id="st" data-alt="st_end_time" tabindex="-1">
+            <option value="">结束时间</option>
+               <option value="420">7:00</option><option value="450">7:30</option><option value="480">8:00</option><option value="510">8:30</option><option value="540">9:00</option><option value="570">9:30</option><option value="600">10:00</option><option value="630">10:30</option><option value="660">11:00</option><option value="690">11:30</option><option value="720">12:00</option><option value="750">12:30</option><option value="780">13:00</option><option value="810">13:30</option><option value="840">14:00</option><option value="870">14:30</option><option value="900">15:00</option><option value="930">15:30</option><option value="960">16:00</option><option value="990">16:30</option><option value="1020">17:00</option><option value="1050">17:30</option><option value="1080">18:00</option><option value="1110">18:30</option><option value="1140">19:00</option><option value="1170">19:30</option><option value="1200">20:00</option><option value="1230">20:30</option><option value="1260">21:00</option><option value="1290">21:30</option><option value="1320">22:00</option><option value="1350">22:30</option><option value="1380">23:00</option><option value="1410">23:30</option><option value="1440">24:00</option>      </select>
+      </div>
+        </div>
+
+        <div class="control-group">
+           <div class="control-label">周日</div> 
+            <div class="controls working-hours"> 
+            <select name="working" style="width:200px;" class="working select2-offscreen" data-id="sd" data-alt="sd_start_time" tabindex="-1">
+                <option value="">开始时间</option>
+                   <option value="360">6:00</option><option value="390">6:30</option><option value="420">7:00</option><option value="450">7:30</option><option value="480">8:00</option><option value="510">8:30</option><option value="540">9:00</option><option value="570">9:30</option><option value="600">10:00</option><option value="630">10:30</option><option value="660">11:00</option><option value="690">11:30</option><option value="720">12:00</option><option value="750">12:30</option><option value="780">13:00</option><option value="810">13:30</option><option value="840">14:00</option><option value="870">14:30</option><option value="900">15:00</option><option value="930">15:30</option><option value="960">16:00</option><option value="990">16:30</option><option value="1020">17:00</option><option value="1050">17:30</option><option value="1080">18:00</option><option value="1110">18:30</option><option value="1140">19:00</option><option value="1170">19:30</option><option value="1200">20:00</option><option value="1230">20:30</option><option value="1260">21:00</option><option value="1290">21:30</option><option value="1320">22:00</option><option value="1350">22:30</option><option value="1380">23:00</option>      </select>
+           至
+            <select name="working" style="width:200px;" class="working select2-offscreen" data-id="sd" data-alt="sd_end_time" tabindex="-1">
+                <option value="">结束时间</option>
+                   <option value="420">7:00</option><option value="450">7:30</option><option value="480">8:00</option><option value="510">8:30</option><option value="540">9:00</option><option value="570">9:30</option><option value="600">10:00</option><option value="630">10:30</option><option value="660">11:00</option><option value="690">11:30</option><option value="720">12:00</option><option value="750">12:30</option><option value="780">13:00</option><option value="810">13:30</option><option value="840">14:00</option><option value="870">14:30</option><option value="900">15:00</option><option value="930">15:30</option><option value="960">16:00</option><option value="990">16:30</option><option value="1020">17:00</option><option value="1050">17:30</option><option value="1080">18:00</option><option value="1110">18:30</option><option value="1140">19:00</option><option value="1170">19:30</option><option value="1200">20:00</option><option value="1230">20:30</option><option value="1260">21:00</option><option value="1290">21:30</option><option value="1320">22:00</option><option value="1350">22:30</option><option value="1380">23:00</option><option value="1410">23:30</option><option value="1440">24:00</option>      </select>
+          </div>
+            </div>
+      <div class="btn">1111</div>
+<script type="text/javascript" src="{{ site.baseurl }}/rococolate/jq/jquery-1.11.2.min.js"></script>
+<script type="text/javascript">
+
+
+$(".btn").click(function(){
+  var a = optionFindValue($(".working-hours select option"));
+   console.log(a); 
+});
+  function optionFindValue ($domlist) {
+    var list = {};
+    $domlist.each(function(){
+      if(this.selected){
+        if(this.value === ""){
+          list = [];
+          alert("不能有空");
+          return false;
+        }
+
+        if(!list[$(this).parent().attr("data-id")]){
+          list[$(this).parent().attr("data-id")] = {};
+        }
+
+        list[$(this).parent().attr("data-id")][$(this).parent().attr("data-alt")] = this.innerHTML;
+
+        
+      }
+    });
+    return list;
+  }
+
+  $(".working-hours select").each(function(){
+    var that = this;
+    $(this).on("change",function(){
+      if( $(that).attr("data-alt").indexOf("start_time") != (-1)){
+        if(findSiblingNext(that).value !== ""){
+          if(parseInt(that.value) > parseInt(findSiblingNext(that).value)){
+            that.value = "";
+            alert("不能大于结束时间")
+          }
+        }
+        console.log(findSiblingNext(that).value);
+      }else if($(that).attr("data-alt").indexOf("end_time") != (-1)){
+        if(findSiblingNext(that).value !== ""){
+          if(parseInt(that.value)< parseInt(findSiblingNext(that).value)){
+            that.value = "";
+            alert("不能小于开始时间")
+          }
+        }
+      }
+    });
+  });
+
+  function findSiblingNext(dom){
+    if(dom.nextElementSibling !== null){
+      return dom.nextElementSibling;
+    }else{
+      return dom.previousElementSibling;
+    }
+  }
+</script>
