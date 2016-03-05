@@ -7,14 +7,44 @@
 	<link rel="stylesheet" type="text/css" href="css/reset.css">
 	<link rel="stylesheet" type="text/css" href="css/dragonboatfestival.css?ver=1.18">
 	<script type="text/javascript">
-		window.onerror = function  (msg,url,line,col,error) {
-			alert(msg);
-			alert(url);
-			alert(line);
-			alert(col);
-			alert(error);
-			return true;
-		}
+		  window.loadfinish = 0;
+		  
+		  var tongji = setInterval(tong,100);
+		  function tong() {
+		    
+		    var links = document.getElementsByTagName("link");
+		    var scripts = document.getElementsByTagName("script");
+		    var imgs = document.getElementsByTagName("img");
+		    var audios = document.getElementsByTagName("audio");
+		    var videos = document.getElementsByTagName("video");
+		    var lists = [links,scripts,imgs,audios,videos];
+		  
+		    for(var i = 0 ; i < lists.length ; i ++){
+		      addlister(lists[i],bindFn,doFn);
+		    }
+		  }
+		  function addlister(arr,bindFn,doFn){
+		    for(var i = 0 ; i < arr.length ; i++){
+		      if(!arr[i].dataset.tongji){
+		        arr[i].onload = bindFn(arr[i]);
+		        doFn(arr[i]);
+		      }
+		    }
+		  }
+		  function doFn(dom){
+		    if(!dom.dataset.tongji){
+		      dom.dataset.tongji = true;
+		    }
+		  }
+		  
+		  function bindFn(dom){
+		  console.log(dom);
+		    if(!dom.dataset.loadfinish){
+		      window.loadfinish ++;
+		      dom.dataset.loadfinish = true; 
+		      console.log(window.loadfinish);
+		    }
+		  }
 	</script>
 </head>
 <body>
@@ -80,5 +110,6 @@
 	<script type="text/javascript" src="js/zeptoWithFx.min.js?ver=1.01"></script>
 	<script type="text/javascript" src="js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript" src="js/dragonboatfestival.js?ver=1.66"></script>
+	<script>tong();</script>
 </body>
 </html>

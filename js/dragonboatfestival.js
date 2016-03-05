@@ -504,6 +504,7 @@ function wxConfigToken (url){
 
 //微信判别
 function isWeixin (){
+	return true;
 	if(window.navigator.userAgent.indexOf("MicroMessenger") === -1 ){
 		return false;
 	}else{return true}
@@ -520,7 +521,7 @@ window.onload = function(){
 
 var indextime = setInterval(function(){
 
-	if(indexlock >= 2){
+	if(indexlock >= 1){
 		$loading.css("display","none"); 
 		clearInterval(indextime);
 	}
