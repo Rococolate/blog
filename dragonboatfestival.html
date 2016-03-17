@@ -15,52 +15,56 @@
 			font-size: 16px;
 		}
 	</style>
-	<script type="text/javascript">
-		  window.loadfinish = 0;
-		  
-		  var tongji = setInterval(tong,100);
-		  function tong() {
-		    
-		    var links = document.getElementsByTagName("link");
-		    var scripts = document.getElementsByTagName("script");
-		    var imgs = document.getElementsByTagName("img");
-		    var audios = document.getElementsByTagName("audio");
-		    var videos = document.getElementsByTagName("video");
-		    var lists = [links,scripts,imgs,audios,videos];
-		  
-		    for(var i = 0 ; i < lists.length ; i ++){
-		      addlister(lists[i],bindFn,doFn);
-		    }
-		    var totle =  links.length + scripts.length + imgs.length + audios.length + videos.length;
-		    document.getElementById('mon').innerHTML = totle;
-		    document.getElementById('son').innerHTML = window.loadfinish;
-		  }
-		  function addlister(arr,bindFn,doFn){
-		    for(var i = 0 ; i < arr.length ; i++){
-		      if(!arr[i].dataset.tongji){
-		        arr[i].onload = bindFn(arr[i]);
-		        doFn(arr[i]);
-		      }
-		    }
-		  }
-		  function doFn(dom){
-		    if(!dom.dataset.tongji){
-		      dom.dataset.tongji = true;
-		    }
-		  }
-		  
-		  function bindFn(dom){
-		  console.log(dom);
-		    if(!dom.dataset.loadfinish){
-		      window.loadfinish ++;
-		      dom.dataset.loadfinish = true; 
-		      console.log(window.loadfinish);
-		      document.getElementById('son').innerHTML = window.loadfinish;
-		    }
-		  }
-	</script>
+	
 </head>
 <body>
+	<section class="loading" id="loading">
+		<div id="fa"><span id="son">0</span>/<span id="mon">0</span></div>
+		<script type="text/javascript">
+			  window.loadfinish = 0;
+			  
+			  var tongji = setInterval(tong,100);
+			  function tong() {
+			    
+			    var links = document.getElementsByTagName("link");
+			    var scripts = document.getElementsByTagName("script");
+			    var imgs = document.getElementsByTagName("img");
+			    var audios = document.getElementsByTagName("audio");
+			    var videos = document.getElementsByTagName("video");
+			    var lists = [links,scripts,imgs,audios,videos];
+			  
+			    for(var i = 0 ; i < lists.length ; i ++){
+			      addlister(lists[i],bindFn,doFn);
+			    }
+			    var totle =  links.length + scripts.length + imgs.length + audios.length + videos.length;
+			    document.getElementById('mon').innerHTML = totle;
+			    document.getElementById('son').innerHTML = window.loadfinish;
+			  }
+			  function addlister(arr,bindFn,doFn){
+			    for(var i = 0 ; i < arr.length ; i++){
+			      if(!arr[i].dataset.tongji){
+			        arr[i].onload = bindFn(arr[i]);
+			        doFn(arr[i]);
+			      }
+			    }
+			  }
+			  function doFn(dom){
+			    if(!dom.dataset.tongji){
+			      dom.dataset.tongji = true;
+			    }
+			  }
+			  
+			  function bindFn(dom){
+			  console.log(dom);
+			    if(!dom.dataset.loadfinish){
+			      window.loadfinish ++;
+			      dom.dataset.loadfinish = true; 
+			      console.log(window.loadfinish);
+			      document.getElementById('son').innerHTML = window.loadfinish;
+			    }
+			  }
+		</script>
+	</section>
 	<div class="hide" id="BGM"></div>
 	<!-- <audio src="audio/tfbs.mp3" preload id="backgroundMusic" class="hide"></audio> -->
 	<div class="hide">
@@ -86,9 +90,7 @@
 		<img src="images/min/download.png">
 		<img src="images/min/shareeatbtn.png">
 	</div>
-	<section class="loading" id="loading">
-		<div id="fa"><span id="son">0</i>/<span id="mon">0</i></div>
-	</section>
+
 	<DIV class="mobile">
 		<section class="main hide" id="main">
 			<div class="page page1" id="page1">
