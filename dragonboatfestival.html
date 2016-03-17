@@ -6,6 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui" />
 	<link rel="stylesheet" type="text/css" href="css/reset.css">
 	<link rel="stylesheet" type="text/css" href="css/dragonboatfestival.css?ver=1.18">
+	<style>
+		#fa{
+			width: 200px;
+			text-align: center;
+			padding-top: 200px;
+			margin:0 auto;
+			font-size: 16px;
+		}
+	</style>
 	<script type="text/javascript">
 		  window.loadfinish = 0;
 		  
@@ -22,7 +31,9 @@
 		    for(var i = 0 ; i < lists.length ; i ++){
 		      addlister(lists[i],bindFn,doFn);
 		    }
-		    console.log("totle:",links.length + scripts.length + imgs.length + audios.length + videos.length);
+		    var totle =  links.length + scripts.length + imgs.length + audios.length + videos.length;
+		    document.getElementById('mon').innerHTML = totle;
+		    document.getElementById('son').innerHTML = window.loadfinish;
 		  }
 		  function addlister(arr,bindFn,doFn){
 		    for(var i = 0 ; i < arr.length ; i++){
@@ -44,6 +55,7 @@
 		      window.loadfinish ++;
 		      dom.dataset.loadfinish = true; 
 		      console.log(window.loadfinish);
+		      document.getElementById('son').innerHTML = window.loadfinish;
 		    }
 		  }
 	</script>
@@ -51,9 +63,31 @@
 <body>
 	<div class="hide" id="BGM"></div>
 	<!-- <audio src="audio/tfbs.mp3" preload id="backgroundMusic" class="hide"></audio> -->
-	<div class="hide"><img src="images/min/zzmanleft.png"><img src="images/min/zzmanright.png"><img src="images/min/lefthand.png"><img src="images/min/righthand.png"><img src="images/min/alert.png"><img src="images/min/time.png"><img src="images/min/timebar.png"><img src="images/min/alert.png"></div>
+	<div class="hide">
+		<img src="images/min/zzmanleft.png">
+		<img src="images/min/zzmanright.png">
+		<img src="images/min/lefthand.png">
+		<img src="images/min/righthand.png">
+		<img src="images/min/alert.png">
+		<img src="images/min/time.png">
+		<img src="images/min/timebar.png">
+		<img src="images/min/text.png">
+		<img src="images/min/zzman.gif">
+		<img src="images/min/heart.png">
+		<img src="images/min/pi.png">
+		<img src="images/min/leg.gif">
+		<img src="images/min/hand.gif">
+		<img src="images/min/title.png">
+		<img src="images/min/shoting.png">
+		<img src="images/min/zzman.png">
+		<img src="images/min/blood2.png">
+		<img src="images/min/blood.png">
+		<img src="images/min/againbtna.png">
+		<img src="images/min/download.png">
+		<img src="images/min/shareeatbtn.png">
+	</div>
 	<section class="loading" id="loading">
-		
+		<div id="fa"><span id="son">0</i>/<span id="mon">0</i></div>
 	</section>
 	<DIV class="mobile">
 		<section class="main hide" id="main">
@@ -111,6 +145,6 @@
 	<script type="text/javascript" src="js/zeptoWithFx.min.js?ver=1.01"></script>
 	<script type="text/javascript" src="js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript" src="js/dragonboatfestival.js?ver=1.66"></script>
-	<script>$(window).on("load",function(){clearInterval(tongji);})</script>
+	<script>$(window).on("load",function(){clearInterval(tongji);$("#loading").addClass("hide")})</script>
 </body>
 </html>
