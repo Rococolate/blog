@@ -26,33 +26,33 @@
 			  var tongji = setInterval(tong,100);
 			  function tong() {
 			    
-			    var links = document.getElementsByTagName("link");
+			    // var links = document.getElementsByTagName("link");
 			    var scripts = document.getElementsByTagName("script");
 			    var imgs = document.getElementsByTagName("img");
 			    var audios = document.getElementsByTagName("audio");
 			    var videos = document.getElementsByTagName("video");
 			    var lists = [links,scripts,imgs,audios,videos];
 			  
-			    for(var i = 0 ; i < lists.length ; i ++){
-			      addlister(lists[i],bindFn,doFn);
-			    }
-			    var totle =  links.length + scripts.length + imgs.length + audios.length + videos.length;
+			    // for(var i = 0 ; i < lists.length ; i ++){
+			    //   addlister(lists[i],bindFn,doFn);
+			    // }
+			    var totle =   scripts.length + imgs.length + audios.length + videos.length;
 			    document.getElementById('mon').innerHTML = totle;
 			    document.getElementById('son').innerHTML = window.loadfinish;
 			  }
-			  function addlister(arr,bindFn,doFn){
-			    for(var i = 0 ; i < arr.length ; i++){
-			      if(!arr[i].dataset.tongji){
-			        arr[i].onload = bindFn(arr[i]);
-			        doFn(arr[i]);
-			      }
-			    }
-			  }
-			  function doFn(dom){
-			    if(!dom.dataset.tongji){
-			      dom.dataset.tongji = true;
-			    }
-			  }
+			  // function addlister(arr,bindFn,doFn){
+			  //   for(var i = 0 ; i < arr.length ; i++){
+			  //     if(!arr[i].dataset.tongji){
+			  //       arr[i].onload = bindFn(arr[i]);
+			  //       doFn(arr[i]);
+			  //     }
+			  //   }
+			  // }
+			  // function doFn(dom){
+			  //   if(!dom.dataset.tongji){
+			  //     dom.dataset.tongji = true;
+			  //   }
+			  // }
 			  
 			  function bindFn(dom){
 			  console.log(dom);
@@ -68,27 +68,27 @@
 	<div class="hide" id="BGM"></div>
 	<!-- <audio src="audio/tfbs.mp3" preload id="backgroundMusic" class="hide"></audio> -->
 	<div class="hide">
-		<img src="images/min/zzmanleft.png">
-		<img src="images/min/zzmanright.png">
-		<img src="images/min/lefthand.png">
-		<img src="images/min/righthand.png">
-		<img src="images/min/alert.png">
-		<img src="images/min/time.png">
-		<img src="images/min/timebar.png">
-		<img src="images/min/text.png">
-		<img src="images/min/zzman.gif">
-		<img src="images/min/heart.png">
-		<img src="images/min/pi.png">
-		<img src="images/min/leg.gif">
-		<img src="images/min/hand.gif">
-		<img src="images/min/title.png">
-		<img src="images/min/shoting.png">
-		<img src="images/min/zzman.png">
-		<img src="images/min/blood2.png">
-		<img src="images/min/blood.png">
-		<img src="images/min/againbtna.png">
-		<img src="images/min/download.png">
-		<img src="images/min/shareeatbtn.png">
+		<img onload="bindFn(this)" src="images/min/zzmanleft.png">
+		<img onload="bindFn(this)" src="images/min/zzmanright.png">
+		<img onload="bindFn(this)" src="images/min/lefthand.png">
+		<img onload="bindFn(this)" src="images/min/righthand.png">
+		<img onload="bindFn(this)" src="images/min/alert.png">
+		<img onload="bindFn(this)" src="images/min/time.png">
+		<img onload="bindFn(this)" src="images/min/timebar.png">
+		<img onload="bindFn(this)" src="images/min/text.png">
+		<img onload="bindFn(this)" src="images/min/zzman.gif">
+		<img onload="bindFn(this)" src="images/min/heart.png">
+		<img onload="bindFn(this)" src="images/min/pi.png">
+		<img onload="bindFn(this)" src="images/min/leg.gif">
+		<img onload="bindFn(this)" src="images/min/hand.gif">
+		<img onload="bindFn(this)" src="images/min/title.png">
+		<img onload="bindFn(this)" src="images/min/shoting.png">
+		<img onload="bindFn(this)" src="images/min/zzman.png">
+		<img onload="bindFn(this)" src="images/min/blood2.png">
+		<img onload="bindFn(this)" src="images/min/blood.png">
+		<img onload="bindFn(this)" src="images/min/againbtna.png">
+		<img onload="bindFn(this)" src="images/min/download.png">
+		<img onload="bindFn(this)" src="images/min/shareeatbtn.png">
 	</div>
 
 	<DIV class="mobile">
@@ -144,9 +144,9 @@
 		</section>
 		
 	</DIV>
-	<script type="text/javascript" src="js/zeptoWithFx.min.js?ver=1.01"></script>
-	<script type="text/javascript" src="js/jweixin-1.0.0.js"></script>
-	<script type="text/javascript" src="js/dragonboatfestival.js?ver=1.66"></script>
+	<script type="text/javascript" onload="bindFn(this)" src="js/zeptoWithFx.min.js?ver=1.01"></script>
+	<script type="text/javascript" onload="bindFn(this)" src="js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" onload="bindFn(this)" src="js/dragonboatfestival.js?ver=1.66"></script>
 	<script>$(window).on("load",function(){clearInterval(tongji);$("#loading").addClass("hide")})</script>
 </body>
 </html>
