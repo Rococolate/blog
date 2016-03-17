@@ -35,7 +35,7 @@
 			  	var totle = 0;
 			    for(var i = 0 ; i < lists.length ; i ++){
 			      for(var j = 0 ; j < lists[i].length ; j ++){
-			      	if(lists[i][j].src){
+			      	if(lists[i][j].src && lists[i][j].dataset["tongji"] == "1"){
 			      		totle ++ ;
 			      	}
 			      }
@@ -72,27 +72,27 @@
 	<div class="hide" id="BGM"></div>
 	<!-- <audio src="audio/tfbs.mp3" preload id="backgroundMusic" class="hide"></audio> -->
 	<div class="hide">
-		<img onload="bindFn(this)" src="images/min/zzmanleft.png">
-		<img onload="bindFn(this)" src="images/min/zzmanright.png">
-		<img onload="bindFn(this)" src="images/min/lefthand.png">
-		<img onload="bindFn(this)" src="images/min/righthand.png">
-		<img onload="bindFn(this)" src="images/min/alert.png">
-		<img onload="bindFn(this)" src="images/min/time.png">
-		<img onload="bindFn(this)" src="images/min/timebar.png">
-		<img onload="bindFn(this)" src="images/min/text.png">
-		<img onload="bindFn(this)" src="images/min/zzman.gif">
-		<img onload="bindFn(this)" src="images/min/heart.png">
-		<img onload="bindFn(this)" src="images/min/pi.png">
-		<img onload="bindFn(this)" src="images/min/leg.gif">
-		<img onload="bindFn(this)" src="images/min/hand.gif">
-		<img onload="bindFn(this)" src="images/min/title.png">
-		<img onload="bindFn(this)" src="images/min/shoting.png">
-		<img onload="bindFn(this)" src="images/min/zzman.png">
-		<img onload="bindFn(this)" src="images/min/blood2.png">
-		<img onload="bindFn(this)" src="images/min/blood.png">
-		<img onload="bindFn(this)" src="images/min/againbtna.png">
-		<img onload="bindFn(this)" src="images/min/download.png">
-		<img onload="bindFn(this)" src="images/min/shareeatbtn.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/zzmanleft.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/zzmanright.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/lefthand.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/righthand.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/alert.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/time.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/timebar.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/text.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/zzman.gif">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/heart.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/pi.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/leg.gif">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/hand.gif">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/title.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/shoting.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/zzman.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/blood2.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/blood.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/againbtna.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/download.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/shareeatbtn.png">
 	</div>
 
 	<DIV class="mobile">
@@ -148,9 +148,9 @@
 		</section>
 		
 	</DIV>
-	<script type="text/javascript" onload="bindFn(this)" src="js/zeptoWithFx.min.js?ver=1.01"></script>
-	<script type="text/javascript" onload="bindFn(this)" src="js/jweixin-1.0.0.js"></script>
-	<script type="text/javascript" onload="bindFn(this)" src="js/dragonboatfestival.js?ver=1.66"></script>
+	<script type="text/javascript" onload="bindFn(this)" data-tongji="1" src="js/zeptoWithFx.min.js?ver=1.01"></script>
+	<script type="text/javascript" onload="bindFn(this)" data-tongji="1" src="js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" onload="bindFn(this)" data-tongji="1" src="js/dragonboatfestival.js?ver=1.66"></script>
 	<script>$(window).on("load",function(){clearInterval(tongji);$("#loading").addClass("hide")})</script>
 </body>
 </html>
