@@ -20,57 +20,10 @@
 <body>
 	<section class="loading" id="loading">
 		<div id="fa"><span id="son">0</span>/<span id="mon">0</span></div>
-		<script type="text/javascript">
-			  window.loadfinish = 0;
-			  
-			  var tongji = setInterval(tong,100);
-			  function tong() {
-			    
-			    // var links = document.getElementsByTagName("link");
-			    var scripts = document.getElementsByTagName("script");
-			    var imgs = document.getElementsByTagName("img");
-			    var audios = document.getElementsByTagName("audio");
-			    var videos = document.getElementsByTagName("video");
-			    var lists = [scripts,imgs,audios,videos];
-			  	var totle = 0;
-			    for(var i = 0 ; i < lists.length ; i ++){
-			      for(var j = 0 ; j < lists[i].length ; j ++){
-			      	if(lists[i][j].src && lists[i][j].dataset["tongji"] == "1"){
-			      		totle ++ ;
-			      	}
-			      }
-			    }
-			    document.getElementById('mon').innerHTML = totle;
-			    console.log("totle",totle);
-			    document.getElementById('son').innerHTML = window.loadfinish;
-			  }
-			  // function addlister(arr,bindFn,doFn){
-			  //   for(var i = 0 ; i < arr.length ; i++){
-			  //     if(!arr[i].dataset.tongji){
-			  //       arr[i].onload = bindFn(arr[i]);
-			  //       doFn(arr[i]);
-			  //     }
-			  //   }
-			  // }
-			  // function doFn(dom){
-			  //   if(!dom.dataset.tongji){
-			  //     dom.dataset.tongji = true;
-			  //   }
-			  // }
-			  
-			  function bindFn(dom){
-			  console.log(dom);
-			    if(!dom.dataset.loadfinish){
-			      window.loadfinish ++;
-			      dom.dataset.loadfinish = true; 
-			      console.log(window.loadfinish);
-			      document.getElementById('son').innerHTML = window.loadfinish;
-			    }
-			  }
-		</script>
+		
 	</section>
 	<div class="hide" id="BGM"></div>
-	<!-- <audio src="audio/tfbs.mp3" preload id="backgroundMusic" class="hide"></audio> -->
+	<audio src="audio/tfbs.mp3" onload="bindFn(this)" data-tongji="1" preload id="backgroundMusic" class="hide"></audio>
 	<div class="hide">
 		<img onload="bindFn(this)" data-tongji="1" src="images/min/zzmanleft.png">
 		<img onload="bindFn(this)" data-tongji="1" src="images/min/zzmanright.png">
@@ -148,9 +101,48 @@
 		</section>
 		
 	</DIV>
+	<script type="text/javascript">
+		  window.loadfinish = 0;
+		  
+		  var tongji = setInterval(tong,100);
+		  function tong() {
+		    
+		    var scripts = document.getElementsByTagName("script");
+		    var imgs = document.getElementsByTagName("img");
+		    var audios = document.getElementsByTagName("audio");
+		    var videos = document.getElementsByTagName("video");
+		    var lists = [scripts,imgs,audios,videos];
+		  	var totle = 0;
+		    for(var i = 0 ; i < lists.length ; i ++){
+		      for(var j = 0 ; j < lists[i].length ; j ++){
+		      	if(lists[i][j].src && lists[i][j].dataset["tongji"] == "1"){
+		      		totle ++ ;
+		      	}
+		      }
+		    }
+		    document.getElementById('mon').innerHTML = totle;
+		    console.log("totle",totle);
+		    document.getElementById('son').innerHTML = window.loadfinish;
+
+		    if(totle > 0 && window.loadfinish > 0 && totle == window.loadfinish){
+		    	clearInterval(tongji);
+		    	document.getElementById('loading').style.block = "none";
+		    }
+		  }
+		  
+		  function bindFn(dom){
+		  console.log(dom);
+		    if(!dom.dataset.loadfinish){
+		      window.loadfinish ++;
+		      dom.dataset.loadfinish = true; 
+		      console.log(window.loadfinish);
+		      document.getElementById('son').innerHTML = window.loadfinish;
+		    }
+		  }
+	</script>
 	<script type="text/javascript" onload="bindFn(this)" data-tongji="1" src="js/zeptoWithFx.min.js?ver=1.01"></script>
 	<script type="text/javascript" onload="bindFn(this)" data-tongji="1" src="js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript" onload="bindFn(this)" data-tongji="1" src="js/dragonboatfestival.js?ver=1.66"></script>
-	<script>$(window).on("load",function(){clearInterval(tongji);$("#loading").addClass("hide")})</script>
+	
 </body>
 </html>
