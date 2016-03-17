@@ -519,10 +519,10 @@ window.onload = function(){
 	indexlock ++;
 }
 
-var indextime = setInterval(function(){
+// var indextime = setInterval(function(){
 
-	if(indexlock >= 1){
-		$loading.css("display","none"); 
-		clearInterval(indextime);
-	}
-},2000);
+// 	if(indexlock >= 1){
+// 		// $loading.css("display","none"); 
+// 		clearInterval(indextime);
+// 	}
+// },2000);
