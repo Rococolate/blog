@@ -40,5 +40,4 @@ build/Release
 node_modules
 
 # jeklly
-_site
 demo

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui" />
+	<link rel="stylesheet" type="text/css" href="/blog/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/blog/css/default.css">
+	<link rel="stylesheet" type="text/css" href="/blog/css/prism_okaidia.css">
+	<link rel="stylesheet" type="text/css" href="/blog/css/prism.css">
+	<link rel="stylesheet" type="text/css" href="/blog/css/iconmc.css">
+	<link rel="shortcut icon"  href="/blog/favicon.ico">
+	<script type="text/javascript" src="/blog/js/zeptoWithFx.min.js"></script>
+	<title>Css lib</title>
+	
+</head>
+<body>
+	<div class="header"></div>
+	<div class="nav">
+		<a href="/blog/index.html">Home</a>
+		<a href="/blog/article.html">Article</a>
+		<a href="/blog/aboutme.html">About me</a>
+		<a href="/blog/csslib.html">Css lib</a>
+	</div>
+	<div class="aside"></div><div class="content"><h2>Css lib</h2>
+<style>
+  #test1{
+    width:300px;
+    height: 300px;
+    border: 1px solid pink;
+    background: #eee;
+    background-image: linear-gradient(45deg , #bbb 50%, transparent 0);
+    background-size:30px 30px;
+  }
+  #test2{
+    width:300px;
+    height: 300px;
+    border: 1px solid pink;
+    background: #eee;
+    background-image: linear-gradient(45deg , transparent 75%, #bbb 0);
+    background-size:30px 30px;
+  }
+  #test3{
+    width:300px;
+    height: 300px;
+    border: 1px solid pink;
+    background: #eee;
+    background-image: linear-gradient(45deg , #bbb 25%, transparent 0),
+                      linear-gradient(45deg , transparent 75%, #bbb 0);
+    background-size:30px 30px;
+  }
+  #test4{
+    width:300px;
+    height: 300px;
+    border: 1px solid pink;
+    background: #eee;
+    background-image: linear-gradient(45deg , #bbb 25%, transparent 0),
+                      linear-gradient(45deg , transparent 75%, #bbb 0);
+    background-position: 0 0 , 15px 15px;
+    background-size:30px 30px;
+  }
+  #test5{
+    width:300px;
+    height: 300px;
+    border: 1px solid pink;
+    background: #eee;
+    background-image: linear-gradient(45deg , #bbb 25%, transparent 0),
+                      linear-gradient(45deg , transparent 75%, #bbb 0),
+                      linear-gradient(45deg , #bbb 25%, transparent 0),
+                      linear-gradient(45deg , transparent 75%, #bbb 0);
+    background-position: 0 0 , 15px 15px , 15px 15px , 30px 30px ;
+    background-size:30px 30px;
+  }
+  #test6{
+    width:300px;
+    height: 300px;
+    border: 1px solid pink;
+    background: rebeccapurple;
+    background-image: linear-gradient(45deg , rgba(0,0,0,.25) 25%, transparent 0 , transparent 75%, rgba(0,0,0,.25) 0),
+                      linear-gradient(45deg , rgba(0,0,0,.25) 25%, transparent 0 , transparent 75%, rgba(0,0,0,.25) 0);
+    background-position: 0 0 , 15px 15px ;
+    background-size:30px 30px;
+  }
+  #test7{
+    width:300px;
+    height: 300px;
+    border: 1px solid pink;
+    background: pink url('data:image/svg+xml,\
+                <svg xmlns="http://www.w3.org/2000/svg"\
+                     width="100" height="100"\
+                     fill-opacity=".25">\
+                <rect x="50" y="0" width="50" height="50" /> \
+                <rect x="0" y="50" width="50" height="50" /> \
+                </svg>');
+    background-size:30px 30px;
+  }
+  #test8{
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    margin:30px auto;
+    background-color: pink;
+    position:relative;
+  }
+  #test8:after{
+    content:"";
+    position:absolute;
+    top:-10px;
+    right:-10px;
+    left:-10px;
+    bottom:-10px;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius:50%;
+  }
+  #test9{
+    width:500px;
+    height: 500px;
+    margin:100px auto;
+    background-color: pink;
+    display:flex;
+  }
+  #test9 .main{
+    background-color: yellowgreen;
+    padding:1em 1.5em;
+    width:18em;
+    text-align: center;
+    margin:auto;
+  }
+  #test10{
+    width:300px;
+    height: 300px;
+    margin:100px auto;
+    background-color: pink;
+
+  }
+  .marching-ant{
+    padding:1em;
+    border:1px solid transparent;
+    background:
+      linear-gradient(pink,pink) padding-box,
+      repeating-linear-gradient( -45deg , black 0, black 25% , white 0 , white 50% ) 0 / .6em .6em;
+    animation:ants 12s linear infinite;
+  }
+  @keyframes ants { to { background-position:100%;} }
+  #test11 input[type='checkbox']{
+    position:absolute;
+    clip:rect(0,0,0,0);
+  }
+  #test11 input[type='checkbox'] + label::before{
+    content:'\a0';
+    display:inline-block;
+    vertical-align: .2em;
+    width:.8em;
+    height: .8em;
+    margin-right: .2em;
+    border-radius: .2em;
+    background: silver;
+    text-indent: .15em;
+    line-height: .65;
+  }
+  #test11 input[type='checkbox']:checked + label::before{
+    content:'\2713';
+    background: yellowgreen;
+  }
+  #test11 input[type='checkbox']:focus + label::before{
+    box-shadow:0 0 .1em .1em #58a;
+  }
+  #test11 input[type='checkbox']:disabled + label::before{
+    background:gray;
+    box-shadow:none;
+    color:#555;
+  }
+  #test12{
+    overflow:auto;
+    width:10em;
+    height: 8em;
+    padding:.3em .5em;
+    border:1px solid silver;
+    margin:auto;
+    background: linear-gradient( white 30% , transparent ), 
+                radial-gradient(at 50% 0 , rgba(0, 0, 0, .2) , transparent 70% );
+    background-size:100% 50px , 100% 15px;
+    background-repeat: no-repeat;
+    background-attachment: local , scroll ;
+  }
+  #test13{
+    width:100%;
+    display:-webkit-flex;
+    /* text-align: justify; */
+    background-color: yellowgreen;
+  }
+  /* #test13:after{
+    content:"";
+    display:inline-block;
+    height:1px;
+    width:100%;
+    overflow:hidden;
+  } */
+  #test13 .fl{
+    flex: 1;
+  }
+  #test13 .cl{
+    width:60px;
+    height: 60px;
+    display:inline-block;
+    /* margin:auto; */
+    background-color: pink;
+    border-radius:50%;
+    position:relative;
+  }
+  #youkuplayer{
+    width:300px;
+    height: 200px;
+  }
+  figure{
+    max-width:300px;
+    max-width:min-content;
+    margin:auto;
+  }
+  figure > img{
+    max-width:inherit;
+    width:inherit;
+  }
+  @keyframes blink-smooth{
+    50% { color :transparent;}
+  }
+  .highlight{
+    animation:1s blink-smooth 3 steps(1) ;
+  }
+  .type{
+    
+  }
+</style>
+<h1 class='type'>css is awesome!</h1>
+<h5>献给我我可爱的胖子</h5>
+<p>
+  <button class="copy" data-text='24232342'>Copy</button>
+</p>
+<p>
+  <textarea cols="50" rows="10" placeholder="这这里粘贴试一下吧!"></textarea>
+</p>
+<div id="test1"></div>
+<div id="test2"></div>
+<div id="test3"></div>
+<div id="test4"></div>
+<div id="test5"></div>
+<div id="test6"></div>
+<div id="test7"></div>
+<div id="test8"></div>
+<div id="test9">
+  <div class="main">
+    <h2>AAAA</h2>
+    <h3>BBBB</h3>
+  </div>
+</div>
+<div id="test10" class='marching-ant'></div>
+<div id="test11">
+  <input type="checkbox"  id="awesome">
+  <label for="awesome">Awesome!</label>
+  <input type="checkbox" disabled id="bwesome">
+  <label for="bwesome">Bwesome!</label>
+  <input type="checkbox" disabled checked id="cwesome">
+  <label for="cwesome">Cwesome!</label>
+</div>
+<ul id="test12">
+  <li>test</li>
+  <li>test</li>
+  <li>test</li>
+  <li>test</li>
+  <li>test</li>
+  <li>test</li>
+  <li>test</li>
+  <li>test</li>
+  <li>test</li>
+  <li>test</li>
+  <li>test</li>
+</ul>
+<div id="test13">
+  <div class="fl"></div>
+  <div class="cl"></div>
+  <div class="fl"></div> 
+  <div class="cl"></div>
+  <div class="fl"></div> 
+  <div class="cl"></div>
+  <div class="fl"></div> 
+</div>
+<p>some text ...</p>
+<figure>
+  <img src="/blog/images/blog/52595595_p0.jpg" alt="">
+  <figcaption class='highlight'>
+    The great Sir Adam Catalace was named after Countess Ada Lovelace, the first porgrammer.
+  </figcaption>
+</figure>
+<p>More text ...</p>
+<script>
+function normalize(arr){
+   return arr.map((item,index,array)=>{
+     return item.split('').map((it,ind,arr)=>{
+        if(ind === 0){
+          return it.toLocaleUpperCase() 
+        }else{
+          return it.toLocaleLowerCase() 
+        }
+     }).reduce((x,y)=>{
+      return x + y
+     })
+  })
+}
+// console.log(normalize(['adam', 'LISA', 'barT']))
+//   function test () {
+//     if (normalize(['adam', 'LISA', 'barT']).toString() === ['Adam', 'Lisa', 'Bart'].toString()) {
+//         console.log('测试通过!');
+//     }
+//     else {
+//         console.log('测试失败!');
+//     }
+//   }
+//   test()
+
+function get_primes(arr) {
+    return arr.filter((item)=>{
+      return isPrimes(item)
+    })
+}
+
+function isPrimes(number){
+  if(number <= 1) return false
+  for(let i = 2 ; i < number ; i ++ ){
+    if(number % i === 0 ){
+      return false
+    }
+  }
+  return true
+}
+var
+    x,
+    r,
+    arr = [];
+for (x = 1; x < 100; x++) {
+    arr.push(x);
+}
+r = get_primes(arr);
+if (r.toString() === [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97].toString()) {
+    console.log('测试通过!');
+} else {
+    console.log('测试失败: ' + r.toString());
+}
+
+
+var store = {
+  nextId:1,
+  cache:{},
+  mySymbol:Symbol('id'),
+  add:function(fn){
+    if(!fn[this.mySymbol]){
+      fn[this.mySymbol] = store.nextId++
+      return !!(store.cache[fn[this.mySymbol]] = fn )
+    }
+  }
+}
+
+var elems = {
+
+  length:0,
+
+  add:function(elem){
+    [].push.call(this,elem)
+  },
+
+  gather:function(id){
+    this.add(document.getElementById(id))
+  }
+
+}
+
+function addMethod(object,name,fn){
+  var old = object[name]
+  object[name] = function(){
+    if(fn.length == argument.length){
+      return fn.apply(this,argument)
+    }else if(typeof old == 'function'){
+      return old.apply(this,arguments)
+    }
+  }
+}
+
+var copyBtn = document.querySelector('.copy')
+
+  // 点击的时候调用 copyTextToClipboard() 方法就好了.
+  copyBtn.onclick = function() {
+    copyTextToClipboard(this.dataset.text)
+  }
+
+  function copyTextToClipboard(text) {
+    var textArea = document.createElement("textarea")
+
+    textArea.style.position = 'fixed'
+    textArea.style.top = 0
+    textArea.style.left = 0
+    textArea.style.width = '2em'
+    textArea.style.height = '2em'
+    textArea.style.padding = 0
+    textArea.style.border = 'none'
+    textArea.style.outline = 'none'
+    textArea.style.boxShadow = 'none'
+    textArea.style.background = 'transparent'
+    textArea.value = text
+
+    document.body.appendChild(textArea)
+
+    textArea.select()
+
+    try {
+      var msg = document.execCommand('copy') ? '成功' : '失败'
+      console.log('复制内容 ' + msg)
+    } catch (err) {
+      console.log('不能使用这种方法复制内容')
+    }
+
+    document.body.removeChild(textArea)
+}
+
+
+
+</script></div>
+	<script type="text/javascript" src="/blog/js/prism.js"></script>
+</body>
+</html>
