@@ -6,24 +6,48 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui" />
 	<link rel="stylesheet" type="text/css" href="css/reset.css">
 	<link rel="stylesheet" type="text/css" href="css/dragonboatfestival.css?ver=1.18">
-	<script type="text/javascript">
-		window.onerror = function  (msg,url,line,col,error) {
-			alert(msg);
-			alert(url);
-			alert(line);
-			alert(col);
-			alert(error);
-			return true;
+	<style>
+		#fa{
+			width: 200px;
+			text-align: center;
+			padding-top: 200px;
+			margin:0 auto;
+			font-size: 16px;
 		}
-	</script>
+	</style>
+	
 </head>
 <body>
-	<div class="hide" id="BGM"></div>
-	<!-- <audio src="audio/tfbs.mp3" preload id="backgroundMusic" class="hide"></audio> -->
-	<div class="hide"><img src="images/min/zzmanleft.png"><img src="images/min/zzmanright.png"><img src="images/min/lefthand.png"><img src="images/min/righthand.png"><img src="images/min/alert.png"><img src="images/min/time.png"><img src="images/min/timebar.png"><img src="images/min/alert.png"></div>
 	<section class="loading" id="loading">
+		<div id="fa"><span id="son">0</span>/<span id="mon">0</span></div>
 		
 	</section>
+	<div class="hide" id="BGM"></div>
+	<!-- <audio src="audio/tfbs.mp3" onload="bindFn(this)" data-tongji="1" preload id="backgroundMusic" class="hide"></audio> -->
+	<div class="hide">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/zzmanleft.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/zzmanright.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/lefthand.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/righthand.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/alert.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/time.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/timebar.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/text.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/zzman.gif">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/heart.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/pi.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/leg.gif">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/hand.gif">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/title.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/shoting.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/zzman.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/blood2.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/blood.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/againbtna.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/download.png">
+		<img onload="bindFn(this)" data-tongji="1" src="images/min/shareeatbtn.png">
+	</div>
+
 	<DIV class="mobile">
 		<section class="main hide" id="main">
 			<div class="page page1" id="page1">
@@ -77,8 +101,48 @@
 		</section>
 		
 	</DIV>
-	<script type="text/javascript" src="js/zeptoWithFx.min.js?ver=1.01"></script>
-	<script type="text/javascript" src="js/jweixin-1.0.0.js"></script>
-	<script type="text/javascript" src="js/dragonboatfestival.js?ver=1.66"></script>
+	<script type="text/javascript">
+		  window.loadfinish = 0;
+		  
+		  var tongji = setInterval(tong,100);
+		  function tong() {
+		    
+		    var scripts = document.getElementsByTagName("script");
+		    var imgs = document.getElementsByTagName("img");
+		    var audios = document.getElementsByTagName("audio");
+		    var videos = document.getElementsByTagName("video");
+		    var lists = [scripts,imgs,audios,videos];
+		  	var totle = 0;
+		    for(var i = 0 ; i < lists.length ; i ++){
+		      for(var j = 0 ; j < lists[i].length ; j ++){
+		      	if(lists[i][j].src && lists[i][j].dataset["tongji"] == "1"){
+		      		totle ++ ;
+		      	}
+		      }
+		    }
+		    document.getElementById('mon').innerHTML = totle;
+		    console.log("totle",totle);
+		    document.getElementById('son').innerHTML = window.loadfinish;
+
+		    if(totle > 0 && window.loadfinish > 0 && totle == window.loadfinish){
+		    	clearInterval(tongji);
+		    	document.getElementById('loading').style.display = "none";
+		    }
+		  }
+		  
+		  function bindFn(dom){
+		  console.log(dom);
+		    if(!dom.dataset.loadfinish){
+		      window.loadfinish ++;
+		      dom.dataset.loadfinish = true; 
+		      console.log(window.loadfinish);
+		      document.getElementById('son').innerHTML = window.loadfinish;
+		    }
+		  }
+	</script>
+	<script type="text/javascript" onload="bindFn(this)" data-tongji="1" src="js/zeptoWithFx.min.js?ver=1.01"></script>
+	<script type="text/javascript" onload="bindFn(this)" data-tongji="1" src="js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" onload="bindFn(this)" data-tongji="1" src="js/dragonboatfestival.js?ver=1.66"></script>
+	
 </body>
 </html>
