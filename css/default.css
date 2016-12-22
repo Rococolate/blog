@@ -163,24 +163,25 @@ img{
   max-width: 768px;
   margin-bottom: 20px;
 }
+h1,h2,h3,h4,h5{
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
 h2{
   font-size: 2em;
   font-weight: bold;
-  margin-bottom:20px;
+  
 }
 h3{
   font-size: 1.75em;
-  margin-bottom: 20px;
   color:chocolate;
 }
 h4{
   font-size: 1.5rem;
-  margin-bottom: 20px;
-  color:seagreen;
+  color:#859900;
 }
 h5{
   font-size: 1.25rem;
-  margin-bottom: 20px;
 }
 p{
   text-indent: 2em;
@@ -283,4 +284,13 @@ a:active{
 }
 .attention{
   color:#DD4A68;
+}
+a[href*='http'],a[href*='http']:active{
+  color:#268bd2;
+  font-style: italic;
+  text-decoration: none;
+  display: inline-block;
+  padding:5px ;
+  text-align: center;
+  text-indent: 0;
 }
