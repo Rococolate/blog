@@ -1,7 +1,9 @@
 @@@@@@@@@@
 layout: default
-title: 「docker-sinopia」使用docker部署npm私服sinopia
+title: 「docker-sinopia」使用Docker部署npm私服Sinopia
 @@@@@@@@@@
+
+# 「docker-sinopia」使用Docker部署npm私服Sinopia
 
 ![docker](/blog/images/blog/docker-swarm-hero2.png)
 
