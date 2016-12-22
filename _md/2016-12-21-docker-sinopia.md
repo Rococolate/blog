@@ -3,9 +3,15 @@ layout: default
 title: 「docker-sinopia」使用Docker部署npm私服Sinopia
 @@@@@@@@@@
 
-# 「docker-sinopia」使用Docker部署npm私服Sinopia
+# {{ page.title }}
 
 ![docker](/blog/images/blog/docker-swarm-hero2.png)
+
+{{ page.date | date_to_string }}
+
+Author:wuguanxi
+
+***
 
 ## 0.需求
 
