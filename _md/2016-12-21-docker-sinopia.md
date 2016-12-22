@@ -3,6 +3,8 @@ layout: default
 title: 「docker-sinopia」使用docker部署npm私服sinopia
 @@@@@@@@@@
 
+![docker](/blog/images/blog/docker-swarm-hero2.png)
+
 ## 0.需求
 
 代码写多了需要一个好的包管理工具，在javascript世界里就是npm了。但是npm也有缺点，国内访问的速度，还有npm是公开的，公司的项目不能往上面传。
@@ -342,7 +344,6 @@ ps -a 是查看当前的容器
 ```bash
     $ npm install -g nrm
     $ nrm add private  http://sinopia.rococolate.com/  # 添加新的npm源，这里是我的sinopia
-    $ nrm use private # 使用我的sinopia
     $ nrm use private # 使用我的sinopia
 ```
 
