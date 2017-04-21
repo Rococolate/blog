@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui" />
+	<link rel="stylesheet" type="text/css" href="/blog/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/blog/css/default.css">
+	<link rel="stylesheet" type="text/css" href="/blog/css/prism_Solarized_Light.css">
+	<link rel="stylesheet" type="text/css" href="/blog/css/iconmc.css">
+	<link rel="shortcut icon"  href="/blog/favicon.ico">
+	<script type="text/javascript" src="/blog/js/zeptoWithFx.min.js"></script>
+	<title>微信小程序开发几点心得</title>
+	
+</head>
+<body>
+	<div class="header"></div>
+	<div class="nav">
+		<a href="/blog/index.html">Home</a>
+		<a href="/blog/article.html">Article</a>
+		<a href="/blog/aboutme.html">About me</a>
+		<a href="/blog/csslib.html">Css lib</a>
+	</div>
+	<div class="aside"></div><div class="content"><h1>微信小程序开发几点心得</h1>
+<p><img src="/blog/images/blog/wechat.jpg" alt="wechat"></p>
+<p>21 Apr 2017</p>
+<p>Author:wuguanxi</p>
+<hr>
+<p>最近忙着开发微信小程序，小程序的语法大概借鉴了Vue 、 React 这些主流框架，支持大部分css 和 ES6语法，但也会有一些坑。</p>
+<h3>Promise</h3>
+<p>最新版的小程序支持<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/details.html">Promise</a>,但真机实测时发现系统为IOS8.3的iPhone5c Promise无法使用而且没有报错，尝试使用第三方Promise库<a href="http://bluebirdjs.com/docs/getting-started.html">bluebird</a>,结果掉进另外一个坑。</p>
+<h3>bluebird</h3>
+<p>bluebird代码中包含有DOM操作，与小程序<strong>不兼容</strong>。
+可以用<a href="https://www.npmjs.com/package/es6-promise">es6-promise</a>代替。替换后IOS8.3的iPhone5c实测Promise可用。</p>
+<h3>布局</h3>
+<p>请放心使用flex布局，然后记得在微信开发者工具里勾选 <strong>开启 上传代码时样式文件自动保存</strong></p>
+<h3>小图标</h3>
+<p>小体积的图标可以转换成base64,作为背景图引入，放在app.wxss里面全局可用。</p>
+<h3>组件化</h3>
+<p>微信小程序不提供组件化的API，但可以有方法hack类似的组件。</p>
+<h4>1.对Page的分析</h4>
+<p>小程序的Page其实是一个普通的js对象，然后有一些自带的属性和方法，而且可以随意添加自定义的属性和方法，有个关键的方法是setData,小程序就是靠它实现数据和视图的同步。
+而我们组件的一个思路就是获取到Page这个Object ,然后与组件提供的属性和方法进行合并</p>
+<h4>2.组件</h4>
+<p>我的组件loading为例子</p>
+<pre><code class="language-bash">组件结构
+loading--
+  loading.js
+  loading.wxml
+  loading.wxss
+</code></pre>
+<p>loading.js</p>
+<pre><code class="language-javascript">// loading.js loading组件的js
+
+// 组件的属性
+const __data__ = {
+  show:false
+}
+// 组件的方法
+const __fn__ = {
+  ComponentLoadingShow(){
+    this.data.ComponentLoadingData.show = true;
+    const ComponentLoadingData = this.data.ComponentLoadingData;
+    this.setData({
+      ComponentLoadingData
+    })
+  },
+  ComponentLoadingHide(){
+    this.data.ComponentLoadingData.show = false;
+    const ComponentLoadingData = this.data.ComponentLoadingData;
+    this.setData({
+      ComponentLoadingData
+    })
+  },
+}
+
+module.exports = function ComponentLoading(pageContext) {
+   // 获得page 合并属性与方法
+  const ComponentLoadingData = Object.assign({},__data__);
+  pageContext.setData({
+  // 在组件data里的名字
+    ComponentLoadingData
+  });
+  Object.assign(pageContext,__fn__);
+}
+</code></pre>
+<pre><code class="language-javascript">// 在Page index里使用
+
+const ComponentLoading = require('../component/loading/loading.js');
+
+Page({
+  data: {
+    
+  },
+  onLoad(){
+    // onload的时候注入
+    ComponentLoading(this);
+  },
+ 
+})
+
+</code></pre>
+<p>loading.wxml
+wxml文件是对应的结构，使用小程序提供的<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/framework/view/wxml/template.html">模板（template）</a></p>
+<pre><code class="language-html">&lt;!-- loading.wxml--&gt;
+&lt;template name=&quot;ComponentLoading&quot;&gt;
+  &lt;view wx:if=&quot;&quot; class='ComponentLoading-loading' bindtap=&quot;&quot;&gt;
+    &lt;view class=&quot;ComponentLoading-loading-icon&quot;&gt;&lt;/view&gt;
+  &lt;/view&gt;
+&lt;/template&gt;
+</code></pre>
+<p>使用时在Page对应的wxml引入</p>
+<pre><code class="language-html">&lt;!-- index.wxml--&gt;
+&lt;import src='../component/loading/loading.wxml' /&gt;
+...
+&lt;template is=&quot;ComponentLoading&quot; data=&quot;&quot;/&gt;
+</code></pre>
+<p>loading.wxss</p>
+<pre><code class="language-css">.....
+</code></pre>
+<p>直接在app.wxss里面引入，全局可用</p>
+<pre><code class="language-css">/**app.wxss**/
+import './pages/component/loading/loading.wxss';
+...
+</code></pre>
+<p><a href="https://github.com/Rococolate/wechat_app_loading">完整demo挫这里</a></p>
+<h3>最后说说授权的坑</h3>
+<p>小程序有些API是需要用户授权才能用，但是，一旦用户第一次手误按了拒绝，程序在一个不短的时间内是无法再次调起授权API的。
+而且这个坑貌似在小程序1.1.0前是无解的，1.1.0的解决方法是用<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/api/setting.html#opensettingobject">wx.openSetting</a>处理
+低版本需要兼容处理（提示用户升级吧😂）。</p>
+</div>
+	<script type="text/javascript" src="/blog/js/prism.js"></script>
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-89176644-2', 'auto');
+	  ga('send', 'pageview');
+
+	</script>
+</body>
+</html>

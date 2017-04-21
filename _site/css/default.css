@@ -298,3 +298,6 @@ a[href*='http'],a[href*='http']:active{
   text-align: center;
   text-indent: 0;
 }
+strong{
+  font-weight: bolder;
+}
