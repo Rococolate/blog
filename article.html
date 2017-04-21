@@ -4,3 +4,13 @@ title: Article
 ---
 
 <h2>{{ page.title }}</h2>
+
+<ul class="articleList">
+
+  {% for post in site.posts %} 
+    <li><span class="date">{{ post.date | date_to_string }}</span><br /> 
+      <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+    </li>
+  {% endfor %}
+
+</ul>
