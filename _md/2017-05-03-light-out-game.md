@@ -151,5 +151,9 @@ export default wallKeeper;
 ### React实现GUI的完整Demo
 [=> Github <=](https://github.com/Rococolate/checkio/tree/master/Wall_Keeper)
 
+#### 参考文章
+
+[ 关灯游戏 Lights out (二)(首行枚举+位运算，搜索全部解)](http://blog.csdn.net/mhl_1208980380/article/details/54618002)
+
 
 
