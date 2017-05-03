@@ -5,7 +5,8 @@ title: 关灯游戏 Lights Out (game) 首行枚举破解法  React实现GUI
 
 # {{ page.title }}
 
-![docker](/blog/images/blog/abfbc34c30be57c03ea127a1c5887340.jpg)
+![我的手绘不可能这么萌](/blog/images/blog/abfbc34c30be57c03ea127a1c5887340.jpg)
+[题图出处](https://www.duitang.com/blog/?id=605367212)
 
 {{ page.date | date_to_string }}
 
