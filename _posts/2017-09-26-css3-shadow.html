@@ -1,0 +1,224 @@
+---
+layout: default
+title: css3阴影的应用
+---
+<style>
+  .info_box{
+    width:500px;
+    height:100px;
+    background-color:#ffc975;
+    margin:10px auto;
+    line-height: 100px;
+    text-align: center;
+    color:#f6e7a2;
+    font-size: 60px;
+  }
+  .text-shadow{
+    text-shadow:-3px 4px 8px rgba(67,39,3,0.75);
+  }
+  .inset-shadow{
+    box-shadow:inset 0 1px 0   0   rgba(255,232,137,0.85);
+  }
+  .inset-shadow_inset-light{
+    box-shadow:inset 0 1px 0   0   rgba(255,232,137,0.85),
+               inset 0 0   40px 9px #fcd899;
+  }
+  .inset-shadow_inset-light_out-light{
+    box-shadow:inset 0 1px 0   0   rgba(255,232,137,0.85),
+               inset 0 0   40px 9px #fcd899,
+                     0 0   40px 16px rgba(165,105,10,0.29);
+  }
+  .linear-gradient{
+    background-image: linear-gradient(2deg, rgba(0,0,0,.1), #483015 60%, rgba(255,255,255,.1));
+  }
+  .btn{
+    width: 280px;
+    height: 60px;
+    margin: 10px auto;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    border-radius: 3em;
+    font-size: 20px;
+    background-color: #ff4a64;
+    color:#fff;
+  }
+  .relief-t{
+    box-shadow: inset 0 -4px 3px 3px rgba(0,0,0,0.3)
+  }
+  .relief-b{
+    box-shadow: inset 0 4px 3px 3px rgba(255,255,255,0.3)
+  }
+  .relief{
+    box-shadow: inset 0 -4px 3px 3px rgba(0,0,0,0.3),
+                inset 0 4px 3px 3px rgba(255,255,255,0.3)
+  }
+</style>
+<h1>{{ page.title }}</h1>
+<p>{{ page.date | date_to_string }}</p>
+<p>Author:wuguanxi</p>
+<hr>
+
+<h3>设计稿效果</h3>
+<p><img src="/blog/images/blog/2017_09_26/1.png" alt=""></p>
+<h3>图层分析</h3>
+<p><img src="/blog/images/blog/2017_09_26/2.png" alt=""></p>
+<h3>代码实现</h3>
+<pre><code class="language-html">
+  &lt;div class="info_box" &gt;&lt;/div&gt;
+</code></pre>
+<pre><code class="language-css">
+  .info_box{
+    width:500px;
+    height:100px;
+    background-color:#ffc975;
+  }
+</code></pre>
+<div class="info_box"></div>
+<h3>内阴影</h3>
+<p><img src="/blog/images/blog/2017_09_26/3.png" alt=""></p>
+<pre><code class="language-html">
+  &lt;div class="info_box inset-shadow" &gt;&lt;/div&gt;
+</code></pre>
+<pre><code class="language-css">
+  .info_box{
+    width:500px;
+    height:100px;
+    background-color:#ffc975;
+    margin:10px auto;
+  }
+  .inset-shadow{
+    box-shadow:inset 0 1px 0   0   rgba(255,232,137,0.85);
+  }
+</code></pre>
+<div class="info_box inset-shadow"></div>
+<h3>内发光</h3>
+<p><img src="/blog/images/blog/2017_09_26/4.png" alt=""></p>
+<pre><code class="language-html">
+  &lt;div class="info_box inset-shadow_inset-light" &gt;&lt;/div&gt;
+</code></pre>
+<pre><code class="language-css">
+  .info_box{
+    width:500px;
+    height:100px;
+    background-color:#ffc975;
+    margin:10px auto;
+  }
+  .inset-shadow_inset-shadow{
+    box-shadow:inset 0 1px 0   0   rgba(255,232,137,0.85),
+               inset 0 0   40px 9px #fcd899;
+  }
+</code></pre>
+<div class="info_box inset-shadow_inset-light"></div>
+<h3>外发光</h3>
+<p><img src="/blog/images/blog/2017_09_26/5.png" alt=""></p>
+<pre><code class="language-html">
+  &lt;div class="info_box inset-shadow_inset-light_out-light" &gt;&lt;/div&gt;
+</code></pre>
+<pre><code class="language-css">
+  .info_box{
+    width:500px;
+    height:100px;
+    background-color:#ffc975;
+    margin:10px auto;
+  }
+  .inset-shadow_inset-shadow_out-light{
+    box-shadow:inset 0 1px 0   0   rgba(255,232,137,0.85),
+               inset 0 0   40px 9px #fcd899,
+                     0 0   40px 16px rgba(165,105,10,0.29);
+  }
+</code></pre>
+<div class="info_box inset-shadow_inset-light_out-light"></div>
+<h3>文字阴影</h3>
+<p><img src="/blog/images/blog/2017_09_26/10.png" alt=""></p>
+<pre><code class="language-html">
+  &lt;div class="info_box inset-shadow_inset-light_out-light" &gt;&lt;/div&gt;
+</code></pre>
+<pre><code class="language-css">
+  .info_box{
+    width:500px;
+    height:100px;
+    background-color:#ffc975;
+    margin:10px auto;
+    line-height: 100px;
+    text-align: center;
+    color:#f6e7a2;
+    font-size: 60px;
+  }
+  .inset-shadow_inset-shadow_out-light{
+    box-shadow:inset 0 1px 0   0   rgba(255,232,137,0.85),
+               inset 0 0   40px 9px #fcd899,
+                     0 0   40px 16px rgba(165,105,10,0.29);
+  }
+  .text-shadow{
+    text-shadow:-3px 4px 8px rgba(67,39,3,0.75);
+  }
+</code></pre>
+<div class="info_box inset-shadow_inset-light_out-light text-shadow">文字阴影</div>
+<h3>尝试背景渐变</h3>
+<p><img src="/blog/images/blog/2017_09_26/6.png" alt=""></p>
+<pre><code class="language-html">
+  &lt;div class="info_box inset-shadow_inset-light_out-light text-shadow" &gt;&lt;/div&gt;
+</code></pre>
+<pre><code class="language-css">
+  .info_box{
+    width:500px;
+    height:100px;
+    background-color:#ffc975;
+    margin:10px auto;
+    line-height: 100px;
+    text-align: center;
+    color:#f6e7a2;
+    font-size: 60px;
+  }
+  .inset-shadow_inset-shadow_out-light{
+    box-shadow:inset 0 1px 0   0   rgba(255,232,137,0.85),
+               inset 0 0   40px 9px #fcd899,
+                     0 0   40px 16px rgba(165,105,10,0.29);
+  }
+  .text-shadow{
+    text-shadow:-3px 4px 8px rgba(67,39,3,0.75);
+  }
+  .linear-gradient{
+    background-image: linear-gradient(2deg, rgba(0,0,0,.1), #483015 60%, rgba(255,255,255,.1));
+  }
+</code></pre>
+<div class="info_box inset-shadow_inset-light_out-light text-shadow linear-gradient">文字阴影</div>
+<h3>斜面浮雕</h3>
+<p><img src="/blog/images/blog/2017_09_26/7.png" alt=""></p>
+<p><img src="/blog/images/blog/2017_09_26/8.png" alt=""></p>
+<p><img src="/blog/images/blog/2017_09_26/9.png" alt=""></p>
+<pre><code class="language-html">
+  &lt;div class="btn" &gt;再来一局&lt;/div&gt;
+  &lt;div class="btn relief-t" &gt;再来一局&lt;/div&gt;
+  &lt;div class="btn relief-b" &gt;再来一局&lt;/div&gt;
+  &lt;div class="btn relief" &gt;再来一局&lt;/div&gt;
+</code></pre>
+<pre><code class="language-css">
+  .btn{
+    width: 280px;
+    height: 60px;
+    margin: 10px auto;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    border-radius: 3em;
+    font-size: 20px;
+    background-color: #ff4a64;
+    color:#fff;
+  }
+  .relief-t{
+    box-shadow: inset 0 -4px 3px 3px rgba(0,0,0,0.3)
+  }
+  .relief-b{
+    box-shadow: inset 0 4px 3px 3px rgba(255,255,255,0.3)
+  }
+  .relief{
+    box-shadow: inset 0 -4px 3px 3px rgba(0,0,0,0.3),
+                inset 0 4px 3px 3px rgba(255,255,255,0.3)
+  }
+</code></pre>
+<div class="btn">再来一局</div>
+<div class="btn relief-t">再来一局</div>
+<div class="btn relief-b">再来一局</div>
+<div class="btn relief">再来一局</div>
