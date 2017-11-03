@@ -1,0 +1,228 @@
+---
+layout: default
+title: 3D粒子变换
+---
+
+<style>
+  body {
+    background:#777;
+    padding:0;
+    margin:0;
+    font-weight: bold;
+    overflow:hidden;
+  }
+
+  #info {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    color: #ffffff;
+    padding: 5px;
+    font-family:Monospace;
+    font-size:13px;
+    text-align:center;
+  }
+
+  a {
+    color: #ffffff;
+  }
+</style>
+
+<div id="container"></div>
+<div id="info">
+  <a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> -
+  monster by <a href="http://www.3drt.com/downloads.htm" target="_blank" rel="noopener">3drt</a>
+</div>
+
+<script src="/blog/libs/three.js"></script>
+
+<script src="/blog/libs/Detector.js"></script>
+<script src="/blog/libs/stats.min.js"></script>
+<script src="/blog/libs/tween.min.js"></script>
+
+<script>
+
+  if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+  var container, stats, clock, mixer, mesh;
+  var camera, scene, renderer, objects;
+
+  let ID = null;
+  let nextID = null;
+
+  const LIST = [
+    {id:1,url:'/blog/models/8.json',geometry:null,materials:null,vertices_tmp:null},
+    {id:2,url:'/blog/models/bird.json',geometry:null,materials:null,vertices_tmp:null},
+    {id:3,url:'/blog/models/12.json',geometry:null,materials:null,vertices_tmp:null},
+  ]
+
+  const posSrc = {pos:0};
+
+  const tweenA = new TWEEN.Tween(posSrc).delay(3000).to({pos:1},1000);
+  tweenA.easing(TWEEN.Easing.Sinusoidal.InOut);
+
+
+  tweenA.chain(tweenA);
+
+
+
+  const onUpdateA = function(){
+    const pos = this.pos;
+    const verticesA = LIST.filter(item => item.id === ID)[0].vertices_tmp;
+    const verticesB = LIST.filter(item => item.id === nextID)[0].vertices_tmp;
+    mesh.geometry.vertices.forEach(function(item,index){
+      const y1 = index >= verticesA.length ? verticesA[~~(index%10/10*verticesA.length)].y : verticesA[index].y;
+      const x1 = index >= verticesA.length ? verticesA[~~(index%10/10*verticesA.length)].x : verticesA[index].x;
+      const z1 = index >= verticesA.length ? verticesA[~~(index%10/10*verticesA.length)].z : verticesA[index].z;
+      const y2 = index >= verticesB.length ? verticesB[~~(index%10/10*verticesB.length)].y : verticesB[index].y;
+      const x2 = index >= verticesB.length ? verticesB[~~(index%10/10*verticesB.length)].x : verticesB[index].x;
+      const z2 = index >= verticesB.length ? verticesB[~~(index%10/10*verticesB.length)].z : verticesB[index].z;
+      item.y = y1 + (y2 - y1) * pos;
+      item.x = x1 + (x2 - x1) * pos;
+      item.z = z1 + (z2 - z1) * pos;
+    });
+    
+    mesh.geometry.verticesNeedUpdate = true;
+  }
+
+  tweenA.onUpdate(onUpdateA);
+  tweenA.onComplete(e=>{
+    posSrc.pos = 0;
+    let _id = ID;
+    ID = nextID;
+    nextID = findNextId(_id);
+  });
+
+
+  const loader = new THREE.JSONLoader();
+  const load = (url) => {
+    return new Promise( (resolve,reject) => {
+      loader.load(url,(geometry,materials) => {
+        return resolve(geometry,materials);
+      });
+    });
+  }
+
+  function findNextId(id){
+    var _id = id ||  1;
+    var _index = LIST.findIndex(ele => ele.id === _id);
+    var index = _index === -1 || _index + 1 >= LIST.length ? 0 : _index + 1;
+    return LIST[index].id;  
+  }
+
+  function init() {
+
+    container = document.getElementById( 'container' );
+
+    camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 2000 );
+    camera.position.set( 40, 80, 100 );
+
+    clock = new THREE.Clock();
+
+    scene = new THREE.Scene();
+
+    mixer = new THREE.AnimationMixer( scene );
+
+    const promiseList = LIST.map((item,index) => {
+      return load(item.url).then((geometry,materials)=>{
+        LIST[index] = {
+          id:item.id,
+          url:item.url,
+          geometry,
+          materials,
+          vertices_tmp: geometry.vertices.map( obj => {return {x:obj.x,y:obj.y,z:obj.z} } ),
+          length: geometry.vertices.length,
+        }
+      });
+    });
+
+    Promise.all(promiseList)
+    .then(posts=>{
+      const maxlength = Math.max.apply(null,LIST.map(item => item.length));
+      let {geometry,id} = LIST.filter(item => item.length === maxlength)[0];
+      let next_id = LIST.filter(item => item.length !== maxlength)[0].id;
+
+      ID = id;
+      nextID = findNextId(id);
+
+      mesh = new THREE.Points( geometry, new THREE.PointsMaterial( { size: 0.5, color: 0xffffff } ) );
+
+      mesh.position.set( 0, 0, 0 );
+
+      mesh.scale.set( 1, 1, 1 );
+
+      scene.add( mesh );
+      tweenA.start();
+
+    })
+    .catch(reason=>console.log(reason));
+
+    // lights
+
+    const ambientLight = new THREE.AmbientLight( 0xcccccc );
+    scene.add( ambientLight );
+
+    const pointLight = new THREE.PointLight( 0xff4400, 5, 30 );
+    pointLight.position.set( 5, 0, 0 );
+    scene.add( pointLight );
+
+    // renderer
+
+    renderer = new THREE.WebGLRenderer();
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    container.appendChild( renderer.domElement );
+
+    // stats
+
+    stats = new Stats();
+    container.appendChild( stats.dom );
+
+    // events
+
+    window.addEventListener( 'resize', onWindowResize, false );
+
+  }
+
+  //
+
+  function onWindowResize( event ) {
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+  }
+
+  //
+
+  function animate() {
+
+    requestAnimationFrame( animate );
+    TWEEN.update();
+    render();
+    stats.update();
+
+  }
+
+  function render() {
+
+    const timer = Date.now() * 0.0005;
+
+    camera.position.x = Math.cos( timer ) * 120;
+    camera.position.y = 60;
+    camera.position.z = Math.sin( timer ) * 120;
+
+    mixer.update( clock.getDelta() );
+
+    camera.lookAt( scene.position );
+
+    renderer.render( scene, camera );
+
+  }
+
+  init();
+  animate();
+
+</script>
