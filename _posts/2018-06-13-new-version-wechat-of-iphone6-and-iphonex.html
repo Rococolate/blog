@@ -1,0 +1,60 @@
+---
+layout: default
+title: 新版微信（6.6.7）在iPhone6和iPhoneX上的显示区域的改变
+---
+<h1>{{ page.title }}</h1>
+<p><img src="/blog/images/blog/2018_06_13/iphones.jpg" alt="题图"></p>
+<p>{{ page.date | date_to_string }}</p>
+<p>Author:wuguanxi</p>
+<hr>
+<h2>0.微信6.6.7 ios 版本的改动</h2>
+<p>增加了右拉浮层，webview行为和safari一致（增加底部导航栏，顶部标题栏滑动时会变小）</p>
+<p>这一改动直接令首屏显示区域减小，而且iphoneX和iphone6减少的高度是不一样的</p>
+<h2>1.导航栏出现逻辑</h2>
+<p>首次进入webview是不会出现导航栏</p>
+<p>跳转到其他页面后就会出现导航栏（有前进后退两个按钮）</p>
+<h2>2.测量数据说明</h2>
+<p>直接在页面用javascript测量，具体方法是令 html 和 body 的 height:100%;overflow:hidden</p>
+<pre><code class="language-css">  html,body{
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+</code></pre>
+<pre><code class="language-js">  log(&quot;screen:&quot;+window.screen.height); // 屏幕高度
+  log(&quot;body:&quot;+document.body.getBoundingClientRect().height) // 内容高度
+</code></pre>
+<p>先测第一次进入时的 屏幕高度 减 内容高度 得到 标题栏高度</p>
+<p><img src="/blog/images/blog/2018_06_13/WechatIMG183.png" alt="题图"></p>
+<p>再测跳转页面后 出现导航栏时的页面内容导读 减上面测出 第一次进入时的内容高度 得到 导航栏高度</p>
+<p><img src="/blog/images/blog/2018_06_13/WechatIMG182.png" alt="题图"></p>
+<h2>3.顶部标题栏</h2>
+<p>iPhone6 的标题栏高度是64</p>
+<p>iPhoneX 的标题栏高度是88</p>
+<h2>4.首次进入webview时（没有底部导航栏）</h2>
+<p>iPhone6 的首屏高度是606</p>
+<p>iPhoneX 的首屏高度是724</p>
+<p>iPhoneX 比 iPhone6 高 724 - 606 = 121</p>
+<h2>5.二次进入webview时（底部有导航栏）</h2>
+<p>iPhone6 的导航栏高度是49 首屏高度是606 - 49 = 554</p>
+<p>iPhoneX 的导航栏高度是83 首屏高度是724 - 83 = 641</p>
+<p>iPhoneX 比 iPhone6 高 641 - 554 = 87</p>
+<h2>6.设计时要注意的地方</h2>
+<ul>
+<li>
+<p>1.设计跨度大，从 724 ～ 641 ～ 606 ～ 554</p>
+</li>
+<li>
+<p>2.保证主要内容在554内</p>
+</li>
+<li>
+<p>3.问清楚需求方设计的页面的出现是否会直接进入，还是从其他地方跳转进入</p>
+</li>
+</ul>
+<h2>7.一些适配案例</h2>
+<h3>带货节--使用底部颜色过渡到背景色</h3>
+<p><img src="/blog/images/blog/2018_06_13/WechatIMG67.jpeg" alt="题图"></p>
+<p><img src="/blog/images/blog/2018_06_13/WechatIMG185.png" alt="题图"></p>
+<h3>种草TV--主要内容居中，上下留空</h3>
+<p><img src="/blog/images/blog/2018_06_13/WechatIMG64.jpeg" alt="题图"></p>
+<p><img src="/blog/images/blog/2018_06_13/WechatIMG186.png" alt="题图"></p>
