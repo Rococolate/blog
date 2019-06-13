@@ -1,0 +1,95 @@
+---
+layout: default
+title: UTF-16与emoji
+---
+<h1>{{ page.title }}</h1>
+<p><img src="/blog/images/blog/abfbc34c30be57c03ea127a1c5887340.jpg" alt="我的手绘不可能这么萌">
+<a href="https://www.duitang.com/blog/?id=605367212">题图出处</a></p>
+<p>{{ page.date | date_to_string }}</p>
+<p>Author:wuguanxi</p>
+<hr>
+<h2>0 问题</h2>
+<p>先来看一段代码</p>
+<pre><code class="language-javascript">  // 逢3换行
+  function wordBreak3(str) {
+    return str.split(&quot;&quot;).reduce((pre,cur,index) =&gt; {
+      const isBreak = (index % 3 === 0 &amp;&amp; index !== 0) ? &quot;\n&quot; : &quot;&quot;;
+      return pre + isBreak + cur;
+    },&quot;&quot;);
+  }
+  wordBreak3(&quot;abcdef&quot;);
+  /*···
+  * &quot;abc
+  * def&quot;
+  */
+  wordBreak3(&quot;123456&quot;);
+  /*
+  * &quot;123
+  * 456&quot;
+  */
+  wordBreak3(&quot;一二三四五六&quot;);
+  /*
+  * &quot;一二三
+  * 四五六&quot;
+  */
+</code></pre>
+<p>简单的一段代码，逢3换行。试了几个例子都没有问题，然后我试着把我的微信名字复制进去看看...</p>
+<pre><code class="language-javascript">wordBreak3(&quot;💨💨禧🐳&quot;);
+/*
+* &quot;💨�
+* �禧�
+* �&quot;
+*/
+// WTF!?
+</code></pre>
+<p>WTF?</p>
+<p>很明显，<code>wordBreak3</code>这段代码有bug，不能正确识别emoji。</p>
+<h2>1 背景知识Unicode与UTF-16与UCS-2</h2>
+<p>在解决问题的过程中我搜索了大量的网站，发现了以前不知道的大量JS字符串相关的知识，从unicode到UTF-16到UCS-2。其中就阮一峰老师的这篇博客<a href="http://www.ruanyifeng.com/blog/2014/12/unicode.html">“Unicode与JavaScript详解”</a>讲得最彻底。</p>
+<p>简单来说就是由于JavaScript只能处理UCS-2编码，造成所有字符在这门语言中都是2个字节，如果是4个字节的字符，会当作两个双字节的字符处理。JavaScript的字符函数都受到这一点的影响，无法返回正确结果。</p>
+<p>以emoji💨为例，它的UTF-16编码是4个字节的0xD83D 0xDCA8。问题就来了，4个字节的编码不属于UCS-2，JavaScript不认识，只会把它看作单独的两个字符U+D83D和U+DCA8。所以<code>&quot;💨&quot;.length === 2;</code>上面的<code>wordBreak3</code>函数没有正确处理，就把&quot;💨&quot;截开成两半。</p>
+<h2>2 解决方法</h2>
+<h3>ES6版本</h3>
+<p>大幅增强了Unicode支持，基本上解决了这个问题。</p>
+<pre><code class="language-javascript">  for  of 
+  Array.from
+  [...]
+  都能正确识别
+</code></pre>
+<pre><code class="language-javascript">function stringToArrayReal(str){
+  return [...str];
+}
+</code></pre>
+<h3>ES5版本</h3>
+<pre><code class="language-javascript">function stringToArrayReal(str){
+  var index = 0;
+  var length = str.length;
+  var output = [];
+  var character;
+  var characterNext;
+  var charCode;
+  var charNextCode;
+  while (index &lt; length){
+    charCode = str.charCodeAt(index);
+    charNextCode = str.charCodeAt(index + 1);
+    character = str.charAt(index);
+    characterNext = str.charAt(index + 1);
+    if(charCode &gt;= 0xD800 
+    &amp;&amp; charCode &lt;= 0xDBFF 
+    &amp;&amp; charNextCode &gt;= 0xDC00 
+    &amp;&amp; charNextCode &lt;= 0xDFFF) {
+      output.push(character + characterNext);
+      index += 2;
+    } else {
+      output.push(character);
+      index ++;
+    }
+  }
+  return output;
+}
+</code></pre>
+<p>有几个神奇的数字0xD800、0xDBFF、0xDC00、0xDFFF，是来自UTF-16的编码规范。WIKI里有详细解析<a href="https://zh.wikipedia.org/wiki/UTF-16">UTF-16</a></p>
+<h2>SP 其他好玩的emoji</h2>
+<p>可以使用U+200D零宽连字(ZWJ)将两个emoji连起来，使其看起来像是一个emoji。（不支持的系统会忽略零宽连字）</p>
+<p>例如U+1F468男人、U+200D ZWJ、U+1F469女人、U+200D ZWJ、U+1F467女孩(👨‍👩‍👧)在系统支持的情况下会显示为一个男人一个女人和一个女孩组成的家庭emoji，而不支持的系统则会顺序显示这三个emoji(👨👩👧)。</p>
+<p>查看所有的<a href="http://www.unicode.org/Public/emoji/12.0/emoji-zwj-sequences.txt">emoji-zwj-sequences</a></p>
