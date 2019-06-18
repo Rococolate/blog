@@ -120,12 +120,27 @@ function stringToArrayReal(str){
 有几个神奇的数字0xD800、0xDBFF、0xDC00、0xDFFF，是来自UTF-16的编码规范。WIKI里有详细解析[UTF-16](https://zh.wikipedia.org/wiki/UTF-16)
 
 ## SP 其他好玩的emoji
-
+### 链接符
 可以使用U+200D零宽连字(ZWJ)将两个emoji连起来，使其看起来像是一个emoji。（不支持的系统会忽略零宽连字）
 
 例如U+1F468男人、U+200D ZWJ、U+1F469女人、U+200D ZWJ、U+1F467女孩(👨‍👩‍👧)在系统支持的情况下会显示为一个男人一个女人和一个女孩组成的家庭emoji，而不支持的系统则会顺序显示这三个emoji(👨👩👧)。
 
 查看所有的[emoji-zwj-sequences](http://www.unicode.org/Public/emoji/12.0/emoji-zwj-sequences.txt)
 
+### 修饰符
+Unicode 8.0中加入了5个修饰符，用来调节人形表情的肤色。这些叫做emoji菲茨帕特里克修饰符（EMOJI MODIFIER FITZPATRICK）类型-1-2、-3、-4、-5和-6（U+1F3FB ~ U+1F3FF）：🏻 🏼 🏽 🏾 🏿。对应了菲茨帕特里克度量对人类肤色的分类。没有后缀肤色代码的emoji会显示非真实的通用肤色。非人形表情则不受修饰符影响。在Unicode 9.0中菲茨帕特里克修饰符可以和86个人形emoji一起使用。
+
+
+
+|代码位	|默认	|U+1F3FB|U+1F3FC|U+1F3FD|U+1F3FE|U+1F3FF|
+|---|---|---|---|---|---|---|---|
+|U+1F466: 男孩|👦|👦🏻|👦🏼|👦🏽|👦🏾|👦🏿|
+|U+1F467: 女孩|👧|👧🏻|👧🏼|👧🏽|👧🏾|👧🏿|
+|U+1F468: 男人|👨|👨🏻|👨🏼|👨🏽|👨🏾|👨🏿|
+|U+1F469: 女人|👩|👩🏻|👩🏼|👩🏽|👩🏾|👩🏿|
+|U+1F385: Santa|🎅|🎅🏻|🎅🏼|🎅🏽|🎅🏾|🎅🏿|
+
+
+查看所有的[emoji-sequences](http://www.unicode.org/Public/emoji/12.0/emoji-sequences.txt)
 
 
