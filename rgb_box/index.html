@@ -33,6 +33,10 @@
   <button id="pauseBtn">PAUSE</button>
   <button id="stopBtn">STOP</button>
   <button id="playBackBtn">PLAYBACk</button>
+  <button id="hueBtn">Hue</button>
+  <button id="saturationBtn">Sat</button>
+  <button id="lightnessBtn">Lig</button>
+  <button id="rgbBtn">RGB</button>
 </div>
 
 <script src="../libs/three.min.js"></script>
@@ -51,6 +55,10 @@
   const pauseBtn = document.getElementById("pauseBtn");
   const stopBtn = document.getElementById("stopBtn");
   const playbackBtn = document.getElementById("playbackBtn");
+  const hueBtn = document.getElementById("hueBtn");
+  const saturationBtn = document.getElementById("saturationBtn");
+  const lightnessBtn = document.getElementById("lightnessBtn");
+  const rgbBtn = document.getElementById("rgbBtn");
 
   playBtn.addEventListener("click",()=>{
     timeline.play();
@@ -67,6 +75,57 @@
 
   playBackBtn.addEventListener("click",()=>{
     timeline.playBack();
+  });
+
+  hueBtn.addEventListener("click",()=>{
+    cameraAnimation(0);
+    timeline.stop();
+    controls.cameraPositionX = 200;
+    controls.cameraPositionY = 200;
+    controls.cameraPositionZ = 200;
+  });
+
+  let count = 0;
+
+  saturationBtn.addEventListener("click",()=>{
+    cubeMeshs.filter((mesh,index) => {
+      const {r,g,b,size} = cubesData[index];
+      return Math.max(r , g , b) >= (size - 1 - count) || Math.min(r , g , b) <= (0 + count);
+    }).forEach(mesh => {
+      mesh.visible = false;
+    });
+
+    cubeMeshs.filter((mesh,index) => {
+      const {r,g,b,size} = cubesData[index];
+      return !(Math.max(r , g , b) >= (size - 1 - count) || Math.min(r , g , b) <= (0 + count));
+    }).forEach(mesh => {
+      mesh.visible = true;
+    });
+    count ++;
+    if (count >= size/2 - 1) count = 0;
+  });
+
+  lightnessBtn.addEventListener("click",()=>{
+    cubeMeshs.filter((mesh,index) => {
+      const {r,g,b} = cubesData[index];
+      return (r == g && g === b);
+    }).forEach(mesh => {
+      mesh.visible = true;
+    });
+
+    cubeMeshs.filter((mesh,index) => {
+      const {r,g,b} = cubesData[index];
+      return !(r == g && g === b);
+    }).forEach(mesh => {
+      mesh.visible = false;
+    });
+  });
+
+  rgbBtn.addEventListener("click",()=>{
+    count = 0;
+    cubeMeshs.forEach(mesh => {
+      mesh.visible = true;
+    })
   });
 
 
@@ -87,23 +146,11 @@
 
   var HEIGHT, WIDTH;
 
-    //COLORS
-  var Colors = {
-    red:0xf25346,
-    white:0xd8d0d1,
-    brown:0x59332e,
-    pink:0xF5986E,
-    brownDark:0x23190f,
-    blue:0x68c3c0,
-  };
-
    //INIT THREE JS
 
  function createScene() {
-
   HEIGHT = window.innerHeight;
   WIDTH = window.innerWidth;
-
 
   scene = new THREE.Scene();
   aspectRatio = WIDTH / HEIGHT;
@@ -245,7 +292,8 @@ function cameraAnimation(animationTime){
       pre:5/6,
     },
   ];
-  const per = Math.abs((animationTime % allTime) / allTime);
+  const _per = (animationTime % allTime) / allTime;
+  const per = _per < 0 ? 1 + _per : _per;
   const inKeyframe = keyFrames.find(f => f.mark >= per);
   const truePer = (per - inKeyframe.pre) / inKeyframe.long;
   const x = inKeyframe.start.x + (inKeyframe.end.x - inKeyframe.start.x) * truePer;
@@ -271,10 +319,8 @@ function init(){
 }
 var cubeMeshs;
 var cubesData = [];
-
 const size = 16;
 const sc = 2;
-const r = 0;
 for(let r = 0; r < size; r ++){
   for(let g = 0; g < size; g ++){
     for(let b = 0; b < size; b ++){
@@ -290,6 +336,10 @@ for(let r = 0; r < size; r ++){
           color:createColor(r,g,b,size),
           name:createName(r,g,b,size),
           visible,
+          r,
+          g,
+          b,
+          size,
         })
       // }
     }
@@ -300,6 +350,7 @@ function createColor(r,g,b,size){
   const length = size - 1;
   return parseInt(r / length * 0xff) * 0x10000 + parseInt(g / length * 0xff) * 0x100 + parseInt(b / length * 0xff);
 }
+
 
 function createName(r,g,b,size){
   const length = size - 1;

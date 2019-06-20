@@ -1,0 +1,87 @@
+---
+layout: default
+title: RGB与HSL
+---
+<h1>{{ page.title }}</h1>
+<p><img src="/blog/images/blog/cube/cube_40.jpg" alt="cube_40"></p>
+<p>{{ page.date | date_to_string }}</p>
+<p>Author:wuguanxi</p>
+<hr>
+<h2>CSS中的色彩表示</h2>
+<p>CSS中常见的颜色表示方法有<code>#HEX</code>、<code>RGB</code>、<code>HSL</code>这几种。</p>
+<p>其中<code>#HEX</code>和<code>RGB</code>的关系比较简单，就是16进制与10进制之间的转换。都是表示R（红）G（绿）B（蓝）这三原色之间的混合比例，数值是取 [0 ～ 255]。</p>
+<p><code>HSL</code>则是一种用色相（hue）饱和度（Saturation）亮度（Lightness）表示颜色的方法，这种方法更复合人类对颜色表达的习惯。</p>
+<h2>RGB与HEX的关系</h2>
+<p>RGB与HEX的关系,维基百科这篇文章说得很清楚了<a href="https://en.wikipedia.org/wiki/HSL_and_HSV">https://en.wikipedia.org/wiki/HSL_and_HSV</a></p>
+<p><code>RGB</code>和<code>HEX</code>可以看成是两种对颜色表达的不同模型，有其对应的几何意义。</p>
+<p><code>RGB</code>的几何模型是一个立方体，<code>HEX</code> 则是一个圆柱体，它们之间存在着非线性转换的关系。</p>
+<p><img src="/blog/images/blog/cube/200px-RGB_Cube_Show_lowgamma_cutout_a.png" alt="The RGB gamut can be arranged in a cube">
+<img src="/blog/images/blog/cube/296px-HSL_color_solid_cylinder_saturation_gray.png" alt="HSL cylinder">
+<img src="/blog/images/blog/cube/300px-Hsl-and-hsv.svg.png" alt="transform"></p>
+<h2>用three.js模拟RGB cube</h2>
+<p>我们可以用three.js搭建一个<a href="/blog/rgb_box/index.html">3D的RGB魔方</a></p>
+<p>分别用[RGB]代表[x,y,z]三个方向，创建一个16*16*16的魔方，每一块对应其RGB颜色</p>
+<pre><code class="language-javascript">const Cube = function(zb){
+  const {px,py,pz,sc,color,name,visible} = zb;
+  // 创建一个长宽高均为 sc 个单位长度的立方体（几何体）
+  const cubeGeometry = new THREE.BoxGeometry(sc, sc, sc);
+  // 创建材质
+  const cubeMaterial = new THREE.MeshLambertMaterial({
+    color
+  });
+  // 创建一个立方体网格（mesh）：将材质包裹在几何体上
+  const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+  // 设置网格位置
+  cube.position.x = px;
+  cube.position.y = py;
+  cube.position.z = pz;
+  // 将立方体网格加入到场景中
+  return cube;
+}
+
+const cubesData = [];
+const size = 16;
+const sc = 2;
+for(let r = 0; r &lt; size; r ++){
+  for(let g = 0; g &lt; size; g ++){
+    for(let b = 0; b &lt; size; b ++){
+      cubesData.push({
+        px:r * sc,
+        py:g * sc,
+        pz:b * sc,
+        sc,
+        color:createColor(r,g,b,size),
+      })
+    }
+  }
+}
+const cubeMeshs = cubesData.map((item) =&gt; {
+  return Cube(item);
+});
+
+cubeMeshs.forEach((item) =&gt; {
+  scene.add(item);
+});
+
+function createColor(r,g,b,size){
+  const length = size - 1;
+  return parseInt(r / length * 0xff) * 0x10000 + parseInt(g / length * 0xff) * 0x100 + parseInt(b / length * 0xff);
+}
+</code></pre>
+<p><img src="/blog/images/blog/cube/cube_1.jpeg" alt="cube_1"></p>
+<p>移动摄影机的位置观察魔方的四周（可以在网页里按PALY按钮）</p>
+<p><img src="/blog/images/blog/cube/cube_2.jpeg" alt="cube_2">
+<img src="/blog/images/blog/cube/cube_3.jpeg" alt="cube_3"></p>
+<p>让摄影机移动到<code>(200,200,200)</code>的位置并<code>lookAt(0,0,0)</code>（按Hue按钮）,就可以模拟魔方在<code>x+y+z=0</code>这个面上的投影，看到类似<code>HSL</code>的色环，这里可以看到360度的色相。
+按STOP按钮返回。</p>
+<p><img src="/blog/images/blog/cube/cube_4.jpg" alt="cube_4"></p>
+<p>只显示魔方的中轴线，隐藏其他（按Lig按钮），可以看到一条从黑到灰到白的线，这个就相当与是<code>HSL</code>里的亮度的梯度。</p>
+<p><img src="/blog/images/blog/cube/cube_5.jpeg" alt="cube_5"></p>
+<p>重复按Sat按钮，会将魔方掰洋葱那样一层层掰开，这个就是<code>HSL</code>的饱和度梯度。</p>
+<p><img src="/blog/images/blog/cube/s1.jpeg" alt="s1">
+<img src="/blog/images/blog/cube/s2.jpeg" alt="s2">
+<img src="/blog/images/blog/cube/s3.jpeg" alt="s3">
+<img src="/blog/images/blog/cube/s4.jpeg" alt="s4">
+<img src="/blog/images/blog/cube/s5.jpeg" alt="s5">
+<img src="/blog/images/blog/cube/s6.jpeg" alt="s6">
+<img src="/blog/images/blog/cube/s7.jpeg" alt="s7"></p>
