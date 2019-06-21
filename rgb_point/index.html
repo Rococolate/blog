@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>RGB16阶色彩魔方</title>
+  <title>RGB point cloud</title>
 </head>
 <body>
 <style>
@@ -34,8 +34,6 @@
   <button id="stopBtn">STOP</button>
   <button id="playBackBtn">PLAYBACk</button>
   <button id="hueBtn">Hue</button>
-  <button id="lightnessBtn">Lig</button>
-  <button id="rgbBtn">RGB</button>
 </div>
 
 <script src="../libs/three.min.js"></script>
@@ -44,6 +42,7 @@
 <script src="../libs/stats.min.js"></script>
 <script src="../libs/dat.gui.js"></script>
 <script src="../libs/timeline.js"></script>
+<script src="../libs/color.js"></script>
 
 
 <script>
@@ -55,8 +54,6 @@
   const stopBtn = document.getElementById("stopBtn");
   const playbackBtn = document.getElementById("playbackBtn");
   const hueBtn = document.getElementById("hueBtn");
-  const lightnessBtn = document.getElementById("lightnessBtn");
-  const rgbBtn = document.getElementById("rgbBtn");
 
   playBtn.addEventListener("click",()=>{
     timeline.play();
@@ -82,29 +79,6 @@
     controls.cameraPositionY = 200;
     controls.cameraPositionZ = 200;
   });
-
-  lightnessBtn.addEventListener("click",()=>{
-    cubeMeshs.filter((mesh,index) => {
-      const {r,g,b} = cubesData[index];
-      return (r == g && g === b);
-    }).forEach(mesh => {
-      mesh.visible = true;
-    });
-
-    cubeMeshs.filter((mesh,index) => {
-      const {r,g,b} = cubesData[index];
-      return !(r == g && g === b);
-    }).forEach(mesh => {
-      mesh.visible = false;
-    });
-  });
-
-  rgbBtn.addEventListener("click",()=>{
-    cubeMeshs.forEach(mesh => {
-      mesh.visible = true;
-    })
-  });
-
 
   function initStats() {
     var stats = new Stats();
@@ -196,20 +170,23 @@ function createDirectionalLights(){
 }
 
 var controls = {
-  cameraPositionX:60,
+  cameraPositionX:40,
   cameraPositionY:60,
-  cameraPositionZ:60,
+  cameraPositionZ:90,
+  L:0.5,
 }
 
 var gui = new dat.GUI();
 gui.add(controls, 'cameraPositionX', -200, 200);
 gui.add(controls, 'cameraPositionY', -200, 200);
 gui.add(controls, 'cameraPositionZ', -200, 200);
+gui.add(controls, 'L', 0, 1);
 
 function  update() {
   camera.position.x = controls.cameraPositionX;
   camera.position.y = controls.cameraPositionY;
   camera.position.z = controls.cameraPositionZ;
+  change(controls.L);
 }
 
 function loop(){
@@ -287,95 +264,47 @@ var delta;
 function init(){
    createScene();
    createLights();
-   box = createBox();
+   createSprites();
    stats = initStats();
    timeline = new Timeline();
   //  timeline.play();
    timeline.getLong('animationTime');
    loop();
 }
-var cubeMeshs;
-var cubesData = [];
-const size = 16;
-const sc = 2;
-for(let r = 0; r < size; r ++){
-  for(let g = 0; g < size; g ++){
-    for(let b = 0; b < size; b ++){
-      // if (Math.max(r,g,b) === size -1 || Math.min(r,g,b) === 0){
-        // const visible = r + g + b <= (size - 12/2) * 3;
-        // const visible = (r == g && g === b);
-        const visible = true;
-        cubesData.push({
-          px:r * sc,
-          py:g * sc,
-          pz:b * sc,
-          sc:sc,
-          color:createColor(r,g,b,size),
-          name:createName(r,g,b,size),
-          visible,
-          r,
-          g,
-          b,
-          size,
-        })
-      // }
+
+const colors = [];
+const materials = [];
+const sprites = [];
+
+function createSprites() {
+  for(let h = 0 ; h <= 360; h ++){
+    for(let s = 0 ; s <= 100 ; s ++) {
+      const color = new Color(`hsl(${h},${s}%,${50}%)`);
+      const {R,G,B} = color;
+      colors.push(color);
+      const material = new THREE.SpriteMaterial({color:createColor2(R,G,B)});
+      materials.push(material);
+      const sprite = new THREE.Sprite(material);
+      sprites.push(sprite);
+      sprite.position.set(R/10, G/10, B/10);
+      sprite.scale.set(0.2, 0.2, 1);
+      scene.add(sprite);
     }
   }
 }
 
-function createColor(r,g,b,size){
-  const length = size - 1;
-  return parseInt(r / length * 0xff) * 0x10000 + parseInt(g / length * 0xff) * 0x100 + parseInt(b / length * 0xff);
+function createColor2(r,g,b){
+  return parseInt(r) * 0x10000 + parseInt(g) * 0x100 + parseInt(b);
 }
 
-
-function createName(r,g,b,size){
-  const length = size - 1;
-  const R = parseInt(r / length * 0xff).toString(16);
-  const G = parseInt(g / length * 0xff).toString(16);
-  const B = parseInt(b / length * 0xff).toString(16);
-  return "#" + padding(R) + padding(G) + padding(B);
-}
-
-function padding(a){
-  return a.length === 1 ? "0" + a : a;
-}
-
- 
-function createBox() {
-  var center = [0,0];
-  var mesh = new THREE.Object3D();
-  mesh.position.x = center[0];
-  mesh.position.y = center[1];
-  mesh.position.z = 0;
-  cubeMeshs = cubesData.map((item) => {
-    return Cube(item);
-  });
-  cubeMeshs.forEach((item) => {
-    mesh.add(item);
-  });
-  scene.add(mesh);
-  return mesh;
-}
-
-var Cube = function(zb){
-  const {px,py,pz,sc,color,name,visible} = zb;
-  // 创建一个长宽高均为 sc 个单位长度的立方体（几何体）
-  var cubeGeometry = new THREE.BoxGeometry(sc, sc, sc);
-  // 创建材质
-  var cubeMaterial = new THREE.MeshLambertMaterial({
-    color
-  });
-  // 创建一个立方体网格（mesh）：将材质包裹在几何体上
-  var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-  cube.name = name;
-  // 设置网格位置
-  cube.position.x = px;
-  cube.position.y = py;
-  cube.position.z = pz;
-  cube.visible = visible;
-  // 将立方体网格加入到场景中
-  return cube;
+function change(L){
+  colors.forEach((color,index) => {
+    const {H,S} = color;
+    color.changeHSL([H,S,L]);
+    const {R,G,B} = color;
+    sprites[index].material.color.set(createColor2(R,G,B));
+    sprites[index].position.set(R/10, G/10, B/10);
+  })
 }
 
 window.addEventListener('load', init, false);
