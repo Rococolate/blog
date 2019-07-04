@@ -153,7 +153,7 @@ function tickHandle(e){
 <p>tick动画是值在每一个“tick”事件里对游戏中的某个显示物体作出改动而成的动画。其实Tween动画和SpriteSheet帧动画都可以在tick动画里实现，但因为它们都拥有固定的模式而抽象出来。</p>
 <p>tick动画适合没有固定模式，随时会根据游戏发展而变化的动画，如赛跑游戏里，背景开始是匀速运动的，当用户触发加深道具时会突然加速。</p>
 <p>tick动画还适合Graphics类的图形数据改变而成的动画。</p>
-<p>tick动画要注意的一点是，因为每一tick的触发间隔不是一个确定值，RAF模式下稳定时是1/16秒，但如果页面有卡顿，这个时间会增大，所以不能在每一次tick时间里增加一个定值，而是要根据具体的时间间隔乘以一个单位量。</p>
+<p>tick动画要注意的一点是，因为每一tick的触发间隔不是一个确定值，RAF模式下稳定时是1/60秒，但如果页面有卡顿，这个时间会增大，所以不能在每一次tick时间里增加一个定值，而是要根据具体的时间间隔乘以一个单位量。</p>
 <pre><code class="language-javascript">const unit = 0.01; // 0.01每ms
 function tickHand(e){
   const {delta,paused} = e;  // delta 是离上一次tick的时间差单位ms
