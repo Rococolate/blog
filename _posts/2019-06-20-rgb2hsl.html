@@ -15,9 +15,9 @@ title: RGB与HSL
 <p>RGB与HEX的关系,维基百科这篇文章说得很清楚了<a href="https://en.wikipedia.org/wiki/HSL_and_HSV">https://en.wikipedia.org/wiki/HSL_and_HSV</a></p>
 <p><code>RGB</code>和<code>HEX</code>可以看成是两种对颜色表达的不同模型，有其对应的几何意义。</p>
 <p><code>RGB</code>的几何模型是一个立方体，<code>HEX</code> 则是一个圆柱体，它们之间存在着非线性转换的关系。</p>
-<p><img src="/blog/images/blog/cube/200px-RGB_Cube_Show_lowgamma_cutout_a.png" alt="The RGB gamut can be arranged in a cube">
-<img src="/blog/images/blog/cube/296px-HSL_color_solid_cylinder_saturation_gray.png" alt="HSL cylinder">
-<img src="/blog/images/blog/cube/300px-Hsl-and-hsv.svg.png" alt="transform"></p>
+<p><img src="/blog/images/blog/cube/200px-RGB_Cube_Show_lowgamma_cutout_a.png" alt="The RGB gamut can be arranged in a cube"></p>
+<p><img src="/blog/images/blog/cube/296px-HSL_color_solid_cylinder_saturation_gray.png" alt="HSL cylinder"></p>
+<p><img src="/blog/images/blog/cube/300px-Hsl-and-hsv.svg.png" alt="transform"></p>
 <h2>用three.js模拟RGB cube</h2>
 <p>我们可以用three.js搭建一个<a href="/blog/rgb_box/index.html">3D的RGB魔方</a></p>
 <p>分别用[RGB]代表[x,y,z]三个方向，创建一个16*16*16的魔方，每一块对应其RGB颜色</p>
@@ -92,3 +92,60 @@ function createColor(r,g,b,size){
 <p>70%</p>
 <p><img src="/blog/images/blog/cube/l5.jpeg" alt="l5"></p>
 <p>90%</p>
+<pre><code class="language-javascript">// RGB 转换成 HSL 
+// R[0~255] G[0~255] B[0~255] H[0~360] S[0~1] L[0~1]
+// https://en.wikipedia.org/wiki/HSL_and_HSV
+export function rgb2hsl(R,G,B){
+  const r = R / 0xff;
+  const g = G / 0xff;
+  const b = B / 0xff;
+  const max = Math.max(r,g,b);
+  const min = Math.min(r,g,b);
+  const c = max - min;
+  let _hue;
+  if (c === 0){
+    _hue = null;
+  } else if (max === r) {
+    _hue = ((g - b) / c) % 6;
+  } else if (max === g) {
+    _hue = (b - r) / c + 2;
+  } else {
+    _hue = (r - g) / c + 4;
+  }
+  const hue = _hue === null ? 0 : (_hue * 60) % 360;
+  const lightness = (max + min) / 2;
+  const saturation = (lightness === 1 || lightness === 0) ? 0 : c / (1 - Math.abs(2 * lightness - 1));
+  return {
+    H:(hue &gt;= 0 ? hue : 360 + hue) ,S:saturation,L:lightness
+  }
+}
+// HSL 转换成 RGB 
+// R[0~255] G[0~255] B[0~255] H[0~360] S[0~1] L[0~1]
+// https://en.wikipedia.org/wiki/HSL_and_HSV
+export function hsl2rgb(H,S,L){
+  const saturation = S;
+  const lightness = L;
+  const c = (1 - Math.abs(2 * lightness - 1)) * saturation;
+  const _hue = (H % 360) / 60;
+  const x = c * (1 - Math.abs(_hue % 2 - 1));
+  let r,g,b;
+  if (_hue &gt;= 0 &amp;&amp; _hue &lt; 1) {
+    [r,g,b] = [c,x,0];
+  } else if (_hue &gt;= 1 &amp;&amp; _hue &lt;= 2) {
+    [r,g,b] = [x,c,0];
+  } else if (_hue &gt;= 2 &amp;&amp; _hue &lt;= 3) {
+    [r,g,b] = [0,c,x];
+  } else if (_hue &gt; 3 &amp;&amp; _hue &lt;= 4) {
+    [r,g,b] = [0,x,c];
+  } else if (_hue &gt; 4 &amp;&amp; _hue &lt;= 5) {
+    [r,g,b] = [x,0,c];
+  } else if (_hue &gt; 5 &amp;&amp; _hue &lt;= 6) {
+    [r,g,b] = [c,0,x];
+  }
+  const m = lightness - c / 2;
+  const [R,G,B] = [Math.abs(r + m),Math.abs(g + m),Math.abs(b + m)];
+  return {
+    R:R * 0xff,G:G * 0xff,B:B * 0xff
+  }
+}
+</code></pre>
