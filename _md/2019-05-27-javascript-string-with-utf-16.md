@@ -120,9 +120,9 @@ function stringToArrayReal(str){
 
 Unicode常用的字符集叫做BMP，包含U+0000 到 U+FFFF部分，这里有65536个位置算作一个Plane，看起来很多，但是对于要含括全世界的文字是远远不够的。于是后面又增加到了17个Plane。
 
-在BMP里UTF-16 可以用一个字 (2字节）表示一个码点。除了BMP以外的Plane需要用的4字节组成的代理对（surrogate pair）表示。对于Unicode，U+D800 到 U+DFFF 这个区段是不存在的专门用于实现 UTF-16中的surrogate pair。
+在BMP里UTF-16 可以用一个字 (2字节）表示一个码点。除了BMP以外的Plane需要用的4字节组成的代理对（surrogate pair）表示。对于在BMP里 U+D800 到 U+DFFF 是空的，专门用于实现 UTF-16中的surrogate pair。
 
-U+D800到U+DBFF留出了1024个位置，也就是10bitU+DC00到U+DFFF也是10bit这20bit刚好能表示BMP外的16个Plane。
+U+D800 到 U+DBFF 留出了1024个位置 也就是10bit， U+DC00 到 U+DFFF 也是 10bit 这 20bit 刚好能表示BMP外的16个Plane。
 
 
 ## SP 其他好玩的emoji
