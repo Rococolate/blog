@@ -217,7 +217,7 @@ rectCircleIntersect(rect,circle){
 <p>点击<a href="/blog/gom/test1.html">=====&gt; 这里 &lt;=====</a>查看Demo1</p>
 <h2>两矩形相交</h2>
 <h3>两矩形都轴对称AABB</h3>
-<p>想象一下两个矩形A和B，B贴着A的边走了一圈，B的矩形中心的轨迹是一个新的矩形，这样就简化成新矩形与B中心这一点的相交问题，又因为点可以看成是半径为0的圆，所以问题又转换为圆形和矩形相交。</p>
+<p>想象一下两个矩形A和B，B贴着A的边走了一圈，B的矩形中心的轨迹是一个新的矩形，这样就简化成新矩形与B中心点这一点的相交问题，又因为点可以看成是半径为0的圆，所以问题又转换为圆形和矩形相交。</p>
 <p><img src="/blog/images/blog/aabb/act12.jpg" alt="act12"></p>
 <pre><code class="language-javascript">class Rect{
   // x,y是矩形中心的坐标 w是宽 h是高 rotation是角度单位deg
