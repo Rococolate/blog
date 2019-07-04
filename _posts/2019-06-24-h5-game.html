@@ -3,7 +3,7 @@ layout: default
 title: H5小游戏（2D）的一些总结
 ---
 <h1>{{ page.title }}</h1>
-<p><img src="/blog/images/blog/cube/cube_40.jpg" alt="cube_40"></p>
+<p><img src="/blog/images/blog/h5game.png" alt="h5game"></p>
 <p>{{ page.date | date_to_string }}</p>
 <p>Author:wuguanxi</p>
 <hr>
@@ -20,6 +20,13 @@ title: H5小游戏（2D）的一些总结
 <p>加载资源 -&gt; 设置游戏参数 -&gt; 初始化舞台 -&gt; 渲染场景 -&gt; 初始化Timeline -&gt; 初始化Ticker -&gt; 绑定事件 -&gt; 开始游戏 -&gt; 游戏结束</p>
 <h3>加载资源</h3>
 <p>一个游戏通常包含很多静态资源，如静态图片、音频、精灵图等等。框架都有自带或者推荐配套使用的资源加载器，帮助加载和管理静态资源，CreateJs默认的就是PreloadJs</p>
+<pre><code class="language-javascript">const queue = new createjs.LoadQueue(false,'','Anonymous');
+queue.installPlugin(createjs.Sound); // 加载声音的插件
+queue.loadManifest([
+  {id:&quot;car&quot;,src: &quot;images/car.png&quot;},
+  {id:&quot;sound&quot;, src:&quot;sound.mp3&quot;},
+]);
+</code></pre>
 <h3>设置游戏参数</h3>
 <p>游戏参数这里包含几个类别：</p>
 <p>回调函数：游戏结束的回调函数，游戏过程一些特殊事件的回调函数...</p>
@@ -29,16 +36,55 @@ title: H5小游戏（2D）的一些总结
 <p>其实H5游戏也是前端UI展示的一部分，不应该有状态的储存，所以会通过参数的方式传递。</p>
 <h3>初始化舞台</h3>
 <p>创建一个舞台（Stage），一个最基础的容器，确定其宽高并绑定页面上的canvas。</p>
+<pre><code class="language-javascript">const stageDom = document.getElementById(stageId);
+const stage = new createjs.Stage(this.stageDom);
+</code></pre>
 <h3>渲染场景</h3>
 <p>在Stage上我们可以使用 图像(Bitmap)、图形(Shape) 和 图形的填充(Graphics)、雪碧的位图动画(Sprite、SpriteSheet)、简单文本(Text)、容器(Container)。</p>
+<p><img src="/blog/images/blog/create.png" alt="create"></p>
 <p>canvas的绘画API很强大，但是它只定义了各种画画的方法，缺少图层的概念。而CreateJs的EaselJS则抽象出类似图层的显示基类(DisplayObject)，DisplayObject定义了x、y、alpha等基础属性，Bitmap、Shape、Sprite、Text、Container都是其子类。</p>
 <p>图像(Bitmap)：Bitmap是一块专门将加载好的静态图片添加到其中的一块图层，除了图片还可以是另一个canvas。</p>
+<pre><code class="language-javascript">const id = &quot;car&quot;;
+const bitmap = new createjs.Bitmap(queue.getResult(id));
+</code></pre>
 <p>形状(Shape) 和 图形的数据(Graphics)：Shape和Graphics一般成对出现，Shape创建一个图形的图层，Graphics则是定义了这块图层上画的是什么形状（矩形、圆形、线段、描边等的大小、位置、颜色）。</p>
+<pre><code class="language-javascript">const rect = new createjs.Shape();
+const x = 0;
+const y = 0;
+const width = 100;
+const height = 100;
+const color = &quot;rgba(255,188,5,0.8)&quot;;
+rect.graphics.beginFill(color).drawRect(x, y, width, height);
+</code></pre>
 <p>雪碧的位图与动画(Sprite、SpriteSheet)：Sprite和SpriteSheet也是成对出现。SpriteSheet定义一张精灵图上不同帧的位置，和帧动画的序列，Sprite这是其容器图层。</p>
+<pre><code class="language-javascript">// 定义帧动画结构
+const spriteSheet = new createjs.SpriteSheet({
+  images: [someImg], // 雪碧图片
+  frames: someFrames, // 图片帧划分
+  animations: {
+    play: { // 动画名字
+      frames: [0, 1, 2, 3, 4, 5, 6, 7], // 用到哪些帧及顺序 如果只有一帧就是静态的图
+      speed: 0.16, // 播放速度
+      next:null
+    },
+  },
+});
+// 创建 sprite 实例播放帧动画
+const sprite = new createjs.Sprite(spriteSheet);
+</code></pre>
 <p>文本(Text)：同样的，Text定义其图层上的文字内容、大小、颜色等等...</p>
+<pre><code class="language-javascript">const text = new createjs.Text(&quot;some text&quot;,'36px Arial', &quot;#FFFFFF&quot;);
+</code></pre>
 <p>容器(Container)：可以把Bitmap、Shape、Sprite、Text、Container集合起来。Stage也是一种容器，根容器。</p>
+<pre><code class="language-javascript">const container =  new createjs.Container();
+container.addChild(rect,text);
+</code></pre>
 <p>我们把创建的Bitmap、Shape、Sprite、Text、Container都添加到Stage中，就组成一棵树形结构的DisplayObject Tree。</p>
+<pre><code class="language-javascript">stage.addChild(bitmap,container,spriteSheet);
+</code></pre>
 <p>当我们使用Satge.update()时会遍历把Bitmap、Shape、Sprite、Text都渲染到canvas中（深度优先）。</p>
+<pre><code class="language-javascript">stage.update();
+</code></pre>
 <h3>Ticker</h3>
 <p>Ticker（心跳器）其实是一个定时器，它可以设置不同的速率(FTP)。</p>
 <p>一般我们会将其设置为RAF(requestAnimationFrame)。显示器有固定的刷新频率（60Hz或75Hz），也就是说，每秒最多只能重绘60次或75次，requestAnimationFrame的基本思想就是与这个刷新频率保持同步，利用这个刷新频率进行页面重绘。</p>
@@ -67,6 +113,7 @@ function tickHandle(e){
   stage.enableDOMEvents(true); // 绑定新DOM的事件
 </code></pre>
 <h3>开始游戏</h3>
+<p>游戏开始，将Ticker的paused置为false，开始游戏具体逻辑。</p>
 <pre><code class="language-javascript">  createjs.Ticker.paused = false; // 将ticker的paused至为false
   function tickHandle(e){
     if(!e.paused) {  // 这里开始执行
@@ -91,6 +138,14 @@ function tickHandle(e){
 <h3>Tween动画(补间动画)</h3>
 <p>补间动画是指定一个属性的初始值、结束的值、时间间隔、缓动曲线，而进行改变的一种动画，中间数据都是通过计算得出的。一般是用来改变DisplayObject对显示有效的属性如alpha、scaleX、scaleY、rotation、x、y等等。</p>
 <p>CreateJs中专门建了一个TweenJS的库来处理补间动画。</p>
+<p>TweenJS十分强大，采用类似JQuery的链式调用API。</p>
+<pre><code class="language-javascript">createjs.Tween
+  .get(target,{loop:false})  // 选取一个 DisplayObject
+  .to({alpha:1,y:-20 /* 变化的属性 */},300/* 动画时长 */)  // 定义一段补间动画
+  .wait(300)  // 在上一个指令后面，定义一段等待时间
+  .to({alpha:0,y:-40},300，createjs.Ease.bounceInOut/* 动画缓动效果 */)  // 在上一个指令后面，再定义一段补间动画
+  .call(callback);  // 在上一个指令后面，定义回调函数
+</code></pre>
 <h3>SpriteSheet帧动画</h3>
 <p>帧动画是指根据不同帧率切换不同位图而达到动画效果。</p>
 <p>EaselJS中专门有SpriteSheet类来处理帧动画。</p>
@@ -110,14 +165,18 @@ function tickHand(e){
 </code></pre>
 <h2>音频</h2>
 <p>音效在游戏里也是不可或缺的，CreateJs自带音频工具SoundJS，可以很方便对音频进行操作。</p>
+<pre><code class="language-javascript">createjs.Sound.play(&quot;sound&quot;);  // sound是前面PreloadJs预先加载好的声音文件
+</code></pre>
 <h2>下面的内容都是createJs缺少的，或者说现版本还没有的，但是会经常用到</h2>
 <h2>Timeline</h2>
 <p><em>注：TweenJS也有Timeline，但我这里的定义和它不一样，而且未来版本TweenJS会移除Timeline</em></p>
 <p>所有动画，都可以看成是在时间轴上的变化，可以看成是播放器的进度条，可以播放（play）、暂停（pause）、停止（stop）、回播（playBack），每个动画可以有独立的时间轴，又或者共用一条时间轴。这样就可以令动画一起播放或者暂停，或者回退了。</p>
+<p><a href="/blog/rgb_box/index.html">Timeline应用Demo</a></p>
 <h2>碰撞检查</h2>
 <p>CreateJs没有碰撞检测，它的hitTest只是检测点击是否在图形上。
 鉴于游戏机制，有时候可能并不需要真正的碰撞检测，只对齐x、y坐标也会实现效果。
 要实现碰撞检测的话，需要自己写一套逻辑。</p>
+<p><a href="/blog/2019/06/27/collision-detection.html">碰撞检查的向量实现</a></p>
 <h2>更多的CreateJs参考</h2>
 <p>参考文章:</p>
 <p><a href="https://sq.163yun.com/blog/article/203946363841605632">canvas 动画库 CreateJs 之 EaselJS（上篇）</a></p>

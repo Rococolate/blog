@@ -5,8 +5,7 @@ title: UTF-16与emoji
 
 # {{ page.title }}
 
-![我的手绘不可能这么萌](/blog/images/blog/abfbc34c30be57c03ea127a1c5887340.jpg)
-[题图出处](https://www.duitang.com/blog/?id=605367212)
+![emoji](/blog/images/blog/emoji.jpg)
 
 
 {{ page.date | date_to_string }}
@@ -119,6 +118,13 @@ function stringToArrayReal(str){
 
 有几个神奇的数字0xD800、0xDBFF、0xDC00、0xDFFF，是来自UTF-16的编码规范。WIKI里有详细解析[UTF-16](https://zh.wikipedia.org/wiki/UTF-16)
 
+Unicode常用的字符集叫做BMP，包含U+0000 到 U+FFFF部分，这里有65536个位置算作一个Plane，看起来很多，但是对于要含括全世界的文字是远远不够的。于是后面又增加到了17个Plane。
+
+在BMP里UTF-16 可以用一个字 (2字节）表示一个码点。除了BMP以外的Plane需要用的4字节组成的代理对（surrogate pair）表示。对于Unicode，U+D800 到 U+DFFF 这个区段是不存在的专门用于实现 UTF-16中的surrogate pair。
+
+U+D800到U+DBFF留出了1024个位置，也就是10bitU+DC00到U+DFFF也是10bit这20bit刚好能表示BMP外的16个Plane。
+
+
 ## SP 其他好玩的emoji
 ### 链接符
 可以使用U+200D零宽连字(ZWJ)将两个emoji连起来，使其看起来像是一个emoji。（不支持的系统会忽略零宽连字）
@@ -142,5 +148,15 @@ Unicode 8.0中加入了5个修饰符，用来调节人形表情的肤色。这�
 
 
 查看所有的[emoji-sequences](http://www.unicode.org/Public/emoji/12.0/emoji-sequences.txt)
+
+
+#### 参考文章
+
+[Windows 下 UTF-16 的坑](https://blog.codingnow.com/2019/05/windows_utf16.html)
+
+[UTF-16](https://zh.wikipedia.org/wiki/UTF-16)
+
+[“Unicode与JavaScript详解”](http://www.ruanyifeng.com/blog/2014/12/unicode.html)
+
 
 

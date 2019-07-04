@@ -3,8 +3,7 @@ layout: default
 title: UTF-16与emoji
 ---
 <h1>{{ page.title }}</h1>
-<p><img src="/blog/images/blog/abfbc34c30be57c03ea127a1c5887340.jpg" alt="我的手绘不可能这么萌">
-<a href="https://www.duitang.com/blog/?id=605367212">题图出处</a></p>
+<p><img src="/blog/images/blog/emoji.jpg" alt="emoji"></p>
 <p>{{ page.date | date_to_string }}</p>
 <p>Author:wuguanxi</p>
 <hr>
@@ -89,6 +88,9 @@ title: UTF-16与emoji
 }
 </code></pre>
 <p>有几个神奇的数字0xD800、0xDBFF、0xDC00、0xDFFF，是来自UTF-16的编码规范。WIKI里有详细解析<a href="https://zh.wikipedia.org/wiki/UTF-16">UTF-16</a></p>
+<p>Unicode常用的字符集叫做BMP，包含U+0000 到 U+FFFF部分，这里有65536个位置算作一个Plane，看起来很多，但是对于要含括全世界的文字是远远不够的。于是后面又增加到了17个Plane。</p>
+<p>在BMP里UTF-16 可以用一个字 (2字节）表示一个码点。除了BMP以外的Plane需要用的4字节组成的代理对（surrogate pair）表示。对于Unicode，U+D800 到 U+DFFF 这个区段是不存在的专门用于实现 UTF-16中的surrogate pair。</p>
+<p>U+D800到U+DBFF留出了1024个位置，也就是10bitU+DC00到U+DFFF也是10bit这20bit刚好能表示BMP外的16个Plane。</p>
 <h2>SP 其他好玩的emoji</h2>
 <h3>链接符</h3>
 <p>可以使用U+200D零宽连字(ZWJ)将两个emoji连起来，使其看起来像是一个emoji。（不支持的系统会忽略零宽连字）</p>
@@ -157,3 +159,7 @@ title: UTF-16与emoji
 </tbody>
 </table>
 <p>查看所有的<a href="http://www.unicode.org/Public/emoji/12.0/emoji-sequences.txt">emoji-sequences</a></p>
+<h4>参考文章</h4>
+<p><a href="https://blog.codingnow.com/2019/05/windows_utf16.html">Windows 下 UTF-16 的坑</a></p>
+<p><a href="https://zh.wikipedia.org/wiki/UTF-16">UTF-16</a></p>
+<p><a href="http://www.ruanyifeng.com/blog/2014/12/unicode.html">“Unicode与JavaScript详解”</a></p>

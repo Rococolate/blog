@@ -11,10 +11,10 @@ title: RGB与HSL
 <p>CSS中常见的颜色表示方法有<code>#HEX</code>、<code>RGB</code>、<code>HSL</code>这几种。</p>
 <p>其中<code>#HEX</code>和<code>RGB</code>的关系比较简单，就是16进制与10进制之间的转换。都是表示R（红）G（绿）B（蓝）这三原色之间的混合比例，数值是取 [0 ～ 255]。</p>
 <p><code>HSL</code>则是一种用色相（hue）饱和度（Saturation）亮度（Lightness）表示颜色的方法，这种方法更复合人类对颜色表达的习惯。</p>
-<h2>RGB与HEX的关系</h2>
-<p>RGB与HEX的关系,维基百科这篇文章说得很清楚了<a href="https://en.wikipedia.org/wiki/HSL_and_HSV">https://en.wikipedia.org/wiki/HSL_and_HSV</a></p>
-<p><code>RGB</code>和<code>HEX</code>可以看成是两种对颜色表达的不同模型，有其对应的几何意义。</p>
-<p><code>RGB</code>的几何模型是一个立方体，<code>HEX</code> 则是一个圆柱体，它们之间存在着非线性转换的关系。</p>
+<h2>RGB与HSL的关系</h2>
+<p>RGB与HSL的关系,维基百科这篇文章说得很清楚了<a href="https://en.wikipedia.org/wiki/HSL_and_HSV">https://en.wikipedia.org/wiki/HSL_and_HSV</a></p>
+<p><code>RGB</code>和<code>HSL</code>可以看成是两种对颜色表达的不同模型，有其对应的几何意义。</p>
+<p><code>RGB</code>的几何模型是一个立方体，<code>HSL</code> 则是一个圆柱体，它们之间存在着非线性转换的关系。</p>
 <p><img src="/blog/images/blog/cube/200px-RGB_Cube_Show_lowgamma_cutout_a.png" alt="The RGB gamut can be arranged in a cube"></p>
 <p><img src="/blog/images/blog/cube/296px-HSL_color_solid_cylinder_saturation_gray.png" alt="HSL cylinder"></p>
 <p><img src="/blog/images/blog/cube/300px-Hsl-and-hsv.svg.png" alt="transform"></p>
@@ -92,6 +92,7 @@ function createColor(r,g,b,size){
 <p>70%</p>
 <p><img src="/blog/images/blog/cube/l5.jpeg" alt="l5"></p>
 <p>90%</p>
+<h2>RGB 和 HSL 互换公式</h2>
 <pre><code class="language-javascript">// RGB 转换成 HSL 
 // R[0~255] G[0~255] B[0~255] H[0~360] S[0~1] L[0~1]
 // https://en.wikipedia.org/wiki/HSL_and_HSV
