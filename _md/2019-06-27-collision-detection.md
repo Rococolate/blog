@@ -17,16 +17,17 @@ Author:wuguanxi
 
 ## 前言
 
-2D游戏中，通常使用矩形、圆形等来代替复杂图形的相交检测。因为这两种形状的碰撞检测速度是最快的。其中矩形包围盒又可以分为轴对齐包围盒（AABB, Axis Aligned Bounding Box）与转向包围盒（OBB, Oriented Bounding Box）。AABB与OBB的区别在于，AABB中的矩形的其中一条边和坐标轴平行。OBB的计算复杂度要高于AABB，所以游戏中会尽量只用AABB。
+2D游戏中，通常使用矩形、圆形等来代替复杂图形的相交检测。因为这两种形状的碰撞检测速度是最快的。其中矩形包围盒又可以分为轴对齐包围盒（AABB, Axis Aligned Bounding Box）与转向包围盒（OBB, Oriented Bounding Box）。AABB与OBB的区别在于，AABB中的矩形的其中一条边和坐标轴平行，OBB的计算复杂度要高于AABB。根据不同的使用场景，可以用不同的方案。
 ![rect_circle](/blog/images/blog/aabb/1.jpg)
+如上图，明显皮卡超适合用包围盒，精灵球适合用包围球。
 
 ## 向量
 
-向量作为一种数学工具，在碰撞检测中发挥很大作用，所以先来复习一下向量。
+向量作为一种数学工具，在碰撞检测中发挥很大作用，后面的计算都是通过向量来完成，所以先来复习一下向量。
 
 ### 向量的代数表示
 
-代数表示指在指定了一个坐标系之后，用一个向量在该坐标系下的坐标来表示该向量，兼具了符号的抽象性和几何形象性，因而具有最高的实用性，被广泛采用于需要定量分析的情形。 对于自由向量，将向量的起点平移到坐标原点后，向量就可以用一个坐标系下的一个点来表示，该点的坐标值即向量的终点坐标。
+向量的代数表示指在指定了一个坐标系之后，用一个向量在该坐标系下的坐标来表示该向量，兼具了符号的抽象性和几何形象性，因而具有最高的实用性，被广泛采用于需要定量分析的情形。 对于自由向量，将向量的起点平移到坐标原点后，向量就可以用一个坐标系下的一个点来表示，该点的坐标值即向量的终点坐标。
 
 ```javascript
 // 二维平面向量
@@ -150,6 +151,8 @@ export class Rect{
 
 ## 两圆相交
 
+![cb1](/blog/images/blog/aabb/cb1.jpg)
+
 两圆相交比较简单，只需判断两圆心之间的距离小于两圆的半径之和。
 
 两圆心距离可以用圆心向量相减，然后求相减向量的长度。
@@ -172,6 +175,8 @@ circleCircleIntersect(circle1,circle2){
 涉及到矩形的相交问题都先要判断是否轴对称。
 
 ### 矩形轴对称
+
+![cb2](/blog/images/blog/aabb/cb2.jpg)
 
 先看轴对称的情况，下面是来自知乎问题[怎样判断平面上一个矩形和一个圆形是否有重叠？](https://www.zhihu.com/question/24251545)「Milo Yip」的回答搬运：
 
@@ -226,7 +231,9 @@ rectCircleIntersect(rect,circle){
 }
 ```
 
-### 矩形非是轴对称
+### 矩形非轴对称
+
+![cb3](/blog/images/blog/aabb/cb3.jpg)
 
 这个问题其实也很好解决，将矩形中心视为旋转中心，将矩形和圆形一起反向旋转将矩形转为轴对称，然后就可以套用上面的解法。
 
@@ -290,6 +297,8 @@ rectCircleIntersect(rect,circle){
 
 ### 两矩形都轴对称AABB
 
+![cb4](/blog/images/blog/aabb/cb4.jpg)
+
 想象一下两个矩形A和B，B贴着A的边走了一圈，B的矩形中心的轨迹是一个新的矩形，这样就简化成新矩形与B中心点这一点的相交问题，又因为点可以看成是半径为0的圆，所以问题又转换为圆形和矩形相交。
 
 ![act12](/blog/images/blog/aabb/act12.jpg)
@@ -328,6 +337,8 @@ AABBrectRectIntersect(rect1,rect2){
 ```
 
 ### 两矩形相交非轴对称OBB
+
+![cb5](/blog/images/blog/aabb/cb5.jpg)
 
 两个矩形的OBB检测使用分离轴定理（Separating Axis Theorem）
 
