@@ -9,12 +9,13 @@ title: 碰撞检测的向量实现
 <hr>
 <p><em>注：1、本文只讨论2d图形碰撞检测。2、本文讨论圆形与圆形，矩形与矩形、圆形与矩形碰撞检测的向量实现</em></p>
 <h2>前言</h2>
-<p>2D游戏中，通常使用矩形、圆形等来代替复杂图形的相交检测。因为这两种形状的碰撞检测速度是最快的。其中矩形包围盒又可以分为轴对齐包围盒（AABB, Axis Aligned Bounding Box）与转向包围盒（OBB, Oriented Bounding Box）。AABB与OBB的区别在于，AABB中的矩形的其中一条边和坐标轴平行。OBB的计算复杂度要高于AABB，所以游戏中会尽量只用AABB。
-<img src="/blog/images/blog/aabb/1.jpg" alt="rect_circle"></p>
+<p>2D游戏中，通常使用矩形、圆形等来代替复杂图形的相交检测。因为这两种形状的碰撞检测速度是最快的。其中矩形包围盒又可以分为轴对齐包围盒（AABB, Axis Aligned Bounding Box）与转向包围盒（OBB, Oriented Bounding Box）。AABB与OBB的区别在于，AABB中的矩形的其中一条边和坐标轴平行，OBB的计算复杂度要高于AABB。根据不同的使用场景，可以用不同的方案。
+<img src="/blog/images/blog/aabb/1.jpg" alt="rect_circle">
+如上图，明显皮卡超适合用包围盒，精灵球适合用包围球。</p>
 <h2>向量</h2>
-<p>向量作为一种数学工具，在碰撞检测中发挥很大作用，所以先来复习一下向量。</p>
+<p>向量作为一种数学工具，在碰撞检测中发挥很大作用，后面的计算都是通过向量来完成，所以先来复习一下向量。</p>
 <h3>向量的代数表示</h3>
-<p>代数表示指在指定了一个坐标系之后，用一个向量在该坐标系下的坐标来表示该向量，兼具了符号的抽象性和几何形象性，因而具有最高的实用性，被广泛采用于需要定量分析的情形。 对于自由向量，将向量的起点平移到坐标原点后，向量就可以用一个坐标系下的一个点来表示，该点的坐标值即向量的终点坐标。</p>
+<p>向量的代数表示指在指定了一个坐标系之后，用一个向量在该坐标系下的坐标来表示该向量，兼具了符号的抽象性和几何形象性，因而具有最高的实用性，被广泛采用于需要定量分析的情形。 对于自由向量，将向量的起点平移到坐标原点后，向量就可以用一个坐标系下的一个点来表示，该点的坐标值即向量的终点坐标。</p>
 <pre><code class="language-javascript">// 二维平面向量
 class Vector2d{
   constructor(vx=1,vy=1){
@@ -105,6 +106,7 @@ static rotate(vec,angle){
 }
 </code></pre>
 <h2>两圆相交</h2>
+<p><img src="/blog/images/blog/aabb/cb1.jpg" alt="cb1"></p>
 <p>两圆相交比较简单，只需判断两圆心之间的距离小于两圆的半径之和。</p>
 <p>两圆心距离可以用圆心向量相减，然后求相减向量的长度。</p>
 <p><img src="/blog/images/blog/aabb/act7.jpg" alt="act7"></p>
@@ -120,6 +122,7 @@ static rotate(vec,angle){
 <h2>圆和矩形相交</h2>
 <p>涉及到矩形的相交问题都先要判断是否轴对称。</p>
 <h3>矩形轴对称</h3>
+<p><img src="/blog/images/blog/aabb/cb2.jpg" alt="cb2"></p>
 <p>先看轴对称的情况，下面是来自知乎问题<a href="https://www.zhihu.com/question/24251545">怎样判断平面上一个矩形和一个圆形是否有重叠？</a>「Milo Yip」的回答搬运：</p>
 <p>设c为矩形中心，h为矩形半長，p为圆心，r为半径。</p>
 <p><img src="/blog/images/blog/aabb/act8.jpg" alt="act8"></p>
@@ -165,7 +168,8 @@ rectCircleIntersect(rect,circle){
   return u.lengthSquared() &lt;= r * r;
 }
 </code></pre>
-<h3>矩形非是轴对称</h3>
+<h3>矩形非轴对称</h3>
+<p><img src="/blog/images/blog/aabb/cb3.jpg" alt="cb3"></p>
 <p>这个问题其实也很好解决，将矩形中心视为旋转中心，将矩形和圆形一起反向旋转将矩形转为轴对称，然后就可以套用上面的解法。</p>
 <p><img src="/blog/images/blog/aabb/act11.jpg" alt="act11"></p>
 <p>矩形中心到圆心向量为是CP</p>
@@ -217,6 +221,7 @@ rectCircleIntersect(rect,circle){
 <p>点击<a href="/blog/gom/test1.html">=====&gt; 这里 &lt;=====</a>查看Demo1</p>
 <h2>两矩形相交</h2>
 <h3>两矩形都轴对称AABB</h3>
+<p><img src="/blog/images/blog/aabb/cb4.jpg" alt="cb4"></p>
 <p>想象一下两个矩形A和B，B贴着A的边走了一圈，B的矩形中心的轨迹是一个新的矩形，这样就简化成新矩形与B中心点这一点的相交问题，又因为点可以看成是半径为0的圆，所以问题又转换为圆形和矩形相交。</p>
 <p><img src="/blog/images/blog/aabb/act12.jpg" alt="act12"></p>
 <pre><code class="language-javascript">class Rect{
@@ -251,6 +256,7 @@ AABBrectRectIntersect(rect1,rect2){
 } 
 </code></pre>
 <h3>两矩形相交非轴对称OBB</h3>
+<p><img src="/blog/images/blog/aabb/cb5.jpg" alt="cb5"></p>
 <p>两个矩形的OBB检测使用分离轴定理（Separating Axis Theorem）</p>
 <p>分离轴定理：通过判断任意两个矩形 在任意角度下的投影是否均存在重叠，来判断是否发生碰撞。若在某一角度光源下，两物体的投影存在间隙，则为不碰撞，否则为发生碰撞。</p>
 <p>因为矩形的对边平行，所以只要判断四条对称轴上的投影即可。</p>
