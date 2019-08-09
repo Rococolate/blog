@@ -9,9 +9,9 @@ title: 碰撞检测的向量实现
 <hr>
 <p><em>注：1、本文只讨论2d图形碰撞检测。2、本文讨论圆形与圆形，矩形与矩形、圆形与矩形碰撞检测的向量实现</em></p>
 <h2>前言</h2>
-<p>2D游戏中，通常使用矩形、圆形等来代替复杂图形的相交检测。因为这两种形状的碰撞检测速度是最快的。其中矩形包围盒又可以分为轴对齐包围盒（AABB, Axis Aligned Bounding Box）与转向包围盒（OBB, Oriented Bounding Box）。AABB与OBB的区别在于，AABB中的矩形的其中一条边和坐标轴平行，OBB的计算复杂度要高于AABB。根据不同的使用场景，可以用不同的方案。
-<img src="/blog/images/blog/aabb/1.jpg" alt="rect_circle">
-如上图，明显皮卡超适合用包围盒，精灵球适合用包围球。</p>
+<p>2D游戏中，通常使用矩形、圆形等来代替复杂图形的相交检测。因为这两种形状的碰撞检测速度是最快的。其中矩形包围盒又可以分为轴对齐包围盒（AABB, Axis Aligned Bounding Box）与转向包围盒（OBB, Oriented Bounding Box）。AABB与OBB的区别在于，AABB中的矩形的其中一条边和坐标轴平行，OBB的计算复杂度要高于AABB。根据不同的使用场景，可以用不同的方案。</p>
+<p><img src="/blog/images/blog/aabb/1.jpg" alt="rect_circle"></p>
+<p>如上图，明显皮卡超适合用包围盒，精灵球适合用包围球。</p>
 <h2>向量</h2>
 <p>向量作为一种数学工具，在碰撞检测中发挥很大作用，后面的计算都是通过向量来完成，所以先来复习一下向量。</p>
 <h3>向量的代数表示</h3>

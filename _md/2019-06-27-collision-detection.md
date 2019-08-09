@@ -18,7 +18,9 @@ Author:wuguanxi
 ## 前言
 
 2D游戏中，通常使用矩形、圆形等来代替复杂图形的相交检测。因为这两种形状的碰撞检测速度是最快的。其中矩形包围盒又可以分为轴对齐包围盒（AABB, Axis Aligned Bounding Box）与转向包围盒（OBB, Oriented Bounding Box）。AABB与OBB的区别在于，AABB中的矩形的其中一条边和坐标轴平行，OBB的计算复杂度要高于AABB。根据不同的使用场景，可以用不同的方案。
+
 ![rect_circle](/blog/images/blog/aabb/1.jpg)
+
 如上图，明显皮卡超适合用包围盒，精灵球适合用包围球。
 
 ## 向量
