@@ -39,7 +39,7 @@ class Vector2d{
     this.vy = vy;
   }
 }
-const vecA = new Vector2d(2,3);
+const vecA = new Vector2d(1,2);
 const vecB = new Vector2d(3,1);
 ```
 ![act1](/blog/images/blog/aabb/act1.jpg)
@@ -120,12 +120,8 @@ class Circle{
     this.x = x;
     this.y = y;
     this.r = r;
-    this.init();
   }
-  init(){
-    const {x,y} = this;
-    this.P = () => new Vector2d(x,y); // 圆心向量
-  }
+  get P(){ return new Vector2d(this.x,this.y) } // 圆心向量
 }
 ```
 
@@ -142,11 +138,6 @@ export class Rect{
     this.w = w;
     this.h = h;
     this.rotation = rotation;
-    this.init();
-  }
-  init(){
-    const {x,y,w,h,rotation} = this;
-    ...
   }
 }
 ```
@@ -163,8 +154,8 @@ export class Rect{
 
 ```javascript
 circleCircleIntersect(circle1,circle2){
-  const P1 = circle1.P();
-  const P2 = circle2.P();
+  const P1 = circle1.P;
+  const P2 = circle2.P;
   const r1 = circle1.r;
   const r2 = circle2.r;
   const u = Vector2d.sub(P1,P2);
@@ -212,20 +203,16 @@ class Rect{
     this.w = w;
     this.h = h;
     this.rotation = rotation;
-    this.init();
   }
-  init(){
-    const {x,y,w,h,rotation} = this;
-    this.C = () => new Vector2d(x,y); // 圆心向量
-    this.A3 = () => new Vector2d(x+w/2,y+h/2); // 顶点A3向量
-  }
+  get C(){ return new Vector2d(this.x,this.y); } // 矩形中心向量
+  get A3(){ return new Vector2d(this.x+this.w/2,this.y+this.h/2); } // 顶点A3向量
 }
 
 rectCircleIntersect(rect,circle){
-  const C = rect.C();
+  const C = rect.C;
   const r = circle.r;
-  const A3 = rect.A3();
-  const P = circle.P();
+  const A3 = rect.A3;
+  const P = circle.P;
   const h = Vector2d.sub(A3,C); // 矩形半长
   const v = new Vector2d(Math.abs(P.vx - C.vx),Math.abs(P.vy - C.vy));
   const u = new Vector2d(Math.max(v.vx - h.vx,0),Math.max(v.vy - h.vy,0));
@@ -258,33 +245,29 @@ class Rect{
     this.w = w;
     this.h = h;
     this.rotation = rotation;
-    this.init();
   }
-  init(){
-    const {x,y,w,h,rotation} = this;
-    this.C = () => new Vector2d(x,y); // 圆心向量
-    this.A3 = () => new Vector2d(x+w/2,y+h/2); // 顶点A3向量
-    this._rotation = () => rotation / 180 * Math.PI; // 角度单位转换
-  }
+  get C(){ return new Vector2d(this.x,this.y); } // 矩形中心向量
+  get A3(){ return new Vector2d(this.x+this.w/2,this.y+this.h/2); } // 顶点A3向量
+  get _rotation(){ return this.rotation / 180 * Math.PI; }  // 角度单位转换
 }
 
 p(rect,circle){
   const rotation = rect.rotation;
-  const C = rect.C();
+  const C = rect.C;
   let P;
   if (rotation % 360 === 0) {
-    P = circle.P(); // 轴对称直接输出P
+    P = circle.P; // 轴对称直接输出P
   } else {
-    P = Vector2d.add(C,Vector2d.rotate(Vector2d.sub(circle.P(),C),rect._rotation()*-1)); // 非轴对称，计算P‘
+    P = Vector2d.add(C,Vector2d.rotate(Vector2d.sub(circle.P,C),rect._rotation*-1)); // 非轴对称，计算P‘
   }
   return P;
 }
 
 rectCircleIntersect(rect,circle){
   const rotation = rect.rotation;
-  const C = rect.C();
+  const C = rect.C;
   const r = circle.r;
-  const A3 = rect.A3();
+  const A3 = rect.A3;
   const P = p(rect,circle);
   const h = Vector2d.sub(A3,C);
   const v = new Vector2d(Math.abs(P.vx - C.vx),Math.abs(P.vy - C.vy));
@@ -294,6 +277,8 @@ rectCircleIntersect(rect,circle){
 ```
 
 点击[=====> 这里 <=====](/blog/gom/test1.html)查看Demo1
+
+![demo1](/blog/images/blog/aabb/demo1.gif)
 
 ## 两矩形相交
 
@@ -314,22 +299,18 @@ class Rect{
     this.w = w;
     this.h = h;
     this.rotation = rotation;
-    this.init();
   }
-  init(){
-    const {x,y,w,h,rotation} = this;
-    this.C = () => new Vector2d(x,y); // 圆心向量
-    this.A3 = () => new Vector2d(x+w/2,y+h/2); // 顶点A3向量
-    this._rotation = () => rotation / 180 * Math.PI; // 角度单位转换
-  }
+  get C(){ return new Vector2d(this.x,this.y); } // 矩形中心向量
+  get A3(){ return new Vector2d(this.x+this.w/2,this.y+this.h/2); } // 顶点A3向量
+  get _rotation(){ return this.rotation / 180 * Math.PI; }  // 角度单位转换
 }
 
 AABBrectRectIntersect(rect1,rect2){
-  const P = rect2.C();
+  const P = rect2.C;
   const w2 = rect2.w; 
   const h2 = rect2.h; 
   const {w,h,x,y} = rect1;
-  const C = rect1.C();
+  const C = rect1.C;
   const A3 = new Vector2d(x+w/2+w2/2,y+h/2+h2/2); // 新矩形的半长
   const H = Vector2d.sub(A3,C);
   const v = new Vector2d(Math.abs(P.vx - C.vx),Math.abs(P.vy - C.vy));
@@ -370,38 +351,34 @@ class Rect{
     this.w = w;
     this.h = h;
     this.rotation = rotation;
-    this.init();
   }
-  init(){
-    const {x,y,w,h,rotation} = this;
-    this.C = () => new Vector2d(x,y);
-    this._A1 = () => new Vector2d(x-w/2,y-h/2);  // 4角顶点
-    this._A2 = () => new Vector2d(x+w/2,y-h/2);
-    this._A3 = () => new Vector2d(x+w/2,y+h/2);
-    this._A4 = () => new Vector2d(x-w/2,y+h/2);
-    this._axisX = () => new Vector2d(1,0);  // 未旋转时的对称轴X
-    this._axisY = () => new Vector2d(0,1);  // 未旋转时的对称轴Y
-    this._CA1 = () => Vector2d.sub(this._A1(),this.C());
-    this._CA2 = () => Vector2d.sub(this._A2(),this.C());
-    this._CA3 = () => Vector2d.sub(this._A3(),this.C());
-    this._CA4 = () => Vector2d.sub(this._A4(),this.C());
-    this._rotation = () => rotation / 180 * Math.PI;
-    this.A1 = rotation % 360 === 0 ? () => this._A1() : () => Vector2d.add(this.C(),Vector2d.rotate(this._CA1(),this._rotation()));  // 计算上旋转后4角顶点
-    this.A2 = rotation % 360 === 0 ? () => this._A2() : () => Vector2d.add(this.C(),Vector2d.rotate(this._CA2(),this._rotation()));
-    this.A3 = rotation % 360 === 0 ? () => this._A3() : () => Vector2d.add(this.C(),Vector2d.rotate(this._CA3(),this._rotation()));
-    this.A4 = rotation % 360 === 0 ? () => this._A4() : () => Vector2d.add(this.C(),Vector2d.rotate(this._CA4(),this._rotation()));
-    this.axisX = rotation % 360 === 0 ? () => this._axisX() : () => Vector2d.rotate(this._axisX(),this._rotation());  // 计算上旋转后的对称轴X
-    this.axisY = rotation % 360 === 0 ? () => this._axisY() : () => Vector2d.rotate(this._axisY(),this._rotation());  // 计算上旋转后的对称轴Y
-    this._vertexs = () => [this._A1(),this._A2(),this._A3(),this._A4()]; 
-    this.vertexs = () => [this.A1(),this.A2(),this.A3(),this.A4()];  // 4角顶点数组
-  }
+  get C(){ return new Vector2d(this.x,this.y); }
+  get _A1(){ return new Vector2d(this.x-this.w/2,this.y-this.h/2); }  // 4角顶点
+  get _A2(){ return new Vector2d(this.x+this.w/2,this.y-this.h/2); }
+  get _A3(){ return new Vector2d(this.x+this.w/2,this.y+this.h/2); }
+  get _A4(){ return new Vector2d(this.x-this.w/2,this.y+this.h/2); }
+  get _axisX(){ return new Vector2d(1,0); } // 未旋转时的对称轴X
+  get _axisY(){ return new Vector2d(0,1); } // 未旋转时的对称轴Y
+  get _CA1(){ return Vector2d.sub(this._A1,this.C); }
+  get _CA2(){ return Vector2d.sub(this._A2,this.C); }
+  get _CA3(){ return Vector2d.sub(this._A3,this.C); }
+  get _CA4(){ return Vector2d.sub(this._A4,this.C); }
+  get _rotation(){ return this.rotation / 180 * Math.PI; }
+  get A1(){ return this.rotation % 360 === 0 ?  this._A1 :  Vector2d.add(this.C,Vector2d.rotate(this._CA1,this._rotation)); } // 计算上旋转后4角顶点
+  get A2(){ return this.rotation % 360 === 0 ?  this._A2 :  Vector2d.add(this.C,Vector2d.rotate(this._CA2,this._rotation)); }
+  get A3(){ return this.rotation % 360 === 0 ?  this._A3 :  Vector2d.add(this.C,Vector2d.rotate(this._CA3,this._rotation)); }
+  get A4(){ return this.rotation % 360 === 0 ?  this._A4 :  Vector2d.add(this.C,Vector2d.rotate(this._CA4,this._rotation)); }
+  get axisX(){ return this.rotation % 360 === 0 ?  this._axisX :  Vector2d.rotate(this._axisX,this._rotation); } // 计算上旋转后的对称轴X
+  get axisY(){ return this.rotation % 360 === 0 ?  this._axisY :  Vector2d.rotate(this._axisY,this._rotation); } // 计算上旋转后的对称轴Y
+  get _vertexs(){ return [this._A1,this._A2,this._A3,this._A4]; } 
+  get vertexs(){ return [this.A1,this.A2,this.A3,this.A4]; } // 4角顶点数组
 }
 
 OBBrectRectIntersect(rect1,rect2){
-  const rect1AxisX = rect1.axisX();
-  const rect1AxisY = rect1.axisY();
-  const rect2AxisX = rect2.axisX();
-  const rect2AxisY = rect2.axisY();
+  const rect1AxisX = rect1.axisX;
+  const rect1AxisY = rect1.axisY;
+  const rect2AxisX = rect2.axisX;
+  const rect2AxisY = rect2.axisY;
   if (!cross(rect1,rect2,rect1AxisX)) return false;  // 一旦有不相交的轴就可以return false
   if (!cross(rect1,rect2,rect1AxisY)) return false;
   if (!cross(rect1,rect2,rect2AxisX)) return false;
@@ -409,8 +386,8 @@ OBBrectRectIntersect(rect1,rect2){
   return true;  // 4轴投影都相交 return true
 }
 cross(rect1,rect2,axis){
-  const vertexs1ScalarProjection = rect1.vertexs().map(vex => Vector2d.dot(vex,axis)).sort((a,b)=>a-b); // 矩形1的4个顶点投影并排序
-  const vertexs2ScalarProjection = rect2.vertexs().map(vex => Vector2d.dot(vex,axis)).sort((a,b)=>a-b); // 矩形2的4个顶点投影并排序
+  const vertexs1ScalarProjection = rect1.vertexs.map(vex => Vector2d.dot(vex,axis)).sort((a,b)=>a-b); // 矩形1的4个顶点投影并排序
+  const vertexs2ScalarProjection = rect2.vertexs.map(vex => Vector2d.dot(vex,axis)).sort((a,b)=>a-b); // 矩形2的4个顶点投影并排序
   const rect1Min = vertexs1ScalarProjection[0]; // 矩形1最小长度
   const rect1Max = vertexs1ScalarProjection[vertexs1ScalarProjection.length - 1]; // 矩形1最大长度
   const rect2Min = vertexs2ScalarProjection[0]; // 矩形2最小长度
@@ -420,6 +397,8 @@ cross(rect1,rect2,axis){
 ```
 
 最后放上一个相交的应用[Demo](/blog/gom/test2.html),Demo里的形状都可以拖拽，当碰到其他形状时会变透明。
+
+![demo2](/blog/images/blog/aabb/demo2.gif)
 
 ### 参考文章
 

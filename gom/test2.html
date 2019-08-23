@@ -106,6 +106,23 @@
     }
 
     function checkHit(shape1,shape2){
+      const s1 = translate(shape1);
+      const s2 = translate(shape2);
+      return Gometry.Intersect.intersectAnyTow(s1,s2);
+    }
+
+    function translate(shape){
+      const {x,y} = shape.shape;
+      const {w,h,r,type,totation} = shape;
+      if (type === "rect") {
+        return new Gometry.Rect(x,y,w,h,rotation);
+      }
+      if (type === "circle") {
+        return new Gometry.Circle(x,y,r);
+      }
+    } 
+
+    function checkHit(shape1,shape2){
       if (!shape1 || !shape2) return false;
       if (shape1.type === "rect" && shape2.type === "rect") return hitRectAndRect(shape1,shape2);
       if (shape1.type === "circle" && shape2.type === "circle") return hitCircleAndCircle(shape1,shape2);
