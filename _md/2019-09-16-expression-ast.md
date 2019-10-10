@@ -305,9 +305,9 @@ const stack = [RootNode()];
 
 在说明不同类型节点的规则前，先说一下通用规则。
 
-- 1. 没有后代的节点（isNoChildrenNode），就是节点的 maxChildren 属性为 0。
-- 2. 非满的节点（isNotFullNode），就是节点的 maxChildren 属性大于 0，而且其 children.length < maxChildren。
-- 3. 满的节点（isFullNode），就是节点的 maxChildren 属性大于 0，而且其 children.length >= maxChildren。
+- 1. 没有后代的节点（NoChildrenNode），就是节点的 maxChildren 属性为 0。
+- 2. 非满的节点（NotFullNode），就是节点的 maxChildren 属性大于 0，而且其 children.length < maxChildren。
+- 3. 满的节点（FullNode），就是节点的 maxChildren 属性大于 0，而且其 children.length >= maxChildren。
 
 对应的3个函数:
 
@@ -345,11 +345,11 @@ function NumberNode(){
 
 ### 4.5 数字节点的规则
 
-- 1. 栈顶 top
-- 2. 数字节点 number
+- 1. 找到栈顶 top
+- 2. 和数字节点 number
 - 3. top 不能是满项
 - 4. 如果 top 为非满的节点，number push 到 top.children
-- 5. 如果 top 为满的节点，number 压栈
+- 5. 否则（top 是没有后代的节点），number 压栈
 
 ```javascript
   const top = stack[stack.length - 1]; // 栈顶
@@ -447,7 +447,7 @@ function DivNode(){
 
 先说 retire 操作，retire 有退休的意思。我是想表达，这当前条件下，栈顶节点可以退下来了，把栈顶的位置让给新节点。
 
-步骤是把的栈顶节点出栈，然后压进新节点的 children 栈里。
+步骤是把的旧栈顶节点出栈，新节点入栈，然后旧栈顶压进新节点的 children 栈里。
 
 ```javascript
 const retire = (type) => {
@@ -517,7 +517,7 @@ link 操作会先将栈顶的满项节点 push 到前一项的 childen 栈里（
 
 ### 4.13 增加负数
 
-负数可以说是开了一个比较坏的先河，因为和减号公用一个 `-` 符号，导致代码逻辑的增加。负号和减号的区别在于，负号的取值是在它的右侧 `1 + - 1` ，减号是从左到右 `1 - 1` 。这里可以通过判断栈顶节点的情况来确定究竟是 负号 还是 减号。我将 负号这种取值在右边的符号称为 前置符号 ，加减乘除这种左到右取值的符号称为 后置符号。后置符号直接压栈。
+负数可以说是开了一个比较坏的先河，因为和减号公用一个 `-` 符号，导致代码逻辑的增加。负号和减号的区别在于，负号的取值是在它的右侧 `1 + - 1` ，减号是从左到右 `1 - 1` 。这里可以通过判断栈顶节点的情况来确定究竟是 负号 还是 减号。我将 负号这种取值在右边的符号称为 前置符号 ，加减乘除这种左到右取值的符号称为 后置符号。前置符号直接压栈。
 
 ```javascript
   // 定义负数节点
@@ -554,10 +554,10 @@ link 操作会先将栈顶的满项节点 push 到前一项的 childen 栈里（
   }
 ```
 
-例子 `- 1` 。 `- 1` 这里开始栈 `<Root>` ，然后准备压入 `-` ，因为 Root 节点是没有后代的节点（isNoChildrenNode），所以这里判断`-`是前置符号，生成 NE（NEGATE） 节点直接入栈 `<Root><NE>` 。然后是 `1` , `<Root><NE 1>` 。
+例子 `- 1` 。 `- 1` 这里开始栈 `<Root>` ，然后准备压入 `-` ，因为 Root 节点是没有后代的节点（NoChildrenNode），所以这里判断`-`是前置符号，生成 NE（NEGATE） 节点直接入栈 `<Root><NE>` 。然后是 `1` , `<Root><NE 1>` 。
 
-例子 `1 - - 1` 。这里第一个 `-` 时 `<Root><1>` ，因为 栈顶 number 节点是满的节点（isFullNode），所以第一个 `-` 是后置符号，生成 sub 节点。第二个 `-` 时 `<Root><- 1>`，
-栈顶的 sub 节点是未满的节点（isNotFullNode），判定为前置符号，生成 NE（NEGATE） 节点直接入栈 `<Root><- 1><NE>` 。然后是 `1` , `<Root><- 1><NE 1>` 。
+例子 `1 - - 1` 。这里第一个 `-` 时 `<Root><1>` ，因为 栈顶 number 节点是满的节点（FullNode），所以第一个 `-` 是后置符号，生成 sub 节点。第二个 `-` 时 `<Root><- 1>`，
+栈顶的 sub 节点是未满的节点（NotFullNode），判定为前置符号，生成 NE（NEGATE） 节点直接入栈 `<Root><- 1><NE>` 。然后是 `1` , `<Root><- 1><NE 1>` 。
 
 ![ast](/blog/images/blog/ast/ast13.jpg)
 

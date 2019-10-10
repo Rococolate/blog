@@ -233,17 +233,17 @@ const stack = [RootNode()];
 <ul>
 <li>
 <ol>
-<li>没有后代的节点（isNoChildrenNode），就是节点的 maxChildren 属性为 0。</li>
+<li>没有后代的节点（NoChildrenNode），就是节点的 maxChildren 属性为 0。</li>
 </ol>
 </li>
 <li>
 <ol start="2">
-<li>非满的节点（isNotFullNode），就是节点的 maxChildren 属性大于 0，而且其 children.length &lt; maxChildren。</li>
+<li>非满的节点（NotFullNode），就是节点的 maxChildren 属性大于 0，而且其 children.length &lt; maxChildren。</li>
 </ol>
 </li>
 <li>
 <ol start="3">
-<li>满的节点（isFullNode），就是节点的 maxChildren 属性大于 0，而且其 children.length &gt;= maxChildren。</li>
+<li>满的节点（FullNode），就是节点的 maxChildren 属性大于 0，而且其 children.length &gt;= maxChildren。</li>
 </ol>
 </li>
 </ul>
@@ -277,12 +277,12 @@ const stack = [RootNode()];
 <ul>
 <li>
 <ol>
-<li>栈顶 top</li>
+<li>找到栈顶 top</li>
 </ol>
 </li>
 <li>
 <ol start="2">
-<li>数字节点 number</li>
+<li>和数字节点 number</li>
 </ol>
 </li>
 <li>
@@ -297,7 +297,7 @@ const stack = [RootNode()];
 </li>
 <li>
 <ol start="5">
-<li>如果 top 为满的节点，number 压栈</li>
+<li>否则（top 是没有后代的节点），number 压栈</li>
 </ol>
 </li>
 </ul>
@@ -401,7 +401,7 @@ function DivNode(){
   }
 </code></pre>
 <p>先说 retire 操作，retire 有退休的意思。我是想表达，这当前条件下，栈顶节点可以退下来了，把栈顶的位置让给新节点。</p>
-<p>步骤是把的栈顶节点出栈，然后压进新节点的 children 栈里。</p>
+<p>步骤是把的旧栈顶节点出栈，新节点入栈，然后旧栈顶压进新节点的 children 栈里。</p>
 <pre><code class="language-javascript">const retire = (type) =&gt; {
   stack.push(CreateTypeNode(type)(stack.pop()));
 }
@@ -444,7 +444,7 @@ function DivNode(){
 <p>继续上图。</p>
 <p><img src="/blog/images/blog/ast/ast12.jpg" alt="ast"></p>
 <h3>4.13 增加负数</h3>
-<p>负数可以说是开了一个比较坏的先河，因为和减号公用一个 <code>-</code> 符号，导致代码逻辑的增加。负号和减号的区别在于，负号的取值是在它的右侧 <code>1 + - 1</code> ，减号是从左到右 <code>1 - 1</code> 。这里可以通过判断栈顶节点的情况来确定究竟是 负号 还是 减号。我将 负号这种取值在右边的符号称为 前置符号 ，加减乘除这种左到右取值的符号称为 后置符号。后置符号直接压栈。</p>
+<p>负数可以说是开了一个比较坏的先河，因为和减号公用一个 <code>-</code> 符号，导致代码逻辑的增加。负号和减号的区别在于，负号的取值是在它的右侧 <code>1 + - 1</code> ，减号是从左到右 <code>1 - 1</code> 。这里可以通过判断栈顶节点的情况来确定究竟是 负号 还是 减号。我将 负号这种取值在右边的符号称为 前置符号 ，加减乘除这种左到右取值的符号称为 后置符号。前置符号直接压栈。</p>
 <pre><code class="language-javascript">  // 定义负数节点
   function NegNode(){
     return {
@@ -478,9 +478,9 @@ function DivNode(){
     }
   }
 </code></pre>
-<p>例子 <code>- 1</code> 。 <code>- 1</code> 这里开始栈 <code>&lt;Root&gt;</code> ，然后准备压入 <code>-</code> ，因为 Root 节点是没有后代的节点（isNoChildrenNode），所以这里判断<code>-</code>是前置符号，生成 NE（NEGATE） 节点直接入栈 <code>&lt;Root&gt;&lt;NE&gt;</code> 。然后是 <code>1</code> , <code>&lt;Root&gt;&lt;NE 1&gt;</code> 。</p>
-<p>例子 <code>1 - - 1</code> 。这里第一个 <code>-</code> 时 <code>&lt;Root&gt;&lt;1&gt;</code> ，因为 栈顶 number 节点是满的节点（isFullNode），所以第一个 <code>-</code> 是后置符号，生成 sub 节点。第二个 <code>-</code> 时 <code>&lt;Root&gt;&lt;- 1&gt;</code>，
-栈顶的 sub 节点是未满的节点（isNotFullNode），判定为前置符号，生成 NE（NEGATE） 节点直接入栈 <code>&lt;Root&gt;&lt;- 1&gt;&lt;NE&gt;</code> 。然后是 <code>1</code> , <code>&lt;Root&gt;&lt;- 1&gt;&lt;NE 1&gt;</code> 。</p>
+<p>例子 <code>- 1</code> 。 <code>- 1</code> 这里开始栈 <code>&lt;Root&gt;</code> ，然后准备压入 <code>-</code> ，因为 Root 节点是没有后代的节点（NoChildrenNode），所以这里判断<code>-</code>是前置符号，生成 NE（NEGATE） 节点直接入栈 <code>&lt;Root&gt;&lt;NE&gt;</code> 。然后是 <code>1</code> , <code>&lt;Root&gt;&lt;NE 1&gt;</code> 。</p>
+<p>例子 <code>1 - - 1</code> 。这里第一个 <code>-</code> 时 <code>&lt;Root&gt;&lt;1&gt;</code> ，因为 栈顶 number 节点是满的节点（FullNode），所以第一个 <code>-</code> 是后置符号，生成 sub 节点。第二个 <code>-</code> 时 <code>&lt;Root&gt;&lt;- 1&gt;</code>，
+栈顶的 sub 节点是未满的节点（NotFullNode），判定为前置符号，生成 NE（NEGATE） 节点直接入栈 <code>&lt;Root&gt;&lt;- 1&gt;&lt;NE&gt;</code> 。然后是 <code>1</code> , <code>&lt;Root&gt;&lt;- 1&gt;&lt;NE 1&gt;</code> 。</p>
 <p><img src="/blog/images/blog/ast/ast13.jpg" alt="ast"></p>
 <h3>4.14 增加括号</h3>
 <p>括号 <code>(</code> 可以改变表达式里的优先级，先定义括号节点。</p>
