@@ -159,8 +159,8 @@ body{
   font-size: 16px;
 }
 img{
-  width: 100%;
-  max-width: 768px;
+  min-width: 320px;
+  max-width: 1200px;
   margin-bottom: 20px;
 }
 h1,h2,h3,h4,h5{
@@ -188,7 +188,7 @@ h5{
   font-size: 1.25rem;
 }
 p{
-  text-indent: 2em;
+  /* text-indent: 2em; */
   margin-bottom: 10px;
   color:#171717;
 }
@@ -212,6 +212,10 @@ blockquote:before {
 }
 blockquote p {
   display:inline;
+}
+ul{
+  margin-left: 2em;
+  margin-bottom: 1em;
 }
 .hide{
   display: none;
@@ -300,4 +304,30 @@ a[href*='http'],a[href*='http']:active{
 }
 strong{
   font-weight: bolder;
+}
+
+code{
+  background-color: rgb(221, 231, 255);
+  border-radius: 0.3em;
+  padding: 0 0.4em;
+}
+
+pre code {
+  background-color:transparent;
+}
+
+@media screen and (max-width: 540px){
+  img {
+    width: 100%;
+  }
+  .aside{
+    float:unset;
+    min-height: unset;
+  }
+  .content{
+    width: 100%;
+  }
+  a{
+    word-break: break-all;
+  }
 }
