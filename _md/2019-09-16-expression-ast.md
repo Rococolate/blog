@@ -1077,7 +1077,7 @@ if (type === "@deg"){
 
 ![ast](/blog/images/blog/ast/ast22.jpg)
 
-### 8 Demo手动玩
+## 8 Demo手动玩
 
 最后结合 Vue 写了一个 表达式转 AST 的可视化 demo，支持数字和向量。
 
