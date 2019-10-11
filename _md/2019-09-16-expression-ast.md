@@ -65,9 +65,9 @@ Author:wuguanxi
 
 `start` 状态下输入符号（.）就会迁移到 `inFloat` 状态。
 
-`start` 状态下输入符号（+ - * /）就会输出「符号 Token」 ，并回到 `start` 状态。
+`start` 状态下输入符号（+ - * /）就会输出 `「符号 Token」` ，并回到 `start` 状态。
 
-`start` 状态下输入 EOF 就会输出 「EOF Token」 ，并回到 `start` 状态。
+`start` 状态下输入 EOF 就会输出 `「EOF Token」` ，并回到 `start` 状态。
 
 代码大概是这个样子：
 ```javascript
@@ -105,7 +105,7 @@ Author:wuguanxi
 
 `inInt` 状态下输入数字（0 ～ 9）就继续留在 `inInt` 状态。
 
-`inInt` 状态下输入非数字和.（0 ～ 9 .）就会就会输出「整数 Token」，并迁移到 `start` 状态。
+`inInt` 状态下输入非数字和.（0 ～ 9 .）就会就会输出 `「整数 Token」` ，并迁移到 `start` 状态。
 
 代码：
 ```javascript
@@ -134,7 +134,7 @@ Author:wuguanxi
 
 `inFloat` 状态下输入数字（0 ～ 9）就继续留在 `inFloat` 状态。
 
-`inFloat` 状态下输入非数字（0 ～ 9 ）就会就会输出「浮点数 Token」，并迁移到 `start` 状态。
+`inFloat` 状态下输入非数字（0 ～ 9 ）就会就会输出 `「浮点数 Token」`，并迁移到 `start` 状态。
 
 代码：
 ```javascript
@@ -153,7 +153,20 @@ Author:wuguanxi
   }
 ```
 
-### 3.5 完整的 Lexer 代码
+### 3.5 输出的 Token 种类 和定义
+
+我将 `「浮点数 Token」` 和 `「整数 Token」` 合并为 `[NUMBER Token]` , 其他的 Token 还有 `「SIGN Token」` 和 `「EOF Token」`。
+
+Token 的 定义：
+
+```javascript
+  interface Token{
+    type:String,
+    value:String,
+  }
+```
+
+### 3.6 完整的 Lexer 代码
 
 ```javascript
   const EOF = Symbol('EOF');
@@ -586,7 +599,7 @@ function ParNode(){
 }
 ```
 
-这里maxChildren设为0，当我们将 括号节点 push 到栈里时，就形成一个屏障，使后面节点变动时，不会越过 括号节点。
+这里 maxChildren 设为 0 ，当我们将 括号节点 push 到栈里时，就形成一个屏障，使后面节点变动时，不会越过 括号节点 。
 
 看例子 `1 * (2 + 3 * 4)` 。
 
@@ -614,7 +627,7 @@ if (token.value === "(" ) {
 }
 ```
 
-![ast](/blog/images/blog/ast/ast14.gif)
+![ast](/blog/images/blog/ast/ast14_s.gif)
 
 ### 4.14 增加反括号 与 remove 操作
 
@@ -679,13 +692,13 @@ const opposite = {
 }
 ```
 
-![ast](/blog/images/blog/ast/ast15.gif)
+![ast](/blog/images/blog/ast/ast15_s.gif)
 
 ### 4.15 EOF
 
 括号的作用是将其内部的节点包裹起来，形成一个稳定的节点，括号 `(` 和反括号 `)` 自成一对。还有一对有同样的功能，就是 `ROOT` 和 `ROOT_END` 。
 
-`ROOT` 和 `ROOT_END` 标示着这个表达式的开始和结束。 `ROOT` 节点是初始化时就添加的，那么 `ROOT_END` 对应就是 `EOF` 这个 token 了。
+`ROOT` 和 `ROOT_END` 标示着这个表达式的开始和结束。 `ROOT` 节点是初始化时就添加的，那么 `ROOT_END` 对应就是 `EOF` 这个 Token 了。
 
 ```javascript
 if (token.type === "EOF") {
@@ -696,7 +709,7 @@ if (token.type === "EOF") {
 
 来一个完整的流程gif。
 
-![ast](/blog/images/blog/ast/ast16.gif)
+![ast](/blog/images/blog/ast/ast16_s.gif)
 
 ![ast](/blog/images/blog/ast/ast17.jpg)
 
@@ -868,7 +881,7 @@ if (type === "]") {
 }
 ```
 
-![ast](/blog/images/blog/ast/ast18.gif)
+![ast](/blog/images/blog/ast/ast18_s.gif)
 
 ![ast](/blog/images/blog/ast/ast19.jpg)
 
@@ -928,7 +941,7 @@ if (type === "NEGATE") {
 
 ### 7.3 向量旋转、点乘，角度的单位转换
 
-向量的旋转（`@rot`）、点乘（`@dot`），角度的单位转换（`@deg`），用这4个自定义符号。
+向量的旋转（`@rot`）、点乘（`@dot`），角度的单位转换（`@deg`），用这3个自定义符号。
 
 这里需要修改一下 词法分析 的状态机，在 start 状态下新增一个跃迁状态 customSgin 用 `@` 为标识。然后 customSgin 状态下输入[a-zA-Z]都回跃迁自身 否则 跃迁回状态 start 并输出 Token。
 
@@ -985,13 +998,6 @@ if (type === "NEGATE") {
 function DegNode(){
   return {
     type:"@deg",
-    children:[...arguments],
-    maxChildren:1,
-  }
-}
-function LenNode(){
-  return {
-    type:"@len",
     children:[...arguments],
     maxChildren:1,
   }
@@ -1071,9 +1077,9 @@ if (type === "@deg"){
 }
 ```
 
-来一个例子 `[1, 0] @rot - 90 @deg` ,把[1,0]旋转负90度。
+来一个例子 `[1, 0] @rot - 90 @deg` ,把 [1,0] 旋转负 90 度。
 
-![ast](/blog/images/blog/ast/ast21.gif)
+![ast](/blog/images/blog/ast/ast21_s.gif)
 
 ![ast](/blog/images/blog/ast/ast22.jpg)
 
