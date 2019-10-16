@@ -1088,3 +1088,5 @@ if (type === "@deg"){
 最后结合 Vue 写了一个 表达式转 AST 的可视化 demo，支持数字和向量。
 
 [http://rococolate.github.io/blog/ast/index.html](http://rococolate.github.io/blog/ast/index.html)
+
+demo 源码: [https://github.com/Rococolate/ast_demo](https://github.com/Rococolate/ast_demo)
