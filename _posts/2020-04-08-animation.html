@@ -1,0 +1,52 @@
+---
+layout: default
+title: 漫谈复杂CSS动画
+---
+<h1>{{ page.title }}</h1>
+<p><img src="/blog/images/blog/ast/ast0.jpg" alt="ast"></p>
+<p>{{ page.date | date_to_string }}</p>
+<p>Author:wuguanxi</p>
+<hr>
+<h2>0 契机与背景</h2>
+<p>今年Q1参与了京喜工厂的前端开发，其中使用大量 CSS 动画，本文是其中对 CSS 动画使用的一些思考记录。</p>
+<h2>1 CSS 能做多复杂的动画？</h2>
+<h3>1.1 动画展示</h3>
+<p>京喜工厂小人走路动画（4倍速播放）</p>
+<p><img src="/blog/images/blog/animation/ani_show_1.gif" alt="京喜工厂小人走路动画（4倍速播放）"></p>
+<h3>1.2 动画描述与分析</h3>
+<p>整个动画大体上就是小人按照从右侧进入工厂，绕着工厂内一圈的方式最后从右侧出去;</p>
+<p><img src="/blog/images/blog/animation/4.jpeg" alt="京喜工厂小人路径"></p>
+<p>走路过程中会有走路的动作；</p>
+<p><img src="/blog/images/blog/animation/ani_show_2.gif" alt="走路的动作"></p>
+<p>注意从右走到左时吗，小人朝向右；从左走到右时，小人朝向左。</p>
+<p><img src="/blog/images/blog/animation/5.jpg" alt="朝向"></p>
+<p>路径过程中会有几个驻留点，每个点驻留一小段时间，做工作中的动作。</p>
+<p><img src="/blog/images/blog/animation/ani_show_3.gif" alt="工作中的动作"></p>
+<h2>2 为什么要用 CSS 做复杂动画？（竞品对比 SVG 、Javascript 、CSS）</h2>
+<h3>2.1 SVG</h3>
+<h3>2.2 Javascript</h3>
+<h3>2.3 CSS</h3>
+<h2>3 如何做一个复杂的 CSS 动画</h2>
+<h3>3.1 拆分</h3>
+<p>小人走路的帧动画、小人工作中的帧动画、小人走路的路径动画</p>
+<h3>3.2 帧动画</h3>
+<p>&lt;animation-timing-function&gt; = &lt;step-timing-function&gt;</p>
+<h3>3.3 路径动画( CSS 怎么做曲线路径动画？)</h3>
+<h4>3.3.1 CSS offset-path</h4>
+<p><a href="https://www.zhangxinxu.com/wordpress/2017/03/offset-path-css-animation/">offset-path-css-animation</a></p>
+<h4>3.3.2 模拟的贝塞尔曲线</h4>
+<p>插播 啥是贝塞尔曲线？</p>
+<p><a href="https://cloud.tencent.com/developer/article/1005913">CSS 路径动画工具的诞生</a></p>
+<h4>3.3.3 利用时间函数用贝塞尔曲线的副作用</h4>
+<p>animation-timing-function = cubic-bezier-timing-function</p>
+<p><a href="https://jinlong.github.io/2016/01/14/moving-along-a-curved-path-in-css-with-layered-animation/">CSS分层动画可以让元素沿弧形路径运动</a></p>
+<h3>3.4 组合起来</h3>
+<p>引入非线性动画的概念</p>
+<h3>3.5 写个可视化工具，提升效率</h3>
+<p>用 VUE 写一个专门的动画工具
+属性：x、y、转向、工作时间</p>
+<h2>4 其他</h2>
+<h3>4.1 加个 mask 实现伪 3D 效果</h3>
+<h3>4.2 解决层级不正确的问题（translateZ）</h3>
+<h3>4.3 解决帧动画抖动问题</h3>
+<h3>4.4 更好用的工具</h3>
