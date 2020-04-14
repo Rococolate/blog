@@ -3,50 +3,286 @@ layout: default
 title: 漫谈复杂CSS动画
 ---
 <h1>{{ page.title }}</h1>
-<p><img src="/blog/images/blog/ast/ast0.jpg" alt="ast"></p>
+<p><img src="/blog/images/blog/animation/ani_show_3.gif" alt="pic"></p>
 <p>{{ page.date | date_to_string }}</p>
 <p>Author:wuguanxi</p>
 <hr>
 <h2>0 契机与背景</h2>
 <p>今年Q1参与了京喜工厂的前端开发，其中使用大量 CSS 动画，本文是其中对 CSS 动画使用的一些思考记录。</p>
+<h2>0.0 计算机动画原理</h2>
+<p>动画是指由许多帧静止的画面，以一定的速度（如每秒16张）连续播放时，肉眼因 <code>视觉暂留</code> 产生错觉。
+要达成最基本的视觉暂留效果至少需要 10帧/秒 ，普通电影是 24帧/秒 ， 普通显示器刷新频率是 60帧/秒。</p>
+<p><img src="/blog/images/blog/2018_12_24/Animexample.gif" alt="Animexample"></p>
+<p><img src="/blog/images/blog/2018_12_24/Animexample2.gif" alt="Animexample2"></p>
 <h2>1 CSS 能做多复杂的动画？</h2>
 <h3>1.1 动画展示</h3>
 <p>京喜工厂小人走路动画（4倍速播放）</p>
 <p><img src="/blog/images/blog/animation/ani_show_1.gif" alt="京喜工厂小人走路动画（4倍速播放）"></p>
 <h3>1.2 动画描述与分析</h3>
 <p>整个动画大体上就是小人按照从右侧进入工厂，绕着工厂内一圈的方式最后从右侧出去;</p>
-<p><img src="/blog/images/blog/animation/4.jpeg" alt="京喜工厂小人路径"></p>
+<p><img src="/blog/images/blog/animation/path.jpeg" alt="京喜工厂小人路径"></p>
 <p>走路过程中会有走路的动作；</p>
-<p><img src="/blog/images/blog/animation/ani_show_2.gif" alt="走路的动作"></p>
+<p><img src="/blog/images/blog/animation/anim-walk.gif" alt="走路的动作"></p>
 <p>注意从右走到左时吗，小人朝向右；从左走到右时，小人朝向左。</p>
-<p><img src="/blog/images/blog/animation/5.jpg" alt="朝向"></p>
+<p><img src="/blog/images/blog/animation/turn.jpg" alt="朝向"></p>
 <p>路径过程中会有几个驻留点，每个点驻留一小段时间，做工作中的动作。</p>
-<p><img src="/blog/images/blog/animation/ani_show_3.gif" alt="工作中的动作"></p>
+<p><img src="/blog/images/blog/animation/anim-work.gif" alt="工作中的动作"></p>
 <h2>2 为什么要用 CSS 做复杂动画？（竞品对比 SVG 、Javascript 、CSS）</h2>
+<p>先对比一下</p>
 <h3>2.1 SVG</h3>
+<p>SVG 原生支持 SMIL(Synchronized Multimedia Integration Language), SMIL 允许你：</p>
+<ul>
+<li>
+<ol>
+<li>变动一个元素的数字属性（x、y……）<code>&lt;animate&gt;</code></li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>变动变形属性（translation或rotation）<code>&lt;animateTransform&gt;</code></li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>变动颜色属性 <code>&lt;animate&gt;</code> || <code>&lt;animateColor&gt;(已废弃)</code></li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>物件方向与运动路径方向同步(路径动画) <code>&lt;animateMotion&gt;</code></li>
+</ol>
+</li>
+</ul>
+<p>其实都算是常规的动画能力，但是配合一些 SVG 专有的特性会产生一些奇妙和效果，例如 描边动画 就是利用 <code>stroke-dasharray</code> 和 <code>stroke-dashoffset</code> 实现的。另外，同为路径动画 SMIL 的 <code>&lt;animateMotion&gt;</code> 就比 CSS 的 <code>offset-path</code> 兼容性好很多。</p>
+<p>微信小程序：微信小程序不支持 SVG 及 SMIL 。</p>
 <h3>2.2 Javascript</h3>
+<p>理论上， Javascript 能做任何动画。
+一般来说 Javascript 动画可以分为 <code>操纵 DOM 属性的动画</code> 和 <code>操纵 canvas api 的动画</code>，这两种都的原理都是通过 <code>window.requestAnimationFrame()</code> 或者 <code>window.setTimeout()</code> 这类时间控制函数实现每 16.7ms 显示一帧画面，从而达成 60帧/秒 的动画。
+另外，还有 <code>Web Animations API</code>，将浏览器动画引擎向开发者打开，并由JavaScript进行操作。它是未来对网络上动画化的支持最有效的方式之一，它使浏览器可以进行自己的内部优化。但是兼容性较差。</p>
+<p>微信小程序：微信小程序实现了自己的一套 <code>WX Ainmation API</code>， 不兼容 web 标准。</p>
 <h3>2.3 CSS</h3>
-<h2>3 如何做一个复杂的 CSS 动画</h2>
-<h3>3.1 拆分</h3>
-<p>小人走路的帧动画、小人工作中的帧动画、小人走路的路径动画</p>
-<h3>3.2 帧动画</h3>
-<p>&lt;animation-timing-function&gt; = &lt;step-timing-function&gt;</p>
+<p>CSS 动画都是声明式，使用 <code>@keyframe</code> 创建关键帧，浏览器就会自动计算出每 16.7ms 内的画面变化，这些计算不是用 JS ，从而避免 GC 。CSS 动画还有一个好处是可以利用 <code>translateZ</code> 开启 GPU 硬件加速，而且在 2020 年的当下，CSS 动画的兼容性可以说是非常好了。</p>
+<p>有点遗憾的是 CSS 在路径动画 <code>offset-path</code> 上的兼容性还是比较差。</p>
+<p>微信小程序：微信小程序支持 CSS 动画。</p>
+<h3>选择</h3>
+<p>考虑到项目主要运行在 H5 和 微信小程序平台上，综合兼容性和自己的熟练度，最后还是选择用 CSS 动画。</p>
+<h2>3 CSS 动画的分类</h2>
+<p>按照 <code>animation-timing-function</code>（时间函数） 的不同，将 CSS 动画分成 「线性变化动画」 和「非线性变化动」</p>
+<p>「线性变化动画」 是指 <code>animation-timing-function = linear(直线) || cubic-bezier-timing-function(贝塞尔曲线)</code></p>
+<p>「非线性变化动画」 是指 <code>animation-timing-function = step-timing-function(分段)</code></p>
+<h3>3.1 线性变化动画</h3>
+<p>推荐一个贝塞尔曲线的可视化网址<a href="https://cubic-bezier.com/">✿ cubic-bezier.com</a></p>
+<h3>3.2 非线性变化动画</h3>
+<p>非线性变化动画，通常用来做 「帧动画」。通常是设计师输出一组序列帧图片作背景图，动画时控制 <code>background-position</code> 属性，并通过 <code>step-timing-function</code> 实现跃迁效果。</p>
+<p>什么意思？我来举个小人走路的例子：</p>
+<p><img src="/blog/images/blog/animation/double.jpeg" alt="double"></p>
+<p>其实就两张图，分别是抬左脚和抬右脚（120 X 160），用工具将它们合成在一张图里（120 X 320）。</p>
+<p><img src="/blog/images/blog/animation/spirit.png" alt="spirit"></p>
+<pre><code class="language-html">&lt;div class=&quot;anim linear&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;anim steps&quot;&gt;&lt;/div&gt;
+</code></pre>
+<pre><code class="language-css">.anim{
+  width:120px;
+  height:160px;
+  background-image:url(./spirit.png); /* 合成图 */
+  background-position:0 0;
+  background-size:100% auto;
+}
+
+.liear{
+  animation:anim-walk 0.4s linear 0s infinite;
+}
+
+.steps{
+  animation:anim-walk 0.4s steps(1) 0s infinite;
+}
+
+@keyframes anim-walk{
+  0% {background-position:0px 0px;}
+  50% {background-position:0px  60px;}
+  100% {background-position:0px 0px;}
+}
+</code></pre>
+<p>效果：</p>
+<table>
+<thead>
+<tr>
+<th>linear:</th>
+<th>steps:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="/blog/images/blog/animation/anim-linear.gif" alt="anim-linear"></td>
+<td><img src="/blog/images/blog/animation/anim-walk.gif" alt="anim-steps"></td>
+</tr>
+</tbody>
+</table>
+<p>在 CSS 代码里，我们定义了一个 叫 <code>anim-walk</code> 的一组关键帧，关键帧 0% 时 <code>background-position-y</code> 是 0， 50% 时 为  -160 ，100% 时又回到 0。
+从效果图里可以看出，不同的 <code>animation-timing-function</code> 设置对动画效果的影响。</p>
+<p><code>linear</code> 因为是线性变化，所以 0 ～  -160 ～ 0 之间的数据计算出来就是 0 ～ -40 ～ -80 ～  20 ～ -160 ～ -120 ～ -80 ～ -40 ～ 0</p>
+<p><code>steps</code> 因为是非线性变化， 所以 0 ～ -160 ～ 0 之间的数据计算出来就是 0 ～ 0 ～ 0 ～ 0 ～ -160 ～ -160 ～ -160 ～ -160 ～ 0</p>
 <h3>3.3 路径动画( CSS 怎么做曲线路径动画？)</h3>
+<p>在京喜工厂项目了，小人是要在工厂的几个点内移动</p>
 <h4>3.3.1 CSS offset-path</h4>
-<p><a href="https://www.zhangxinxu.com/wordpress/2017/03/offset-path-css-animation/">offset-path-css-animation</a></p>
-<h4>3.3.2 模拟的贝塞尔曲线</h4>
-<p>插播 啥是贝塞尔曲线？</p>
-<p><a href="https://cloud.tencent.com/developer/article/1005913">CSS 路径动画工具的诞生</a></p>
-<h4>3.3.3 利用时间函数用贝塞尔曲线的副作用</h4>
-<p>animation-timing-function = cubic-bezier-timing-function</p>
-<p><a href="https://jinlong.github.io/2016/01/14/moving-along-a-curved-path-in-css-with-layered-animation/">CSS分层动画可以让元素沿弧形路径运动</a></p>
+<p>最简单的方法是用 <code>offset-path</code>，用法在张鑫旭的这篇文章写得非常详细了，<a href="https://www.zhangxinxu.com/wordpress/2017/03/offset-path-css-animation/">offset-path-css-animation</a>。</p>
+<p>缺点是兼容性较差，这里就不详细说明了。</p>
+<h4>3.3.2 利用时间函数为贝塞尔曲线的副作用</h4>
+<p>在京喜工厂项目里小人移动的路径可以从下面这个设定图，标注的圆点都是要停留工作的。</p>
+<p><img src="/blog/images/blog/animation/path-all.jpg" alt="path-all"></p>
+<p>可以确定的是，这些标注的圆点位置在 CSS 动画里肯定是一个关键帧，而圆点与圆点之间的直线路径还好办，曲线呢？</p>
+<p>这里我用到「CSS分层动画」和「时间函数为贝塞尔曲线的副作用」。
+简单来说，就是通过使用两个或多个元素实现动画效果（分层），我们可以更加细粒度地控制某个元素的路径，沿着 X 轴运动使用一种 timing-function ，沿着 Y 轴运动使用另一种 timing-function 。</p>
+<p>假设有 <code>A[0,0]、B[100,100]</code> 两点。从 A 移动 到 B ，我们可以分拆成 X轴 的变化量，和 Y轴 的变化量。直线移动时，就是 X轴 与 Y轴 的累计变化量是一样的。</p>
+<pre><code class="language-html">&lt;div class=&quot;anim-x&quot;&gt;
+  &lt;div class=&quot;anim-y&quot;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="language-css">.anim-x{
+  animation: anim-x 1000ms 0s linear infinite;
+}
+.anim-y{
+  animation: anim-y 1000ms 0s linear infinite;
+}
+@keyframes anim-x {
+  0%{ transform:translate3d(0 , 0 , 0) }
+  100%{ transform:translate3d(100px , 0 , 0) }
+}
+@keyframes anim-y {
+  0%{ transform:translate3d(0 , 0 , 0) }
+  100%{ transform:translate3d(0 , 100px , 0) }
+}
+</code></pre>
+<p><img src="/blog/images/blog/animation/exp2.gif" alt="exp2"></p>
+<p>反过来，如果 X轴 与 Y轴 的累计变化量不一样，就会走出曲线。</p>
+<pre><code class="language-html">&lt;div class=&quot;anim-x&quot;&gt;
+  &lt;div class=&quot;anim-y&quot;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="language-css">.anim-x{
+  animation: anim-x 1000ms 0s ease-in infinite;
+}
+.anim-y{
+  animation: anim-y 1000ms 0s ease-out infinite;
+}
+@keyframes anim-x {
+  0%{ transform:translate3d(0 , 0 , 0) }
+  100%{ transform:translate3d(100px , 0 , 0) }
+}
+@keyframes anim-y {
+  0%{ transform:translate3d(0 , 0 , 0) }
+  100%{ transform:translate3d(0 , 100px , 0) }
+}
+</code></pre>
+<p><img src="/blog/images/blog/animation/exp3.gif" alt="exp3"></p>
+<p>这篇文章把原理写得很详细，<a href="https://jinlong.github.io/2016/01/14/moving-along-a-curved-path-in-css-with-layered-animation/">CSS分层动画可以让元素沿弧形路径运动</a></p>
 <h3>3.4 组合起来</h3>
-<p>引入非线性动画的概念</p>
+<p>路径动画的问题解决了，小人走路和工作的帧动画也准备好，下面还有两个小问题。</p>
+<ul>
+<li>
+<ol>
+<li>小人走路和工作的帧动画不能同时出现</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>路径动画从左走到右时小人的朝向，应该与从右走到左时相反</li>
+</ol>
+</li>
+</ul>
+<p>这里的解决方法也是「CSS分层动画」和 「非线性动画」，大概的代码可以这样写：</p>
+<pre><code class="language-html">&lt;div class=&quot;anim-turn&quot;&gt;
+  &lt;div class=&quot;anim-walk&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;anim-work&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="language-css">.anim-turn{
+  animation: anim-turn ${allTime}ms 0s steps(1) infinite;
+}
+.anim-walk{
+  animation: anim-walk-opacity ${allTime}ms 0s steps(1) infinite,anim-walk 0.4s steps(1) 0s infinite;
+}
+.anim-work{
+  animation: anim-work-opacity ${allTime}ms 0s steps(1) infinite,anim-working 0.4s steps(1) 0s infinite;
+}
+
+@keyframes anim-turn {
+  0% {transform:scale(1,1)} // 正向
+  50% {transform:scale(-1,1)} // 反向
+  100% {transform:scale(1,1)} // 正向
+}
+
+@keyframes anim-walk-opacity {
+  0% {opacity:1} 
+  50% {opacity:0} 
+  100% {opacity:1} 
+}
+
+@keyframes anim-work-opacity {
+  0% {opacity:0} 
+  50% {opacity:1} 
+  100% {opacity:0} 
+}
+</code></pre>
+<p>再加上 X轴 和 Y轴 的分层 CSS：</p>
+<pre><code class="language-html">&lt;div class=&quot;anim-x&quot;&gt;
+  &lt;div class=&quot;anim-y&quot;&gt;
+    &lt;div class=&quot;anim-turn&quot;&gt;
+      &lt;div class=&quot;anim-walk&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;anim-work&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="language-css">.anim-x{
+  animation: anim-x ${allTime}ms 0s linear infinite;
+}
+.anim-y{
+  animation: anim-y ${allTime}ms 0s linear infinite;
+}
+.anim-turn{
+  animation: anim-turn ${allTime}ms 0s steps(1) infinite;
+}
+.anim-walk{
+  animation: anim-walk-opacity ${allTime}ms 0s steps(1) infinite,anim-walk 0.4s steps(1) 0s infinite;
+}
+.anim-work{
+  animation: anim-work-opacity ${allTime}ms 0s steps(1) infinite,anim-working 0.4s steps(1) 0s infinite;
+}
+
+@keyframes ...
+</code></pre>
 <h3>3.5 写个可视化工具，提升效率</h3>
-<p>用 VUE 写一个专门的动画工具
-属性：x、y、转向、工作时间</p>
+<p>上面只是简单的写了这个动画的简单架构，而具体的动画数据 <code>@keyframes</code> 才是重点，而且这些关键帧肯定不是手写。</p>
+<blockquote>
+<p>工欲善其事，必先利其器。</p>
+</blockquote>
+<p>所以我们来用 Vue 打造一个可视化工具[doge]。</p>
+<p>===== 大概用一整天时间写工具 =====</p>
+<p>大概长这样子：</p>
+<p>基本操作是「添加关键帧」、「跳转每个关键帧的属性」、「生成测试动画」、「输出动画CSS」</p>
+<p>具体实现就不细说了，这里说一些细节。</p>
+<ul>
+<li>
+<ol>
+<li>如何画出动画路径？</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>动画时间怎么算？</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>一些优缺点</li>
+</ol>
+</li>
+</ul>
 <h2>4 其他</h2>
-<h3>4.1 加个 mask 实现伪 3D 效果</h3>
+<h3>4.1 加个 -mask 实现伪 3D 效果</h3>
 <h3>4.2 解决层级不正确的问题（translateZ）</h3>
 <h3>4.3 解决帧动画抖动问题</h3>
 <h3>4.4 更好用的工具</h3>
