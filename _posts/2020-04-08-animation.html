@@ -3,7 +3,7 @@ layout: default
 title: 漫谈复杂CSS动画
 ---
 <h1>{{ page.title }}</h1>
-<p><img src="/blog/images/blog/animation/ani_show_3.gif" alt="pic"></p>
+<p><img src="/blog/images/blog/animation/budou.gif" alt="pic"></p>
 <p>{{ page.date | date_to_string }}</p>
 <p>Author:wuguanxi</p>
 <hr>
@@ -99,7 +99,7 @@ title: 漫谈复杂CSS动画
 
 @keyframes anim-walk{
   0% {background-position:0px 0px;}
-  50% {background-position:0px  60px;}
+  50% {background-position:0px -160px;}
   100% {background-position:0px 0px;}
 }
 </code></pre>
@@ -120,7 +120,7 @@ title: 漫谈复杂CSS动画
 </table>
 <p>在 CSS 代码里，我们定义了一个 叫 <code>anim-walk</code> 的一组关键帧，关键帧 0% 时 <code>background-position-y</code> 是 0， 50% 时 为  -160 ，100% 时又回到 0。
 从效果图里可以看出，不同的 <code>animation-timing-function</code> 设置对动画效果的影响。</p>
-<p><code>linear</code> 因为是线性变化，所以 0 ～  -160 ～ 0 之间的数据计算出来就是 0 ～ -40 ～ -80 ～  20 ～ -160 ～ -120 ～ -80 ～ -40 ～ 0</p>
+<p><code>linear</code> 因为是线性变化，所以 0 ～  -160 ～ 0 之间的数据计算出来就是 0 ～ -40 ～ -80 ～  -120 ～ -160 ～ -120 ～ -80 ～ -40 ～ 0</p>
 <p><code>steps</code> 因为是非线性变化， 所以 0 ～ -160 ～ 0 之间的数据计算出来就是 0 ～ 0 ～ 0 ～ 0 ～ -160 ～ -160 ～ -160 ～ -160 ～ 0</p>
 <h3>3.3 路径动画( CSS 怎么做曲线路径动画？)</h3>
 <p>在京喜工厂项目了，小人是要在工厂的几个点内移动</p>
@@ -192,7 +192,9 @@ title: 漫谈复杂CSS动画
 </ol>
 </li>
 </ul>
-<p>这里的解决方法也是「CSS分层动画」和 「非线性动画」，大概的代码可以这样写：</p>
+<p>这里的解决方法也是「CSS分层动画」和 「非线性动画」。</p>
+<p>再加多一层转向动画，一层控制 「小人走路帧动画」 的动画、一层控制 「小人工作帧动画」 的动画，这三个控制动画都是「非线性动画」。</p>
+<p>大概的代码可以这样写：</p>
 <pre><code class="language-html">&lt;div class=&quot;anim-turn&quot;&gt;
   &lt;div class=&quot;anim-walk&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;anim-work&quot;&gt;&lt;/div&gt;
@@ -260,10 +262,15 @@ title: 漫谈复杂CSS动画
 <p>工欲善其事，必先利其器。</p>
 </blockquote>
 <p>所以我们来用 Vue 打造一个可视化工具[doge]。</p>
-<p>===== 大概用一整天时间写工具 =====</p>
 <p>大概长这样子：</p>
-<p>基本操作是「添加关键帧」、「跳转每个关键帧的属性」、「生成测试动画」、「输出动画CSS」</p>
-<p>具体实现就不细说了，这里说一些细节。</p>
+<p>基本操作是「添加关键帧」、「调整每个关键帧的属性」、「生成测试动画」、「输出动画CSS」</p>
+<p>「添加关键帧」:</p>
+<p><img src="/blog/images/blog/animation/add-keyframes.gif" alt="添加关键帧"></p>
+<p>「调整每个关键帧的属性」:</p>
+<p><img src="/blog/images/blog/animation/modify.gif" alt="调整每个关键帧的属性"></p>
+<p>「生成测试动画-输出动画CSS」:</p>
+<p><img src="/blog/images/blog/animation/test-output.gif" alt="生成测试动画-输出动画CSS"></p>
+<p>工具的具体实现略过，这里说一些关键细节。</p>
 <ul>
 <li>
 <ol>
@@ -275,14 +282,174 @@ title: 漫谈复杂CSS动画
 <li>动画时间怎么算？</li>
 </ol>
 </li>
-<li>
-<ol start="3">
-<li>一些优缺点</li>
-</ol>
-</li>
 </ul>
+<h3>3.6 画出动画路径</h3>
+<p>在路径动画里，每两个关键帧确定了一段时间内元素的起点与终点，而时间函数着决定了这段时间内 X轴 与 Y轴 的变化量，我们可以将这段时间平均分为 N 端，然后分别求出这 N 端时间终点时元素的位置，用直线连起来就可以得到一条近似的曲线。</p>
+<p><img src="/blog/images/blog/animation/point-line.gif" alt="point-line"></p>
+<p>举个例子:</p>
+<pre><code class="language-html">&lt;div class=&quot;anim-x&quot;&gt;
+  &lt;div class=&quot;anim-y&quot;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="language-css">@keyframes anim-x {
+  0%{ transform:translate3d(0 , 0 , 0); animation-timing-function:linear}
+  100%{ transform:translate3d(300px , 0 , 0) }
+}
+@keyframes anim-y {
+  0%{ transform:translate3d(0 , 0 , 0); animation-timing-function:cubic-bezier(0,.26,.74,1) }
+  100%{ transform:translate3d(0 , 300px , 0) }
+}
+.anim-x{
+  animation: anim-x 1000ms 0s;
+}
+.anim-y{
+  animation: anim-y 1000ms 0s;
+}
+</code></pre>
+<p>在这个例子里，元素的 X轴 从 0 ～ 300 ， <code>animation-timing-function</code> 是 <code>linear</code>, Y轴 从 0 ～ 300， <code>animation-timing-function</code> 是 <code>cubic-bezier(0,.26,.74,1)</code>，然后将时间长度定义为 1，平均分为 100 段，使用 for 循环求出 不同进度时的 X 和 Y</p>
+<pre><code class="language-javascript">  const moveTo = [0,0];
+  const step = 100;
+  const dX = 300;
+  const dY = 300;
+  const timeFunX = &quot;linear&quot;;
+  const timeFunY = &quot;cubic-bezier(0,.26,.74,1)&quot;;
+  if (Math.abs(dX) &gt; 0 || Math.abs(dY) &gt; 0) {
+    ctx.moveTo(moveTo[0],moveTo[1]);
+    for(let i = 0;i &lt;= step;i ++) {
+      const x = getTimeFunctionValue(timeFunX,i/step) * dX + moveTo[0]; // 求出 timeFunX(linear) 对应时间进度下的 x
+      const y = getTimeFunctionValue(timeFunY,i/step) * dY + moveTo[1]; // 求出 timeFunY(cubic-bezier(0,.26,.74,1)) 对应时间进度下的 y
+      ctx.fillRect(x, y, 1, 1);
+      if (i % 10 === 0) {
+        ctx.font = &quot;16px serif&quot;;
+        ctx.fillText(`(${x},${(y).toFixed(2)})`, x + 20, y + 20);
+      }
+    }
+  }
+</code></pre>
+<p><img src="/blog/images/blog/animation/point-text.jpg" alt="point-text"></p>
+<p>剩下就是这个 <code>getTimeFunctionValue(时间函数,时间进度[0,1])</code> 应该怎么写？</p>
+<p>首先要把 <code>linear</code> 和 其他的贝塞尔曲线分开， <code>linear</code> 其实就是一条直线，时间进度输入任何值，都返回相同的值。</p>
+<pre><code class="language-javascript">function getTimeFunctionValue(timeFunctionName = &quot;linear&quot;,x = 0){
+  ...
+  if (timeFunctionName === &quot;linear&quot;) return x;
+  ...
+}
+</code></pre>
+<p>贝塞尔曲线呢？，先补习一下 CSS 动画里的贝塞尔曲线时间函数。</p>
+<h3>3.7 CSS 动画里的贝塞尔曲线时间函数</h3>
+<p>「贝塞尔曲线」是一种参数函数。计算机中应用比较广泛的是「三次贝塞尔曲线」。</p>
+<p>P0、P1、P2、P3四个点在平面或在三维空间中定义了三次方贝塞尔曲线。曲线起始于P0走向P1，并从P2的方向来到P3。一般不会经过P1或P2；这两个点只是在那里提供方向信息。P0和P1之间的间距，决定了曲线在转而趋进P2之前，走向P1方向的“长度有多长”。</p>
+<p>曲线的参数形式为：</p>
+<p><img src="/blog/images/blog/animation/math-x.svg" alt="math-x"></p>
+<p><img src="/blog/images/blog/animation/math-y.svg" alt="math-y"></p>
+<p>CSS 动画里的贝塞尔曲线时间函数是一个简化版的「三次贝塞尔曲线」，P0 固定为 [0,0]， P3 固定为 [1,1]。</p>
+<p>而且其直角坐标系是区别于几何坐标(x,y)，而是有其他意义的，横轴代表的是「时间进度（time）」，取值为[0% ~ 100%]。竖轴代表的是属性的「变化程度(progression)」，这个取值一般会在[0% ~ 100%]，可以小于0%，也可以大于100%。</p>
+<p>所以 这个简化版的 CSS 贝塞尔曲线 可以用下面这两个方程表示(代入 P0[0,0] P3[1,1])：</p>
+<p>T（时间进度） = ...</p>
+<p>P（变化百分比） = ...</p>
+<p><img src="/blog/images/blog/animation/math-2.svg" alt="math-2"></p>
+<p><img src="/blog/images/blog/animation/math-3.svg" alt="math-3"></p>
+<p><code>cubic-bezier(0,.26,.74,1)</code> 里面的参数其实就是（P1_time,P1_progression,P2_time,P2_progression）;</p>
+<p><img src="/blog/images/blog/animation/exp.png" alt="exp"></p>
+<p>代入 <code>cubic-bezier(0,.26,.74,1)</code> 里面的参数（P1[0,0.26],P2[0.74,1]）;</p>
+<p>T（时间进度） = ...</p>
+<p>P（变化百分比） = ...</p>
+<p><img src="/blog/images/blog/animation/math-4.svg" alt="math-4"></p>
+<p><img src="/blog/images/blog/animation/math-5.svg" alt="math-5"></p>
+<p>第一条方程中 T 就是时间进度，是我们的入参，解开这条 关于 t 的一元三次函数的根，代入第二条方程中，就可以求得 P。P 就是 T 「时间进度」下的「变化程度」。</p>
+<p>注意：三次函数有3个根，但是只有实数而且在[0 ~ 1]之间的是正解。</p>
+<h3>3.8 动画里时间怎么算？</h3>
+<p>上面我们用积分的方法将动画路径近似的画出来，就相当于我们可以求出动画路径的长度的近似值。长度 / 速度 = 动画时间。其中速度可以自定义。</p>
 <h2>4 其他</h2>
-<h3>4.1 加个 -mask 实现伪 3D 效果</h3>
-<h3>4.2 解决层级不正确的问题（translateZ）</h3>
-<h3>4.3 解决帧动画抖动问题</h3>
-<h3>4.4 更好用的工具</h3>
+<h3>4.1 解决层级不正确的问题（translateZ）</h3>
+<p>京喜工厂还有一个传送带动画，大家可以看看下图的最初版本：</p>
+<p><img src="/blog/images/blog/animation/before.gif" alt="before"></p>
+<p>可以看到货物从左往右沿着传送带移动，最初左边看着还挺正常，但是到了右边会出现后方货物把前边货物盖压的现象。</p>
+<p>原因也很简单，因为这几个货物是并排的元素，后面的元素层级总会比前面的高。</p>
+<pre><code class="language-html">&lt;div&gt;
+  &lt;div&gt;1&lt;/div&gt;  &lt;!-- 显示层级最低 --&gt;
+  &lt;div&gt;2&lt;/div&gt;
+  &lt;div&gt;3&lt;/div&gt;
+  &lt;div&gt;4&lt;/div&gt;
+  &lt;div&gt;5&lt;/div&gt;
+  &lt;div&gt;6&lt;/div&gt;  &lt;!-- 显示层级最高 --&gt;
+&lt;/div&gt;
+</code></pre>
+<p>但这个动画想表现的层级是中间高，两边低。</p>
+<p>有些同学可能会想到用 z-index ，可惜 z-index 在 CSS 动画里是不起作用的。</p>
+<p>正确的解决方案是用 translateZ 将其转换成 3D 显示，从而实现中间高，两边低的层级。</p>
+<pre><code class="language-css">@keyframes anim-z{
+  0% {transform: perspective(500px) translateZ(0);}
+  50% {transform: perspective(500px) translateZ(50px);}
+  100% {transform: perspective(500px) translateZ(0);}
+}
+</code></pre>
+<p>增加后的效果：</p>
+<p><img src="/blog/images/blog/animation/after.gif" alt="after"></p>
+<h3>4.2 解决逐帧动画抖动问题</h3>
+<p><img src="/blog/images/blog/animation/dou.gif" alt="dou"></p>
+<p>帧动画这里还有一个抖动的问题，看上面的gif可以发现小人有点抖动(iphone6P[414宽])。</p>
+<p>问题是出在单位转换，移动端的适配时，通常是用 rem ，小程序是用 rpx，他们在计算成 px 过程中可能会出现取整的问题，从而造成帧动画抖动。</p>
+<p>逐帧动画抖动的研究，看 「凹凸实验室」 的这篇文章就够了<a href="https://aotu.io/notes/2017/08/14/fix-sprite-anim/">CSS技巧：逐帧动画抖动解决方案</a></p>
+<p>这篇文章提出了三个方案 A B C ，其中方案C是「终极解决方案」。可惜的是，这个方案用到的是 SVG，而小程序是不支持 SVG 的。</p>
+<p>退而求其次，我选择了方案 A ，就是用 CSS 的媒体查询来写断点，断点里都用 px 做单位。</p>
+<pre><code class="language-css">/* 300 ~ 349 之间用 iphone5（320）的数据 */
+@media screen and (min-width: 300px) and (max-width: 349px) {
+    .m_worker_employee {
+        width:51px;
+        height: 68px
+    }
+    @keyframes anim-working {
+        0% {
+            background-position: 0px -204px
+        }
+        50% {
+            background-position: 0px -272px
+        }
+        100% {
+            background-position: 0px -204px
+        }
+    }
+}
+/* 350 ~ 399 之间用 iphone6（375）的数据 */
+@media screen and (min-width: 350px) and (max-width: 399px) {
+    .m_worker_employee {
+        width:60px;
+        height: 80px
+    }
+    @keyframes anim-working {
+        0% {
+            background-position: 0px -240px
+        }
+        50% {
+            background-position: 0px -320px
+        }
+        100% {
+            background-position: 0px -240px
+        }
+    }
+}
+/* 400 ~ 449 之间用 iphone6P（414）的数据 */
+@media screen and (min-width: 400px) and (max-width: 449px) {
+    .m_worker_employee {
+        width:66px;
+        height: 88px
+    }
+    @keyframes anim-working {
+        0% {
+            background-position: 0px -264px
+        }
+        50% {
+            background-position: 0px -352px
+        }
+        100% {
+            background-position: 0px -264px
+        }
+    }
+}
+</code></pre>
+<p><img src="/blog/images/blog/animation/budou.gif" alt="budou"></p>
+<p>断点应用后，帧动画就不抖了。</p>
+<h2>5 MathJax</h2>
+<p>本文公式使用 「TeX」并利用「MathJax」输出为 SVG ，推荐使用：<a href="https://www.mathjax.org/#demo">https://www.mathjax.org/#demo</a></p>
