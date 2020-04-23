@@ -12,8 +12,22 @@ title: 漫谈复杂CSS动画
 <h2>0.0 计算机动画原理</h2>
 <p>动画是指由许多帧静止的画面，以一定的速度（如每秒16张）连续播放时，肉眼因 <code>视觉暂留</code> 产生错觉。
 要达成最基本的视觉暂留效果至少需要 10帧/秒 ，普通电影是 24帧/秒 ， 普通显示器刷新频率是 60帧/秒。</p>
-<p><img src="/blog/images/blog/2018_12_24/Animexample.gif" alt="Animexample"></p>
-<p><img src="/blog/images/blog/2018_12_24/Animexample2.gif" alt="Animexample2"></p>
+<p><img src="/blog/images/blog/animation/timeline.jpg" alt="Animexample"></p>
+<p>下面的两个Gif都是用相同的6帧组成，但是播放速度不一样，10帧/秒就有点动画的效果，2帧/秒就会有卡顿的感觉。</p>
+<table>
+<thead>
+<tr>
+<th>10帧/秒:</th>
+<th>2帧/秒:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="/blog/images/blog/2018_12_24/Animexample.gif" alt="Animexample"></td>
+<td><img src="/blog/images/blog/2018_12_24/Animexample2.gif" alt="Animexample2"></td>
+</tr>
+</tbody>
+</table>
 <h2>1 CSS 能做多复杂的动画？</h2>
 <h3>1.1 动画展示</h3>
 <p>京喜工厂小人走路动画（4倍速播放）</p>
@@ -54,15 +68,18 @@ title: 漫谈复杂CSS动画
 </li>
 </ul>
 <p>其实都算是常规的动画能力，但是配合一些 SVG 专有的特性会产生一些奇妙和效果，例如 描边动画 就是利用 <code>stroke-dasharray</code> 和 <code>stroke-dashoffset</code> 实现的。另外，同为路径动画 SMIL 的 <code>&lt;animateMotion&gt;</code> 就比 CSS 的 <code>offset-path</code> 兼容性好很多。</p>
+<p><img src="/blog/images/blog/animation/caniuse-animateMotion.jpeg" alt="caniuse-animateMotion"></p>
 <p>微信小程序：微信小程序不支持 SVG 及 SMIL 。</p>
 <h3>2.2 Javascript</h3>
 <p>理论上， Javascript 能做任何动画。
 一般来说 Javascript 动画可以分为 <code>操纵 DOM 属性的动画</code> 和 <code>操纵 canvas api 的动画</code>，这两种都的原理都是通过 <code>window.requestAnimationFrame()</code> 或者 <code>window.setTimeout()</code> 这类时间控制函数实现每 16.7ms 显示一帧画面，从而达成 60帧/秒 的动画。
 另外，还有 <code>Web Animations API</code>，将浏览器动画引擎向开发者打开，并由JavaScript进行操作。它是未来对网络上动画化的支持最有效的方式之一，它使浏览器可以进行自己的内部优化。但是兼容性较差。</p>
+<p><img src="/blog/images/blog/animation/caniuse-web-animation-api.jpeg" alt="caniuse-web-animation-api"></p>
 <p>微信小程序：微信小程序实现了自己的一套 <code>WX Ainmation API</code>， 不兼容 web 标准。</p>
 <h3>2.3 CSS</h3>
 <p>CSS 动画都是声明式，使用 <code>@keyframe</code> 创建关键帧，浏览器就会自动计算出每 16.7ms 内的画面变化，这些计算不是用 JS ，从而避免 GC 。CSS 动画还有一个好处是可以利用 <code>translateZ</code> 开启 GPU 硬件加速，而且在 2020 年的当下，CSS 动画的兼容性可以说是非常好了。</p>
 <p>有点遗憾的是 CSS 在路径动画 <code>offset-path</code> 上的兼容性还是比较差。</p>
+<p><img src="/blog/images/blog/animation/caniuse-offset-path.jpeg" alt="caniuse-offset-path"></p>
 <p>微信小程序：微信小程序支持 CSS 动画。</p>
 <h3>选择</h3>
 <p>考虑到项目主要运行在 H5 和 微信小程序平台上，综合兼容性和自己的熟练度，最后还是选择用 CSS 动画。</p>

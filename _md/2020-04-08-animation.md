@@ -22,9 +22,13 @@ Author:wuguanxi
 动画是指由许多帧静止的画面，以一定的速度（如每秒16张）连续播放时，肉眼因 `视觉暂留` 产生错觉。
 要达成最基本的视觉暂留效果至少需要 10帧/秒 ，普通电影是 24帧/秒 ， 普通显示器刷新频率是 60帧/秒。
 
-![Animexample](/blog/images/blog/2018_12_24/Animexample.gif)
+![Animexample](/blog/images/blog/animation/timeline.jpg)
 
-![Animexample2](/blog/images/blog/2018_12_24/Animexample2.gif)
+下面的两个Gif都是用相同的6帧组成，但是播放速度不一样，10帧/秒就有点动画的效果，2帧/秒就会有卡顿的感觉。
+
+| 10帧/秒: | 2帧/秒: |
+|  ----  |  ----  |
+| ![Animexample](/blog/images/blog/2018_12_24/Animexample.gif) | ![Animexample2](/blog/images/blog/2018_12_24/Animexample2.gif) |
 
 ## 1 CSS 能做多复杂的动画？
 
@@ -66,6 +70,8 @@ SVG 原生支持 SMIL(Synchronized Multimedia Integration Language), SMIL 允许
 
 其实都算是常规的动画能力，但是配合一些 SVG 专有的特性会产生一些奇妙和效果，例如 描边动画 就是利用 `stroke-dasharray` 和 `stroke-dashoffset` 实现的。另外，同为路径动画 SMIL 的 `<animateMotion>` 就比 CSS 的 `offset-path` 兼容性好很多。
 
+![caniuse-animateMotion](/blog/images/blog/animation/caniuse-animateMotion.jpeg)
+
 微信小程序：微信小程序不支持 SVG 及 SMIL 。
 
 ### 2.2 Javascript
@@ -74,6 +80,8 @@ SVG 原生支持 SMIL(Synchronized Multimedia Integration Language), SMIL 允许
 一般来说 Javascript 动画可以分为 `操纵 DOM 属性的动画` 和 `操纵 canvas api 的动画`，这两种都的原理都是通过 `window.requestAnimationFrame()` 或者 `window.setTimeout()` 这类时间控制函数实现每 16.7ms 显示一帧画面，从而达成 60帧/秒 的动画。
 另外，还有 `Web Animations API`，将浏览器动画引擎向开发者打开，并由JavaScript进行操作。它是未来对网络上动画化的支持最有效的方式之一，它使浏览器可以进行自己的内部优化。但是兼容性较差。
 
+![caniuse-web-animation-api](/blog/images/blog/animation/caniuse-web-animation-api.jpeg)
+
 微信小程序：微信小程序实现了自己的一套 `WX Ainmation API`， 不兼容 web 标准。
 
 ### 2.3 CSS
@@ -81,6 +89,8 @@ SVG 原生支持 SMIL(Synchronized Multimedia Integration Language), SMIL 允许
 CSS 动画都是声明式，使用 `@keyframe` 创建关键帧，浏览器就会自动计算出每 16.7ms 内的画面变化，这些计算不是用 JS ，从而避免 GC 。CSS 动画还有一个好处是可以利用 `translateZ` 开启 GPU 硬件加速，而且在 2020 年的当下，CSS 动画的兼容性可以说是非常好了。
 
 有点遗憾的是 CSS 在路径动画 `offset-path` 上的兼容性还是比较差。
+
+![caniuse-offset-path](/blog/images/blog/animation/caniuse-offset-path.jpeg)
 
 微信小程序：微信小程序支持 CSS 动画。
 
