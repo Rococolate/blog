@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .flag{
+      display: inline-block;
+      padding:0 10px;
+      background-color: red;
+      color:#fff;
+      border-radius: 3em;
+      animation: anim-test 2s ease-in 0s infinite alternate;
+    }
+    @keyframes anim-test {
+      0%{ -webkit-clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+      100%{-webkit-clip-path:polygon(0 0,0 0,0 100%,0 100%)}
+    }
+  </style>
+</head>
+<body>
+  <div class="flag">1234567890</div>
+</body>
+</html>
