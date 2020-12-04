@@ -227,19 +227,19 @@ title: 漫谈复杂CSS动画
   animation: anim-work-opacity ${allTime}ms 0s steps(1) infinite,anim-working 0.4s steps(1) 0s infinite;
 }
 
-@keyframes anim-turn {
+@keyframes anim-turn { // 转向动画
   0% {transform:scale(1,1)} // 正向
   50% {transform:scale(-1,1)} // 反向
   100% {transform:scale(1,1)} // 正向
 }
 
-@keyframes anim-walk-opacity {
+@keyframes anim-walk-opacity { // 控制「小人走路帧动画」的动画
   0% {opacity:1} 
   50% {opacity:0} 
   100% {opacity:1} 
 }
 
-@keyframes anim-work-opacity {
+@keyframes anim-work-opacity { // 控制「小人工作帧动画」的动画
   0% {opacity:0} 
   50% {opacity:1} 
   100% {opacity:0} 
