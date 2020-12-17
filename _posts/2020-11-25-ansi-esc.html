@@ -21,19 +21,19 @@ title: ANSI转义序列的应用
 <blockquote>
 <p>ANSI转义序列（ANSI escape sequences）是一种带内信号的转义序列标准，用于控制终端上的光标位置、颜色和其他选项。</p>
 </blockquote>
-<p>ANSI转义序列 最初是由美国国家标准学会（ANSI）进行标准化，后来再提交给其他国际标准化组织。</p>
-<p>“ANSI转义序列”的名称可以追溯到 1979 年 的 <em>ANSI X3.64</em>。</p>
-<p>1994年，ANSI 取消了其标准，以支持国际标准。</p>
-<p>ISO/IEC 6429 Control functions for coded character sets</p>
-<p>ECMA-48 Control Functions for Coded Character Sets 对应 ISO/IEC 6429:1992</p>
+<p>ANSI转义序列 第一个标准是1976年 ECMA（European Computer Manufacturers Association，欧洲计算机制造商协会）发布的 ECMA-48。</p>
+<p>但是 “ANSI转义序列” 这个名称起源于 1979 年 ANSI（American National Standards Institute，美国国家标准学会） 发布的 <em>ANSI X3.64</em>，这个标准几乎与 ECMA-48 相同</p>
+<p>即使 1994年，ANSI 取消了其标准，以支持国际标准， “ANSI转义序列” 这个名称依然保留下来。</p>
+<p>ECMA-48已经经历了多次更新换代，目前是从1991年开始的第5版。它也被ISO和IEC用作标准ISO/IEC 6429。</p>
 <p>ANSI 序列是在二十世纪七十年代引入的标准，用以取代特定于终端供应商的序列，并在二十世纪八十年代早期开始在计算机设备市场上广泛使用。</p>
 <p><img src="/blog/images/blog/esc/vt100.jpg" alt="vt100"></p>
 <p>(<em>vt100 是第一台支持ANSI转义序列的终端</em>)</p>
 <p>在 21 世纪，尽管硬件文本终端已经越来越少了，但 ANSI 标准依然存在，因为大多数终端模拟器会对部分 ANSI 转义序列进行解释。一个值得注意的例外是，在微软 Windows 10 更新 TH2 之前，Windows 操作系统的 Win32 控制台是不支持 ANSI 转义序列的。</p>
 <h2>ANSI转义序列 与 ASCII</h2>
-<p>ASCII 是基于拉丁字母的一套电脑编码系统，是由美国国家标准学会（ANSI）发布的 <em>ANSI X3.4</em> 。ASCII 由电报码发展而来，至今为止共定义了 128 个字符；其中 33 个非显示字符， 95 个可显示的字符。用键盘敲下空白键所产生的空白字符也算 1 个可显示字符（显示为空白）。</p>
+<p>ASCII 是基于拉丁字母的一套电脑编码系统，是美国国家标准学会（ANSI）发布的 <em>ANSI X3.4</em> 。ASCII 由电报码发展而来，至今为止共定义了 128 个字符；其中 33 个非显示字符， 95 个可显示的字符。用键盘敲下空白键所产生的空白字符也算 1 个可显示字符（显示为空白）。</p>
 <p><img src="/blog/images/blog/esc/ascii.jpg" alt="pic"></p>
 <p>ANSI转义序列，就是利用了 ASCII 中的十进制27，十六进制1B，八进制033所定义的那个字符 -- <code>ESC</code> (退出键)。</p>
+<p>下面是 ESC 在 javascript 中的字符串表达：</p>
 <pre><code class="language-javascript">&quot;\33&quot;
 &quot;\033&quot;
 &quot;\x1b&quot;
@@ -87,10 +87,13 @@ var CLEAR_LINE = new Buffer('1b5b304b', 'hex').toString();
 // 光标上移（Cursor Up）
 var MOVE_UP = new Buffer('1b5b3141', 'hex').toString();
 ...
+str = '';
 // Clear screen
 for (var i = 0; i &lt; prevLineCount; i ++) {
   str += MOVE_LEFT + CLEAR_LINE + (i &lt; prevLineCount -1 ? MOVE_UP : '');
 }
+// Actual log output
+str += nextStr;
 ...
 </code></pre>
 <p>代码上可见 MOVE_LEFT 就是 '\u001b[1000D' 光标后移（退格键的方向） 1000 格，因为终端很少会有达到 1000 列，这里相当于是把光标移动到当前行最左端。</p>
@@ -190,3 +193,18 @@ grabFrames(src, 1, frame =&gt; {
 <p>（黑客帝国风格完成）</p>
 <h2>Demo</h2>
 <p>完整 demo <a href="https://github.com/Rococolate/ansi_esc">https://github.com/Rococolate/ansi_esc</a></p>
+<h2>参考资料</h2>
+<p><a href="https://zh.wikipedia.org/wiki/ANSI%E8%BD%AC%E4%B9%89%E5%BA%8F%E5%88%97">ANSI转义序列(https://zh.wikipedia.org/wiki/ANSI%E8%BD%AC%E4%B9%89%E5%BA%8F%E5%88%97)</a></p>
+<p><a href="https://en.wikipedia.org/wiki/VT100">VT100(https://en.wikipedia.org/wiki/VT100)</a></p>
+<p><a href="https://en.wikipedia.org/wiki/ASCII">ASCII(https://en.wikipedia.org/wiki/ASCII)</a></p>
+<p><a href="https://zh.wikipedia.org/wiki/Ecma%E5%9B%BD%E9%99%85">Ecma国际(https://zh.wikipedia.org/wiki/Ecma%E5%9B%BD%E9%99%85)</a></p>
+<p><a href="https://en.wikipedia.org/wiki/American_National_Standards_Institute">American National Standards Institute(https://en.wikipedia.org/wiki/American_National_Standards_Institute)</a></p>
+<p><a href="https://github.com/chalk/chalk">chalk(https://github.com/chalk/chalk)</a></p>
+<p><a href="https://www.jianshu.com/p/00d8f71d367d">nodejs 终端打印进度条(https://www.jianshu.com/p/00d8f71d367d)</a></p>
+<p><a href="https://github.com/freeall/single-line-log/">single-line-log(https://github.com/freeall/single-line-log/)</a></p>
+<p><a href="https://github.com/SBoudrias/Inquirer.js">Inquirer.js(https://github.com/SBoudrias/Inquirer.js)</a></p>
+<p><a href="https://zh.wikipedia.org/wiki/Bad_Apple!!">Bad Apple!!(https://zh.wikipedia.org/wiki/Bad_Apple!!)</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/85895180">FFmpeg视频抽帧那些事(https://zhuanlan.zhihu.com/p/85895180)</a></p>
+<p><a href="https://github.com/eugeneware/jpeg-js">jpeg-js(https://github.com/eugeneware/jpeg-js)</a></p>
+<p><a href="https://github.com/justadudewhohacks/opencv4nodejs">opencv4nodejs(https://github.com/justadudewhohacks/opencv4nodejs)</a></p>
+<p><a href="https://www.bilibili.com/video/BV1p4411G7zX">【东方】用Python实现字符画 Bad Apple(https://www.bilibili.com/video/BV1p4411G7zX)</a></p>
